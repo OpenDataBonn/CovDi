@@ -1,0 +1,56 @@
+###head###
+<div class="row">
+    <div class="col">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="base-tab" data-toggle="tab" href="#base" role="tab" aria-controls="Basisdaten" aria-selected="true">Basisdaten</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="Kontakte" aria-selected="true">Kontakte</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="actions-tab" data-toggle="tab" href="#health" role="tab" aria-controls="Gesundheit" aria-selected="false">Gesundheitsinformationen</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="Maßnahmen" aria-selected="false">Maßnahmen</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="melder-tab" data-toggle="tab" href="#melder" role="tab" aria-controls="Meldung" aria-selected="false">Meldung</a>
+          </li>          
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="base" role="tabpanel" aria-labelledby="base-tab">
+                ###base_tab###
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                ###contact_tab###
+            </div>
+            <div class="tab-pane fade" id="health" role="tabpanel" aria-labelledby="health-tab">
+                ###health_tab###
+            </div>
+            <div class="tab-pane fade" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+                ###actions_tab###
+            </div>
+            <div class="tab-pane fade" id="melder" role="tabpanel" aria-labelledby="melder-tab">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-6">                        
+                            <b>Melder</b><br />
+                            <input type="text" class="form-control" name="STR_MNACHNAME" value="###STR_MNACHNAME###"/><br />
+                            Meldegrund: <br />
+                            <textarea class="form-control" name="TXT_MGRUND" rows="3">###TXT_MGRUND###</textarea>   
+                        </div>
+                        <div class="col-6">
+                            <b>Erfassung durch</b><br />
+                            <input type="hidden" name="STR_BERATERNAME" value="###ACT_USER###" />
+                            <input type="hidden" name="DT_BERATUNGDATUM" value="###ACT_DATUM###" />
+                            ###ACT_USER###<br />
+                            ###ACT_DATUM###<br />
+                        </div>
+                    </div>                    
+                </div>
+            </div>          
+        </div>
+    </div>
+</div>
+###foot###

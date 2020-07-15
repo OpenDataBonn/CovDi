@@ -1,0 +1,242 @@
+<div class="col">
+    <div class="row">
+        <div class="col-6">
+            <b>Meldeadresse</b>
+            <div class="row">
+                <div class="col">
+                    Straße
+                    <input type="text" class="form-control" name="STR_BSTRASSE" value="###STR_BSTRASSE###"/>
+                </div>
+                <div class="col-3">
+                    Nr.
+                    <input type="text" class="form-control" name="STR_BHAUSNUMMER" value="###STR_BHAUSNUMMER###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    PLZ
+                    <input type="text" class="form-control" name="STR_BPLZ" value="###STR_BPLZ###"/>
+                </div>
+                <div class="col">
+                    Ort
+                    <input type="text" class="form-control" name="STR_BORT" value="###STR_BORT###"/>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    Adresse über das Portal VOIS/MESO kontrolliert: 
+                </div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_BADRESSEKONTROLLIERT" name="B_BADRESSEKONTROLLIERT" data-preval="###B_BADRESSEKONTROLLIERT###" ###B_BADRESSEKONTROLLIERT_checked###/>                                    
+                </div>
+            </div>
+        </div>        
+        <div class="col-6">
+            <b>Kontaktdaten</b><br />
+            <div class="row">
+                <div class="col-3">
+                    E-Mail:
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_BEMAIL" value="###STR_BEMAIL###"/>
+                    <a href="mailto:###STR_BEMAIL###">###STR_BEMAIL###</a>
+                </div>
+            </div>   
+            <div class="row">
+                <div class="col-3">
+                    Telefon:
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_BTELEFON" value="###STR_BTELEFON###"/>
+                    <input type="text" class="form-control" name="STR_BTELEFON2" value="###STR_BTELEFON2###"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    Vom Meldeort abweichender Aufenthaltsort: 
+                </div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_BANDERERAUFENTHALT" name="B_BANDERERAUFENTHALT" data-preval="###B_BANDERERAUFENTHALT###" onclick="checkAufenthalt()" ###B_BANDERERAUFENTHALT_checked###/>
+                </div>
+            </div> 
+            <div class="row" id="show_aufenthalt">
+                <div class="col melde_info">
+                    <b>Aufenthaltsort</b><br />
+                    <div class="row">
+                        <div class="col">
+                            Abweichender Name auf dem Türschild
+                            <input type="text" class="form-control" name="STR_BAABWNAME" value="###STR_BAABWNAME###"/>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Straße
+                            <input type="text" class="form-control" name="STR_BASTRASSE" value="###STR_BASTRASSE###"/>
+                        </div>
+                        <div class="col-3">
+                            Nr.
+                            <input type="text" class="form-control" name="STR_BAHAUSNUMMER" value="###STR_BAHAUSNUMMER###"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            PLZ
+                            <input type="text" class="form-control" name="STR_BAPLZ" value="###STR_BAPLZ###"/>
+                        </div>
+                        <div class="col">
+                            Ort
+                            <input type="text" class="form-control" name="STR_BAORT" value="###STR_BAORT###"/>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>        
+    </div>    
+    <div class="row">
+        <div class="col-6 info_box2">
+            <b>Angaben zum Beruf</b><br />
+            <div class="row">
+                <div class="col">Tätigkeit in kritischer Infrastruktur:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_CRITINFRA" name="B_CRITINFRA" data-preval="###B_CRITINFRA###" ###B_CRITINFRA_checked### onclick="checkCritInfra()"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Art der kritischen Infrastruktur</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_CRITINFRATYP" name="STR_CRITINFRATYP" data-preval="###STR_CRITINFRATYP###" onchange="checkCritInfra()">
+                        <option></option>
+                        <option value="Sektor Energie">Sektor Energie</option>
+                        <option value="Sektor Wasser, Entsorgung">Sektor Wasser, Entsorgung</option>
+                        <option value="Sektor Ernährung, Hygiene">Sektor Ernährung, Hygiene</option>
+                        <option value="Sektor Informationstechnik und Telekommunikation">Sektor Informationstechnik und Telekommunikation</option>
+                        <option value="Sektor Gesundheit">Sektor Gesundheit</option>
+                        <option value="Sektor Finanz- und Wirtschaftswesen">Sektor Finanz- und Wirtschaftswesen</option>
+                        <option value="Sektor Transport und Verkehr">Sektor Transport und Verkehr</option>
+                        <option value="Sektor Medien">Sektor Medien</option>
+                        <option value="Sektor staatliche Verwaltung (Bund, Land, Kommune)">Sektor staatliche Verwaltung (Bund, Land, Kommune)</option>
+                        <option value="Sektor Schulen, Kinder- und Jugendhilfe, Behindertenhilfe">Sektor Schulen, Kinder- und Jugendhilfe, Behindertenhilfe</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" id="critinfra_unv">
+                <div class="col">Unverzichtbarkeit vom Arbeitgeber angezeigt:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_CRITINFRAUNV" name="B_CRITINFRAUNV" data-preval="###B_CRITINFRAUNV###" ###B_CRITINFRAUNV_checked### /> 
+                </div>
+            </div>
+            <div class="row" id="critinfra_ausn">
+                <div class="col-11">Ausnahmegenehmigung erteilt:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_AUSNAHMEGENEMIGUNG" name="B_AUSNAHMEGENEMIGUNG" data-preval="###B_AUSNAHMEGENEMIGUNG###" ###B_AUSNAHMEGENEMIGUNG_checked### /> 
+                </div>
+                <div class="col-6">ab:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control datepicker" name="DT_AUSNAHMEGENEMIGUNG" id="DT_AUSNAHMEGENEMIGUNG" value="###DT_AUSNAHMEGENEMIGUNG###"/>
+                </div>
+                <div class="col-11">Legitimationsbescheinigung liegt vor:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_LEGITIMATIONSBESCHEINIGUNG" name="B_LEGITIMATIONSBESCHEINIGUNG" data-preval="###B_LEGITIMATIONSBESCHEINIGUNG###" ###B_LEGITIMATIONSBESCHEINIGUNG_checked### /> 
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col">Anders Berufstätig:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_BERUF" name="B_BERUF" data-preval="###B_BERUF###" ###B_BERUF_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Ausgeübter Beruf:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_BERUFBEZEICHNUNG" value="###STR_BERUFBEZEICHNUNG###"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Arbeitgeber:</div>                
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_BERUFARBEITGEBER" value="###STR_BERUFARBEITGEBER###"/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">Adresse des Arbeitsplatzes:</div>
+                <div class="col-9">
+                    Straße
+                    <input type="text" class="form-control" name="STR_BERUFSTRASSE" value="###STR_BERUFSTRASSE###"/>
+                </div>
+                <div class="col-3">
+                    Nr.
+                    <input type="text" class="form-control" name="STR_BERUFHAUSNUMMER" value="###STR_BERUFHAUSNUMMER###"/>
+                </div>
+                <div class="col-4">
+                    PLZ
+                    <input type="text" class="form-control" name="STR_BERUFPLZ" value="###STR_BERUFPLZ###"/>
+                </div>
+                <div class="col-8">
+                    Ort
+                    <input type="text" class="form-control" name="STR_BERUFORT" value="###STR_BERUFORT###"/>
+                </div>
+            </div>           
+        </div>
+        <div class="col-6" id="show_eb">
+            <div class="row">
+                <div class="col"><b>Erziehungsberechtigte</b></div>
+            </div>
+            <div class="row">                
+                <div class="col-6">
+                    Vorname
+                    <input type="text" class="form-control" name="STR_BEB1VORNAME" value="###STR_BEB1VORNAME###"/>
+                </div> 
+                <div class="col-6">
+                    Nachname
+                    <input type="text" class="form-control" name="STR_BEB1NACHNAME" value="###STR_BEB1NACHNAME###"/>
+                </div> 
+            </div>
+            <div class="row">                
+                <div class="col-6">
+                    Vorname
+                    <input type="text" class="form-control" name="STR_BEB2VORNAME" value="###STR_BEB2VORNAME###"/>
+                </div> 
+                <div class="col-6">
+                    Nachname
+                    <input type="text" class="form-control" name="STR_BEB2NACHNAME" value="###STR_BEB2NACHNAME###"/>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col">
+                    Erziehungsberechtigte mit anderer Meldeadresse: 
+                </div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_BEBANDEREMELDEADRESSE" name="B_BEBANDEREMELDEADRESSE" data-preval="###B_BEBANDEREMELDEADRESSE###" onclick="checkEBMeldeadresse()" ###B_BEBANDEREMELDEADRESSE_checked###/>
+                </div>
+            </div> 
+            <div class="row" id="show_ebmeldeadresse">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            Straße
+                            <input type="text" class="form-control" name="STR_BEBSTRASSE" value="###STR_BEBSTRASSE###"/>
+                        </div>
+                        <div class="col-3">
+                            Nr.
+                            <input type="text" class="form-control" name="STR_BEBHAUSNUMMER" value="###STR_BEBHAUSNUMMER###"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            PLZ
+                            <input type="text" class="form-control" name="STR_BEBPLZ" value="###STR_BEBPLZ###"/>
+                        </div>
+                        <div class="col">
+                            Ort
+                            <input type="text" class="form-control" name="STR_BEBORT" value="###STR_BEBORT###"/>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>        
+    </div>        
+</div>

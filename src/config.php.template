@@ -1,0 +1,28 @@
+<?php
+$base_url = 'http://sv12566.intern.stadt-bn.de/gesundheitsamt/corona/';
+
+//Basis-Einstellungen des Systems, globale Variable
+$basics = array();
+$basics['page_title'] = "CovDi - Covid Digital Bonn";
+$basics['page_title_color'] = "black";
+
+//Es werden zwei OData Dienste benötigt, einmal für den Datenzugriff
+$basics['serviceRoot'] = "";
+//und einmal für Funktionen, die aufbereitete Daten liefern
+$basics['serviceRootDienste'] = "";
+
+//Login-Daten für OData
+$basics['odata']['user'] = '';
+$basics['odata']['pass'] = '';
+
+//Name der Session
+$basics['session'] = 'covdi';
+
+//Anzeigen ohne Standard-Template-Rahmen
+$basics['blank'] = array('print');
+   
+//Datums-Zeitzone
+date_default_timezone_set('Europe/Berlin');
+//die Session wird immer gebraucht
+session_start();
+?>

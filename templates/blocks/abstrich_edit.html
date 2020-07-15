@@ -1,0 +1,115 @@
+<div class="col-6 info_box" id="abstrich###LID###_box">
+    <div class="row">
+        <div class="col-9">
+            <b>Abstrich ###counter###</b><br />
+            <input type="hidden" name="abstriche[###LID###][LID]" value="###LID###" />
+            <input type="hidden" name="abstriche[###LID###][FKLID]" value="###FKLID###" />   
+        </div>
+        <div class="col">
+            ###ADMMS###
+        </div>
+    </div>     
+    <div class="row">
+        <div class="col-6">Anweisung erfolgt am:</div>
+        <div class="col">
+            ###DT_VERARBEITETAM###
+        </div>                                                            
+    </div>
+    <div class="row">
+        <div class="col-6">Veranlasst durch:</div>
+        <div class="col">
+            ###STR_VERANLASSTDURCH###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Muss mobil erfolgen:</div>
+        <div class="col">
+            ###B_MOBIL###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Dringend:</div>
+        <div class="col">
+            ###B_DRINGEND###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Zeitpunkt:</div>
+        <div class="col">
+            ###DT_ZEITPUNKT###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Abstrich Typ:</div>
+        <div class="col">
+            ###STR_TYP_TEXT###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Bemerkungen:</div>
+        <div class="col">
+            ###TXT_NOTIZ###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Abrechnungsgrundlage:</div>
+        <div class="col">
+            ###STR_GRUNDLAGE###
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col">Erfolgt durch Diagnostikzentrum:</div>
+        <div class="col-1">
+            <input class="form-check-input" type="checkbox" id="B_DIAGNOSTIKZENTRUM" name="abstriche[###LID###][B_DIAGNOSTIKZENTRUM]" data-preval="###B_DIAGNOSTIKZENTRUM###" ###B_DIAGNOSTIKZENTRUM_checked### /> 
+        </div>                                
+    </div>
+    <div class="row">
+        <div class="col-6">Ergebnis:</div>
+        <div class="col">
+            <select class="form-control preval_select rueckSelect" name="abstriche[###LID###][STR_RUECK]" data-preval="###STR_RUECK###">
+                <option></option>                
+                <option value="negativ">negativ</option>     
+                <option value="grenzwertig">grenzwertig</option>
+                <option value="schwach positiv">schwach positiv</option>
+                <option value="positiv">positiv</option>
+                <option value="nicht durchgeführt">nicht durchgeführt</option>
+            </select>
+        </div>                               
+    </div>
+    <div class="row">
+        <div class="col-6">Ergebnis am:</div>
+        <div class="col">
+            <input type="text" class="form-control datepicker" name="abstriche[###LID###][DT_RUECKAM]" value="###DT_RUECKAM###"/>
+        </div>                                                             
+    </div>
+    <div class="row">
+        <div class="col-12">Information des Betroffenen</div>
+        <div class="col-11">erfolgt:</div>
+        <div class="col-1">
+            <input class="form-check-input" type="checkbox" id="B_BINFORMIERT###LID###" name="abstriche[###LID###][B_BINFORMIERT]" data-preval="###B_BINFORMIERT###" onclick="setBInfdurch(###LID###)" ###B_BINFORMIERT_checked###/> 
+        </div>
+        <div class="col-8">am:</div>
+        <div class="col-4">
+            <input type="text" class="form-control datepicker" id="DT_BINFORMIERT###LID###" name="abstriche[###LID###][DT_BINFORMIERT]" value="###DT_BINFORMIERT###"/>
+        </div>
+        <div class="col-8">durch:</div>
+        <div class="col-4">
+            <input type="text" class="form-control" id="STR_BINFORMIERT###LID###" name="abstriche[###LID###][STR_BINFORMIERTDURCH]" value="###STR_BINFORMIERTDURCH###"/>
+        </div>                                                        
+    </div>
+    <div class="row">
+        <div class="col-12">Befund auf Anforderung zugeschickt</div>
+        <div class="col-11">erfolgt:</div>
+        <div class="col-1">
+            <input class="form-check-input" type="checkbox" id="B_ZUGESCHICKT###LID###" name="abstriche[###LID###][B_ZUGESCHICKT]" data-preval="###B_ZUGESCHICKT###" onclick="setAbstrZugeschDurch(###LID###)" ###B_ZUGESCHICKT_checked###/> 
+        </div>
+        <div class="col-8">am:</div>
+        <div class="col-4">
+            <input type="text" class="form-control datepicker" id="DT_ZUGESCHICKT###LID###" name="abstriche[###LID###][DT_ZUGESCHICKT]" value="###DT_ZUGESCHICKT###"/>
+        </div>
+        <div class="col-8">durch:</div>
+        <div class="col-4">
+            <input type="text" class="form-control" id="STR_ZUGESCHICKT###LID###" name="abstriche[###LID###][STR_ZUGESCHICKTDURCH]" value="###STR_ZUGESCHICKTDURCH###"/>
+        </div>                                                        
+    </div>
+</div>

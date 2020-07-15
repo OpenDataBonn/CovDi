@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+
+    <title>CovDi - Changelog</title>
+  </head>
+  <body>    
+    <div class="container main_container">
+        <div class="row header_row">
+            <h1>CovDi - Changelog</h1>
+        </div>
+        <div class="row main_row">
+            <div class="col main_column">
+                <h3>1.2.2</h3>
+                <b>Oberfläche</b><br />
+                <ul>
+                    <li>Abstriche können als Ergebnis nun auch "nicht durchgeführt" aufweisen.</li>
+                    <li>In der Liste der Endenden Quarantänen wird nun der Status/Falltyp angezeigt, die Email ist entfallen. Die Titelzeile "Typ" wurde in "Quarantäne-Typ" umbenannt</li>
+                    <li>Fälle, die auf den aufgerufenen Fall verweisen, werden nun im Bereich "Kontakte" dargestellt.</li>
+                </ul>
+                <b>Funktionalität</b><br />
+                <ul>
+                    <li>Anordnung von Abstrichen können nun mit einer Notiz versehen sein.</li>
+                    <li>Bei der Anordnung von Abstrichen kann nun die Abrechnungsgrundlage vermerkt werden.</li>
+                    <li>Die Email mit der Anweisung der Abstriche wurde entsprechend angepasst.</li>
+                    <li>Die Suche wurde erweitert, dass auch die gemeinsame Ausbruchskennung durchsucht wird.</li>
+                </ul>
+                <h3>1.2.1</h3>
+                <b>Oberfläche:</b><br />
+                <ul>
+                    <li>Bei der Nacherfassung der Quarantäne ist nun auch der Typ "Rück- und Einreisende" möglich.</li> 
+                    <li>"Adresse des Kontakts" heisst nun "Adresse der erkrankten Person (Indexfall)"</li>
+                    <li>Falltyp/Kategorie wurde um "externer BF" und "in Abklärung" ergänzt</li>
+                    <li>Den Fällen wurde eine neuer Tab hinzu gefügt. Dieser wird zukünftig weitere Fallbezogene Funktionen enthalten, wie z.B. das Deckblatt für eine Papierakte</li>
+                    <li>Das Feld "Altdaten" auf dem Reiter "Gesundheitsinformationen" bei Symptomen wurde umbenannt in "sonstige Symptome" und erweitert</li>
+                    <li>Die Frage des Online-Formulars, ob Symptome vorhanden sind, wird auf dem Reiter "Gesundheitsdaten" dadurch abgebildet, dass bei einer "ja" Beantwortung im Online-Formular der Haken "Covid-19 Symptome vorhanden" in CovDi gesetzt wird.</li>
+                </ul>
+                <b>Funktionalität</b><br />
+                <ul>
+                    <li>Tätigkeitsverbote müssen nun ebenfalls freigegeben werden. Eine Liste steht mit der entsprechenden Berechtigung zur Verfügung</li>
+                </ul>
+                <h2>1.2.0</h2>
+                <b>Funktionalität</b><br />
+                <ul>
+                    <li>Doubletteprüfung: Wenn bereits ein Datensatz mit gleichem Nachname, Vornamen und Geburtsdatum existiert, wird eine Fehlermeldung mit der ID des Datensatzes angezeigt. Der neue Datensatz wird nicht gespeichert.</li>
+                    <li>Es wurden Administrationoptionen hinzugefügt:
+                        <ul>
+                            <li>Unterdatensätze (Abstriche Quarantänen, etc.) löschen</li>
+                            <li>Fall löschen, wenn keine Unterdatensätze (Abstriche, Quarantänen, etc.) vorhanden sind</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h3>1.1.4</h3>
+                <b>Funktionalität</b><br />
+                <ul>
+                    <li>Es können nun Abstriche auch in Vorplanung erstellt werden. Hinweis: der Job zur Verarbeitung erfolgt minütlich. Ein neuer Abstrich kann nur nach der Verarbeitung durch den Job erfolgen. Wenn mehrere Abstriche vorerfasst werden sollen, muss diese Minute abgewartet werden. Um zu prüfen, ob der Job bereits gelaufen ist, können Sie F5 drücken, dann wird der Datensatz neu geladen und sie können sehen, ob die Daten bereits verarbeitet wurden.</li>
+                </ul>
+                <h3>1.1.3</h3>
+                <b>Oberfläche:</b><br />
+                <ul>
+                    <li>Der einblendbare Block für den abweichenden Aufenthaltsort wurde an dir richtige Stelle unterhalb der Meldeadresse gerückt.</li>
+                </ul>
+                <b>Funktionalität:</b><br />
+                <ul>
+                    <li>Bei Tätigkeitsverboten kann nun eine Notiz mit erfasst werden, welche auch in der täglichen Mail für die Anordnung mit übermittelt wird.</li>
+                    <li>Bei Abstrichen kann nun vermerkt worden, ob die Ergebnisse dem Betroffenen auf dessen Wunsch zugeschickt wurden.</li>
+                </ul>
+                <h3>1.1.2</h3>
+                <b>Oberfläche:</b><br />
+                <ul>
+                    <li>Bei neuen Meldungen kann im Reiter "Meldung" der Meldegrund eingetragen werden. Derzeit ist dies jedoch nur vor dem ersten speichern möglich. </li>
+                    <li>In der Listenansicht wird nun der Falltyp angezeigt</li>
+                </ul>
+                <b>Funkionalität:</b><br />
+                <ul>
+                    <li>Einzelansicht - Reiter "Kontakte": Es wurde das Feld "Weitere Kontaktpersonen" hinzugefügt um Informationen über weitere Kontaktpersonen erfassen zu können.</li>
+                    <li>Einzelansicht - Reiter "Basisdaten": Bei kritischer Infrastruktur kann nun hinterlegt werden, ob eine Legitimationsbescheinigung vorliegt.</li>
+                    <li>Beim Erfassen eines neuen Falls über Covdi werden jetzt auch der Name und das Datum der Erfassung gespeichert</li>
+                    <li>Quarantänen können nun Nacherfasst werden, nacherfasste Quarantänen weisen einen enstprechenden Typ auf: "Neu (über Nacherfassung)" oder "Verlängerung (über Nacherfassung)"</li>
+                </ul>
+                <h3>1.1.1</h3>
+                <b>Oberfläche:</b><br />
+                <ul>
+                    <li>Die Anzeige der endenden Quarantänen wurde auf 14 Tage erweitert</li>
+                    <li>auf der Stadtseite wurde eine zentrale EMail-Adresse für Nutzer-Fragen hinterlegt</li>
+                </ul>
+                <b>Funktionalität:</b><br />
+                <ul>
+                    <li>Ergebnisse von Abstrichen, die nicht über 53 angeordnet wurden können nun erfasst werden</li>
+                    <li>Ergebnisse von Antikörper-Tests können jetzt erfasst werden</li>
+                </ul>
+                <h2>1.1.0</h2>
+                <b>Oberfläche:</b><br />
+                <ul>                    
+                    <li>In der Tabellenansicht wird die Bemerkung jetzt gekürzt, der volle Text kann abgerufen werden, wenn man mit der Maus über dem gekürzten Text verweilt.</li>
+                    <li>In der Tabellenansicht wird nun auch die Art der kritischen Infrastuktur angezeigt</li>
+                    <li>Indexfall wurde umbenannt in: gemeinsame Ausbruchskennung (Hinweis: Ort / Name), für die Survnet-Kennung von Sammelfällen wurde ein neues Feld eingefügt, das nur mit entsprechender Berechtigung bearbeitet werden kann</li>
+                    <li>Informationen über Hygienemaßnahmnen: Die checkbox wird jetzt korrekt angezeigt, der Hinweis wird nun darunter angezeigt</li>
+                    <li>Textfelder bei Grunderkrankung und Komplikationen wurden vergößert, Textfeld bei Quarantänen erweitert</li>
+                    <li>Notizen zur Quarantäne können bei der Anordnung eingegeben werden</li>                    
+                </ul>
+                <b>Funktionallität:</b><br />
+                <ul>
+                    <li>Die Suchfunktion wurde auf die Strassen ausgeweitet</li>           
+                    <li>Freiwillige Häusliche Absonderung empfohlen als Checkbox hinzugefügt</li>
+                    <li>Bei Abstrichen können jetzt Daten über die Mitteilung des Ergebnisses an den Betroffenen vermerkt werden</li>
+                    <li>Es wurde ein weitere Tab "Notizen" hinzugefügt. Dieser Tab dient der Dokumentation. Das normale Notizfeld bleibt bestehen für generelle Notizen wie der Aufenthalt im Frauenhaus oder ähnliches. Auf dem Reiter notizen können fortlaufende Notizen eingefügt werden, die nicht mehr geändert werden können. Dies dient z.b. zur Dokumentation der Gespräche oder Ähnlichem.</li>
+                </ul>
+                <h3>1.0.2</h3>
+                <ul>
+                    <li>die Suche wurde erweitert und korrigiert. Eine Suche nach dem Geburtsdatum ist jetzt möglich, kann jedoch bei manchen Datumsangaben ohne Ergebnis sein (Beisp: 1.1.2001), nach einer Lösung wird gesucht</li>
+                </ul>
+                <h3>1.0.1</h3>
+                <b>Oberfläche:</b><br />
+                <ul>
+                    <li>Das Erfassungsdatum wird nun in der Listenansicht angezeigt</li>
+                    <li>Aus der Quarantäne wurde der "auslösende Fall" entfernt, da bei der Kontaktperson die Fallnummerbereits hinterlegt werden kann.</li>
+                </ul>
+                <b>Funktionalität:</b>
+                <ul>
+                    <li>Um eine Dopplung von Abstrichanweisungen zu vermeiden wurde folgendes Vorgehen gewählt:<br />
+                    Pro Fall kann pro BEARBEITER nur ein Abstrich am Tag angeordnet werden.<br />
+                    Dies führt dazu, dass der Fall nicht neu geladen werden muss und der Arbeitsablauf nicht gestört wird.</li>
+                    <li>Freigaben von Quarantänen funktioniert jetzt wie erwartet</li>
+                </ul>
+                <h2>1.0.0</h2>
+                <ul>
+                    <li>Filter für abgeschlossene Fälle aktiviert</li>
+                    <li>Eingabemaske für neue Fälle ist nun unter "weiteres" zu finden</li>
+                </ul>
+                <h3>0.4.1</h3>
+                <ul>
+                    <li>Quarantänen wurden erweitert, es kann jetzt erfasst worden ob und wann die OV-Verfügung ausgestellt wurde.<br />Das Feld "durch" wird beim setzen der Checkbox automatisch befüllt mit dem aktuellen Nutzer, kann aber auch manuell geändert werden.</li>
+                </ul>
+                <h3>0.4.0</h3>
+                <ul>
+                    <li>Umstrukturierung der Oberfläche: Aufteilung des Basistabs in "Basisdaten" und "Kontakte". Der Reiter "Kontakte" soll später weitere Informationen zu Kontakten enthalten</li>
+                    <li>Datenfeld "Status Kontaktperson" umbenannt in "Status als Kontaktperson" und Verschoben auf den Reiter Maßnamen</li>
+                    <li>Datenfeld "Beaobachtungszustand" verschoben in den Reiter "Gesundheitsinformationen"</li>
+                    <li>Im Tab "Maßnahmen" wurde eine Protokollierung des letzten Survnet-Übertrags hinzugefügt. Mit drücken des Buttons "wurde übertragen" im Subbereich "Survnet" unten auf dem Tab werden "letzter Eintrag am" und "letzter Eintrag durch" automatisch befüllt und diese Daten werden im Datensatz abgespeichert.</li>
+                </ul>
+                <h3>0.3.8</h3>
+                <ul>
+                    <li>Anpassung Select Feld "Kategorie des Kontakts"</li>
+                    <li>Verschieben von zwei Feldern auf den Reiter "Gesundheitsinformationen"</li>
+                </ul>
+                <h3>0.3.7</h3>
+                <ul>
+                    <li>Tätigkeitsverbote werden nun angezeigt.</li>
+                </ul>
+                <h3>0.3.6</h3>
+                <ul>
+                    <li>Indexfall Feld hinzugefügt. Kann noch verschoben werden.</li>
+                    <li>Im Reiter Meldungen der Einzelansicht kann nun eingesehen werden, durch welche Nutzer zu welchem Zeitpunkt eine Änderung am Datensatz vorgenommen wurde</li>
+                </ul>
+                <h3>0.3.5</h3>
+                <ul>
+                    <li>Fehler beim Import von Formulardaten korrigiert, ausgelöst durch eine unstimmige Felddefinition</li>
+                    <li>Anpassung der Darstellung von Textfeldern mit viel Inhalt: Basisdaten->Art des Kontakts, Basisdaten->Information zum Kontakt</li>
+                    <li>Korrektur der Datumsausgabe für Datumsangaben vor 1940</li>
+                </ul>
+                <h3>0.3.4</h3>
+                <ul>
+                    <li>Abweichender Name auf dem Türschild bei abweichendem Aufenthaltsort wird nun angezeigt</li>
+                    <li>Angleich der Read-Only Oberflächen</li>
+                    <li>bekannte Probleme:Tätigkeitsverbote können beauftragt werden, werden nach der Verarbeitung aber nicht angezeigt</li>                    
+                </ul>
+                <h3>0.3.3</h3>
+                <ul>
+                    <li>Erweiterung des Status/Falltyps</li>
+                    <li>Das Geburtsdatum wird jetzt angezeigt</li>
+                    <li>gewünschte Anpassungen im Reiter "Basisdaten" vorgenommen</li>
+                </ul>
+                <h3>0.3.2</h3>
+                <ul>
+                    <li>Einarbeitung der Arten der kritischen Infrastruktur</li>
+                    <li>Tätigkeitsverbote hinzugefügt</li>
+                    <li>Umstellung des Menüs um weitere Funktionen integrieren zu können</li>
+                    <li>Checkbox "abgeschlossene anzeigen" aus dem Reiter "neue Meldungen" entfernt</li>
+                    <li>Die Sucher erfolgt nun über Vor- und Nachname, sodass Fälle auch bei umgedrehter Erfassung gefunden werden können</li>
+                    <li>Bei der Quaratäneanordnung wird nun ein Hinweis angezeigt, dass die Anordnung erst erfolgt, wenn sie endgültig freigegeben wurde</li>
+                    <li>Seite zur Freigabe von Quaratänen hinzugefügt</li>
+                    <li>Die Freigabe wird nun in der Q-Anorndung im Fall angezeigt</li>
+                    <li>Korrektur von Rechtschreibfehlern</li>
+                    <li>Sobald die Tätigkeit in der krit.Infrastruktur angegeben wird erscheinen die Felder "Unverzichtbarkeit vom Arbeitgeber angezeigt", "Ausnahmegenehmigung erteilt" und "ab" für die Ausnahmegenehmigung</li>
+                    <li>Adresse der Kontaktperson sowie Daten über den Aufenthalt in Risikogebieten wird jetzt angezeigt.</li>
+                </ul>
+                <h3>0.3.1</h3>
+                <ul>
+                    <li>Bugfix: Nachdem Login wird nun wieder eine Startseite angezeigt.</li>
+                    <li>Basis-Auswertungen für bestimmte Nutzer.<br />
+                        Ermittelte Zahlen:
+                        <ul>
+                            <li>Gesamtzahl der Fälle</li>
+                            <li>bestätigte Fälle</li>
+                            <li>als gesund markierte (Haken in App)</li>
+                            <li>als verstorben markierte (Haken in App)</li>
+                            <li>akut erkrankt: bestätigte Fälle (nicht abgeschlossen)</li>
+                            <li>gesamte Quarantäne Zahl</li>
+                            <li>aktuelle Quarantäne Zahl</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h3>0.3.0</h3>
+                <ul>
+                    <li>Neuer Hintergrundjob: Abschliessen von Maßnahmen (derzeit inaktiv). Als abgeschlossene Maßnahmen gelten: letzte Quarantäne abgelaufen + 2 Tage oder Erfassungsdatum + 16 (14 + 2) Tage</li>
+                    <li>Standard-Suche angepasst, dass nur noch in offenen Fällen gesucht wird, mittels Checkbox können die abgeschlossenen Fälle in die Suche mit einbezogen werden</li>
+                    <li>Abgeschlossene Fälle sind "read Only" eine Bearbeitung über die Oberfläche ist dann nicht mehr möglich</li>
+                    <li>Bugfix: Speichern von Abstrichen und Quarantänen</li>
+                    <li>Liste der "Abstriche ohne Ergebnis": Es werden alle Abstriche aufgeführt, die keine Wert im Feld Rückmeldung eingetragen haben. Später werden hier nur noch offene Fälle mit diesem Kriterium aufgeführt. </li>
+                </ul>
+                <h3>0.2.4</h3>
+                <ul>
+                    <li>Wenn eine Abstrichrückmeldung als "positiv" erfasst wird, wird der Falltyp automatisch auf "BF" gesetzt. Der vorhergehende Falltyp wird im Hintergrund für spätere Auswertungen gespeichert</li>
+                </ul>
+                <h3>0.2.3</h3>
+                <ul>
+                    <li>Select-Boxen aus dem Sharepoint übernommen: Art des Kontakts bei Kontaktperson, letzer Informationsstand Kontaktperson, Beobarchtungsstand Kontaktperson</li>
+                </ul>
+                <h3>0.2.2</h3>
+                <ul>
+                    <li>Aufteilung der Basisinformationen des Betroffenen in "Basisdaten" und "Gesundheitsinformationen"</li>
+                    <li>Korrektur von Felderbezeichnungen</li>
+                    <li>Anpassung der Abstricharten</li>
+                    <li>Anpassung der Rückmeldetypen bei Abstrichen</li>
+                    <li>Datenfeld "erster Kontakt" bei der Kontaktperson entfällt</li>
+                    <li>KP3 als Typ der Kontaktperson hinzu gefügt</li>
+                </ul>
+                <h3>0.2.1</h3>
+                <ul>
+                    <li>Liste der auslaufenden Quarantänen der nächsten ? Tage hinzugefügt.</li>
+                </ul>
+                <h3>0.2.0</h3>
+                <ul>
+                    <li>Bearbeiten und Speichern von Quarantänen ist möglich</li>
+                    <li>Die Anzeige von Abstrichen und Quarantänen wurde angepasst: Felder die nicht bearbeitet werden können, werden nun nicht mehr als Formularfelder dargestellt um Verwirrung zu vermeiden.</li>
+                    <li>Die Eingabe der PIN kann nun auch über das Drücken der Enter-Taste abgeschlossen werden.</li>
+                    <li>Wenn eine Quarantäne eingetragen werden soll, sind nun Start- und Endedatum notwendig, wenn diese nicht eingetragen sind, wird eine enstprechende Fehlermeldung ausgegeben.
+                    <li>Zum einfacheren Abschicken von Abstrich- und Quarantäne-Anweisungen wurden "spichern" Buttons an den entsprechenden Stellen hinzugefügt.</li>
+                </ul>  
+                <h3>0.1.4</h3>
+                <ul>
+                    <li>Quarantänen wurden entkoppelt, die Menge der Quarantänen ist nun unbegrenzt</li>
+                    <li>Eine Quarantäne kann vom Typ "Neu" => Basisanordnung oder vom Typ "Verlängerung" => Verlängerung der letzten Anordnung sein. Hierdurch können auch neue Quarantänen angeordnet werden, wenn vorherige bereits abgelaufen sind</li>
+                    <li>Die Veranlassung weist nun folgende Werte auf:
+                        <ul>
+                            <li>Typ => Auswahlbox => Neu oder Verlängerung</li>
+                            <li>mündlich angeordnet am => Datepicker</li>
+                            <li>bis einschließlich => Datepicker</li>
+                        </ul>
+                    </li>
+                </ul>  
+                <h3>0.1.3</h3>
+                <ul>
+                    <li>Bearbeiten und Speichern von Abstrichen möglich</li>
+                </ul>    
+                <h3>0.1.2</h3>
+                <ul>
+                    <li>Abstriche wurden entkoppelt, was dazu führt, dass die Menge an Abstrichen nicht mehr begrenzt ist</li>
+                    <li>Die Veranlassung wurde um folgende Werte erweitert:
+                        <ul>
+                            <li>dringend => Checkbox</li>
+                            <li>Datum => Datepicker</li>
+                            <li>mobil => Checkbox</li>
+                            <li>Abstrichart => Auswahlbox</li>
+                        </ul>
+                    </li>
+                </ul>            
+                    
+            </div>
+        </div>        
+    </div>
+    
+  </body>
+</html>

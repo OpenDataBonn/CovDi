@@ -1,0 +1,141 @@
+<div class="col">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-4">gemeinsame Ausbruchskennung</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_INDEXFALL" value="###STR_INDEXFALL###" placeholder="Ort / Name"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-4">SurvNet Ausbruchskennung</div>
+                <div class="col">###SURVNET_KENNUNG###</div>
+            </div>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-6 info_box">
+            <b>Angaben zum Kontakt zu einer erkrankten Person</b><br />
+            <div class="row">
+                <div class="col-7">Kontakt in den letzten 14 Tagen (bestätigter Fall):</div>
+                <div class="col-5">
+                    <select class="form-control preval_select" id="STR_KONTAKTERKRANKT" name="STR_KONTAKTERKRANKT" data-preval="###STR_KONTAKTERKRANKT###">
+                        <option value="nicht bekannt">nicht bekannt</option>
+                        <option value="ja">ja</option>
+                        <option value="nein">nein</option>
+                    </select>                    
+                </div>
+                <div class="col-4">Name der erkrankten Person:</div>
+                <div class="col-8">
+                    <input type="text" class="form-control" name="STR_KONTAKTNAME" value="###STR_KONTAKTNAME###"/>
+                </div>
+                <div class="col-8">Letzter Kontakt mit der Person:</div>
+                <div class="col-4">
+                    <input type="text" class="form-control datepicker" name="DT_KONTAKTLETZTER" value="###DT_KONTAKTLETZTER###"/>
+                </div>
+                <div class="col-4">Ort des Kontakts:</div>
+                <div class="col-8">
+                    <select class="form-control preval_select" id="STR_KONTAKTORT" name="STR_KONTAKTORT" data-preval="###STR_KONTAKTORT###">
+                        <option></option>                        
+                        <option value="Arbeitsumfeld">Arbeitsumfeld</option>
+                        <option value="Einrichtung §33(z.B. KiTa, Schule)">Einrichtung § 33(z.B. KiTa, Schule)</option>
+                        <option value="Flugzeug">Flugzeug</option>
+                        <option value="Haushalt">Haushalt</option>
+                        <option value="Medizinische Einrichtung">Medizinische Einrichtung</option>
+                        <option value="Sonstiger Ort">Sonstiger Ort</option>
+                    </select>
+                </div>
+                <div class="col-4">Sonstiger Kontaktort:</div>
+                <div class="col-8">
+                    <input type="text" class="form-control" name="STR_KONTAKTORTINFO" value="###STR_KONTAKTORTINFO###"/>
+                </div>
+                <div class="col-4">Art des Kontakts:</div>
+                <div class="col-8">
+                    <textarea class="form-control" name="STR_KONTAKTART" rows="3">###STR_KONTAKTART###</textarea>                                          
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">Informationen zum Kontakt:</div>
+                <div class="col-12">
+                    <textarea class="form-control" name="TXT_KONTAKTINFO" rows="3">###TXT_KONTAKTINFO###</textarea>                         
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">Adresse der erkrankten Person (Indexfall):</div>
+                <div class="col-9">
+                    Straße
+                    <input type="text" class="form-control" name="STR_KSTRASSE" value="###STR_KSTRASSE###"/>
+                </div>
+                <div class="col-3">
+                    Nr.
+                    <input type="text" class="form-control" name="STR_KHAUSNUMMER" value="###STR_KHAUSNUMMER###"/>
+                </div>
+                <div class="col-4">
+                    PLZ
+                    <input type="text" class="form-control" name="STR_KPLZ" value="###STR_KPLZ###"/>
+                </div>
+                <div class="col-8">
+                    Ort
+                    <input type="text" class="form-control" name="STR_KORT" value="###STR_KORT###"/>
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-7">Kategorie des Kontakts:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_KONTAKTKATEGORIE" name="STR_KONTAKTKATEGORIE" data-preval="###STR_KONTAKTKATEGORIE###">
+                        <option></option>
+                        <option value="KP I">KP I</option>
+                        <option value="KP I a">KP I a</option>
+                        <option value="KP I b">KP I b</option>
+                        <option value="KP II">KP II</option>
+                        <option value="KP III">KP III</option>
+                        <option value="Reiseanamnese">Reiseanamnese</option>
+                        <option value="nicht zutreffend">nicht zutreffend</option>
+                        <option value="nicht zutreffend (Fall)">nicht zutreffend (Fall)</option>
+                    </select>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-6">Fallnummer der Indexfall:</div>
+                <div class="col-3">###L_KONTAKTFALL_link###</div>
+                <div class="col-3">
+                    <input type="text" class="form-control" name="L_KONTAKTFALL" value="###L_KONTAKTFALL###"/>
+                </div>
+            </div>            
+        </div>
+        <div class="col-6 info_box2">
+            <b>Angaben zum Aufenthalt im Ausland / Risikogebiet</b><br />                
+            <div class="row">
+                <div class="col-11">Aufenthalt in einem Risikogebiet:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_KONTAKTRISIKOGEBIET" name="B_KONTAKTRISIKOGEBIET" data-preval="###B_KONTAKTRISIKOGEBIET###" ###B_KONTAKTRISIKOGEBIET_checked###/>                       
+                </div>
+                <div class="col-4">Risikogebiet:</div>
+                <div class="col-8">
+                    <input type="text" class="form-control" name="STR_KONTAKTRISIKOGEBIET" value="###STR_KONTAKTRISIKOGEBIET###"/>                    
+                </div>
+                <div class="col-6">von:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control datepicker" name="DT_KONTAKTRISIKOGEBIETVON" id="DT_KONTAKTRISIKOGEBIETVON" value="###DT_KONTAKTRISIKOGEBIETVON###"/>
+                </div>
+                <div class="col-6">bis:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control datepicker" name="DT_KONTAKTRISIKOGEBIETBIS" id="DT_KONTAKTRISIKOGEBIETBIS" value="###DT_KONTAKTRISIKOGEBIETBIS###"/>
+                </div>
+            </div>     
+            <div class="row">
+                <div class="col-12">
+                    Weitere Kontaktpersonen                   
+                </div>
+                <div class="col-12">
+                    <textarea class="form-control" name="TXT_KONTAKTPERSONEN" rows="10">###TXT_KONTAKTPERSONEN###</textarea>  
+                </div>
+            </div>
+        </div>  
+        <div class="col-6 info_box2">
+            ###REFS###
+        </div>
+    </div>
+</div>

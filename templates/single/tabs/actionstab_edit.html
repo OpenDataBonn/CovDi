@@ -1,0 +1,503 @@
+<div class="col">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">                                
+                <div class="col-8">Falltyp/Kategorie:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_STATUSFALLTYP" name="STR_STATUSFALLTYP" data-preval="###STR_STATUSFALLTYP###">
+                        <option></option>
+                        <option value="BF">BF</option>
+                        <option value="KP">KP 1</option>
+                        <option value="KP2">KP 2</option>
+                        <option value="KP3">KP 3</option>
+                        <option value="VF">VF</option>
+                        <option value="VF m. neg. Abstrich">VF m. neg. Abstrich</option>
+                        <option value="Rück- und Einreisende">Rück- und Einreisende</option>
+                        <option value="externer BF">externer BF</option>
+                        <option value="in Abklärung">in Abklärung</option>
+                    </select>
+                    <input type="hidden" id="STR_STATUSFALLTYPPREV" name="STR_STATUSFALLTYPPREV" value="###STR_STATUSFALLTYPPREV###" />
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-6">Status als Kontaktperson:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_KONTAKTPENDPUNKT" name="STR_KONTAKTPENDPUNKT" data-preval="###STR_KONTAKTPENDPUNKT###">
+                        <option></option>
+                        <option value="noch in Beobachtung">noch in Beobachtung</option>
+                        <option value="Beobachtungsende (kein Fall)">Beobachtungsende (kein Fall)</option>
+                        <option value="KP wurde BF">KP wurde BF</option>
+                        <option value="KP wurde VF">KP wurde VF</option>
+                        <option value="nicht zutreffend (Fall)">nicht zutreffend (Fall)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-11">Aufklärung über Hygienemaßnahmen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_HYGIENEAUFKL" name="B_HYGIENEAUFKL" data-preval="###B_HYGIENEAUFKL###"  ###B_HYGIENEAUFKL_checked###/>                       
+                </div>                                
+                <div class="col-12">2xtägl. Temperaturmessung, Symptomtagebuch, räumliche/zeitliche Trennung im häuslichen Umfeld, regelmäßiges Lüften, Händehygiene, allg. Aktivitäten, ggfs. Kontakte zu weiteren Personen und Info über Quarantänetelefon: 775325, 775326</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <b>Bemerkungen:</b><br />
+            <textarea class="form-control" name="TXT_NOTIZEN" rows="3">###TXT_NOTIZEN###</textarea>            
+        </div>
+    </div>
+    <hr />
+    <div class="row" id="aa_box">
+        <div class="col-4">            
+            <b>Abstrich anordnen</b><br />        
+            <div class="row">
+                <div class="col">Abstrich veranlassen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICH" name="B_ABSTRICH" data-preval="###B_ABSTRICH###" onclick="setAbstrichDurch()" ###B_ABSTRICH_checked###/> 
+                </div>         
+            </div>
+            <div class="row">
+                <div class="col">Muss mobil durchgeführt werden:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICHMOBIL" name="B_ABSTRICHMOBIL" data-preval="###B_ABSTRICHMOBIL###" ###B_ABSTRICHMOBIL_checked###/> 
+                </div>         
+            </div> 
+            <div class="row">
+                <div class="col">Durchführung so bald wie möglich:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICHDRINGEND" name="B_ABSTRICHDRINGEND" data-preval="###B_ABSTRICHDRINGEND###" ###B_ABSTRICHDRINGEND_checked###/> 
+                </div>         
+            </div>
+            <div class="row">
+                <div class="col-4">Bemerkungen:</div>
+                <div class="col">
+                    <textarea class="form-control" name="TXT_ABSTRICHNOTIZ" rows="2">###TXT_ABSTRICHNOTIZ###</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">            
+            <br />        
+            <div class="row">                                
+                <div class="col-6">Abstrichtyp:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_ABSTRICHTYP" name="STR_ABSTRICHTYP" data-preval="###STR_ABSTRICHTYP###">
+                        <option value="standard">Normalabstrich</option>
+                        <option value="spezial1">Spezialabstrich (Zwei zeitgleich abgenommene tiefe Rachenabstriche mit getrennten Tupfern)</option>                        
+                    </select>
+                </div>                                
+            </div>                 
+            <div class="row">
+                <div class="col-6">Durchführungszeitpunkt:</div>
+                <div class="col">
+                     <input type="text" class="form-control datepicker" name="DT_ABSTRICHZEITPUNKT" value="###DT_ABSTRICHZEITPUNKT###"/>
+                </div>         
+            </div>
+            <div class="row">                                
+                <div class="col-6">Anspruchsgrundlage:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_ABSTRICHGRUNDLAGE" name="STR_ABSTRICHGRUNDLAGE" data-preval="###STR_ABSTRICHGRUNDLAGE###">
+                        <option value="Symptomatisch">Symptomatisch</option>
+                        <option value="§2 RVO Kontaktperson">§2 RVO Kontaktperson</option>
+                        <option value="Meldung Risiko durch Corona-Warn-App">Meldung Risiko durch Corona-Warn-App</option>
+                        <option value="§3 RVO Ausbruchsgeschehen">§3 RVO Ausbruchsgeschehen</option>
+                        <option value="§4 RVO Verhütung der Verbreitung">§4 RVO Verhütung der Verbreitung</option>
+                        <option value="Risikogebiet">Risikogebiet</option>
+                    </select>
+                </div>                                
+            </div>       
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-6">Veranlassung durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" id="STR_ABSTRICHDURCH" name="STR_ABSTRICHDURCH" value="###STR_ABSTRICHDURCH###" readonly="true"/>
+                    <input type="hidden" id="L_ABSTRICHDURCH" name="L_ABSTRICHDURCH" value="###UID###" />
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-4">            
+            <b>extern angeordneten Abstrich erfassen</b><br />     
+            <input type="hidden" name="abstriche[new][FKLID]" value="###LID###" />
+            <div class="row">                                
+                <div class="col-6">Abstrichtyp:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="new_abstrich_typ" name="abstriche[new][STR_TYP]">
+                        <option value="" selected="selected"></option>
+                        <option value="standard">Normalabstrich</option>
+                        <option value="spezial1">Spezialabstrich (Zwei zeitgleich abgenommene tiefe Rachenabstriche mit getrennten Tupfern)</option>                        
+                    </select>
+                </div>                                
+            </div>               
+            <div class="row">
+                <div class="col-6">Durchgeführt am:</div>
+                <div class="col">
+                     <input type="text" class="form-control datepicker" id="new_abstrich_zeitpunkt" name="abstriche[new][DT_ZEITPUNKT]" value=""/>
+                </div>         
+            </div>
+            <div class="row">
+                <div class="col-6">Ergebnis:</div>
+                <div class="col">
+                    <select class="form-control preval_select rueckSelect" id="new_abstrich_rueck" name="abstriche[new][STR_RUECK]">
+                        <option></option>                
+                        <option value="negativ">negativ</option>     
+                        <option value="grenzwertig">grenzwertig</option>
+                        <option value="schwach positiv">schwach positiv</option>
+                        <option value="positiv">positiv</option>
+                    </select>
+                </div>                               
+            </div>
+            <div class="row">
+                <div class="col-6">Ergebnis am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" id="new_abstrich_rueckam" name="abstriche[new][DT_RUECKAM]"/>
+                </div>                                                             
+            </div>            
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-12">Information des Betroffenen</div>
+                <div class="col-11">erfolgt:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_BINFORMIERT0" name="abstriche[new][B_BINFORMIERT]" onclick="setBInfdurch(0)" /> 
+                </div>
+                <div class="col-6">am:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control datepicker" id="DT_BINFORMIERT0" name="abstriche[new][DT_BINFORMIERT]"/>
+                </div>
+                <div class="col-6">durch:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control" id="STR_BINFORMIERT0" name="abstriche[new][STR_BINFORMIERTDURCH]"/>
+                </div>                                                        
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-6">Veranlasst durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" id="new_abstrich_durch" name="abstriche[new][STR_VERANLASSTDURCH]"/>                    
+                </div>                                
+            </div>
+            <div class="row">
+                Hinweis: Es muss auf jeden Fall der Abstrichtyp erfasst werden, sonst wird der Abstrich nicht gespeichert.
+                <div class="col-6"></div>
+                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row" id="a_boxes">
+        ###ABSTRICHE###
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-4">            
+            <b>Ergebnis Antikörpertest erfassen</b><br />     
+            <input type="hidden" name="bluttests[new][FKLID]" value="###LID###" />
+            <div class="row">
+                <div class="col-6">Ergebnis am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" id="new_bluttest_rueckam" name="bluttests[new][DT_RUECKAM]"/>
+                </div>                                                             
+            </div>    
+            <div class="row">
+                <div class="col-6">Ergebnis:</div>
+                <div class="col-2"><input class="form-check-input" type="checkbox" id="new_bluttest_iga" name="bluttests[new][B_IGA]" /> IgA</div>
+                <div class="col-2"><input class="form-check-input" type="checkbox" id="new_bluttest_igg" name="bluttests[new][B_IGG]" /> IgG</div>
+                <div class="col-2"><input class="form-check-input" type="checkbox" id="new_bluttest_igm" name="bluttests[new][B_IGM]" /> IgM</div>                             
+            </div>                    
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-12">Information des Betroffenen</div>
+                <div class="col-11">erfolgt:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_BINFORMIERT0BT" name="bluttests[new][B_BINFORMIERT]" onclick="setBInfdurch('0BT')" /> 
+                </div>
+                <div class="col-6">am:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control datepicker" id="DT_BINFORMIERT0BT" name="bluttests[new][DT_BINFORMIERTAM]"/>
+                </div>
+                <div class="col-6">durch:</div>
+                <div class="col-6">
+                    <input type="text" class="form-control" id="STR_BINFORMIERT0BT" name="bluttests[new][STR_BINFORMIERTDURCH]"/>
+                </div>                                                        
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-6">Veranlasst durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" id="new_bluttest_durch" name="bluttests[new][STR_VERANLASSTDURCH]"/>                    
+                </div>                                
+            </div>
+            <div class="row">
+                Hinweis: Es muss auf jeden Fall "Ergebnis am" erfasst werden, sonst wird der Antikörpertest nicht gespeichert.
+                <div class="col-6"></div>
+                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row" id="bt_boxes">
+        ###BLUTTESTS###
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col">Freiwillige häusliche Absonderung dringend empfohlen</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_FREIWHABSONDERUNG" name="B_FREIWHABSONDERUNG" ###B_FREIWHABSONDERUNG_checked###/> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row" id="qa_box">
+        <div class="col-12 alert alert-warning" role="alert" id="qfreigabe_alert">
+            Die Quarantäne wird erst nach einer endgültigen Freigabe vom System verarbeitet
+        </div>
+        <div class="col-4">            
+            <b>Quarantäne anordnen</b><br />        
+            <div class="row">                
+                <div class="col">Quarantäne veranlassen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_QUARANTAENE" name="B_QUARANTAENE" onclick="setQuarantaeneDurch()" ###B_QUARANTAENE_checked###/> 
+                </div>         
+            </div>
+            <div class="row">
+                <div class="col-6">Mündl. angeordnet am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEVON" id="DT_QUARANTAENEVON" value="###DT_QUARANTAENEVON###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">Bis einschließlich:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEBIS" id="DT_QUARANTAENEBIS" value="###DT_QUARANTAENEBIS###"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">                                
+                <div class="col-6">Quarantänetyp:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_QUARANTAENETYP" name="STR_QUARANTAENETYP" data-preval="###STR_QUARANTAENETYP###">
+                        <option value="Neu">Neu</option>
+                        <option value="Verlängerung">Verlängerung</option>                        
+                        <option value="Veränderung">Veränderung</option>
+                    </select>
+                </div>                                
+            </div>     
+            <div class="row">
+                <div class="col-6">Bemerkungen:</div>
+                <div class="col">
+                    <textarea class="form-control" name="TXT_QUARANTAENEINFO" rows="2">###TXT_QUARANTAENEINFO###</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-6">Veranlassung durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" id="STR_QUARANTAENEADURCH" name="STR_QUARANTAENEADURCH" value="###STR_QUARANTAENEADURCH###" readonly="true"/>
+                    <input type="hidden" id="L_QUARANTAENEADURCH" name="L_QUARANTAENEADURCH" value="###UID###" />
+                </div>                                
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-3">Freigegeben:</div>    
+                <div class="col-3">###B_QFREIGABE###</div>
+                <div class="col-3">Durch:</div>
+                <div class="col-3">###STR_QFREIGABEDURCH###</div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-4">            
+            <b>Quarantäne nachträglich erfassen</b><br />     
+            <input type="hidden" name="quarantaenen[new][FKLID]" value="###LID###" />
+            <div class="row">
+                <div class="col-6">Mündl. angeordnet am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="quarantaenen[new][DT_ANGEORDNETAM]" id="new_quar_am" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">Bis einschließlich:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="quarantaenen[new][DT_ANGEORDNETBIS]" id="new_quar_bis"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">                                
+                <div class="col-6">Quarantänetyp:</div>
+                <div class="col">
+                    <select class="form-control preval_select" name="quarantaenen[new][STR_TYP]" id="new_quar_typ">
+                        <option value=""></option>
+                        <option value="Neu (über Nacherfassung)">Neu (über Nacherfassung)</option>
+                        <option value="Verlängerung (über Nacherfassung)">Verlängerung (über Nacherfassung)</option>        
+                        <option value="Rück- und Einreisende">Rück- und Einreisende (über Nacherfassung)</option>
+                    </select>
+                </div>                                
+            </div>     
+            <div class="row">
+                <div class="col-6">Bemerkungen:</div>
+                <div class="col">
+                    <textarea class="form-control" name="quarantaenen[new][TXT_NOTIZEN]" rows="2" id="new_quar_notizen"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-6">Veranlasst durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" id="new_quar_durch" name="quarantaenen[new][STR_VERANLASSTDURCH]"/>                    
+                </div>                                
+            </div>
+            <div class="row">
+                Hinweis: Es muss auf jeden Fall "Bis einschließlich" und "Typ" erfasst werden, sonst wird ddie Quarantäne nicht gespeichert.
+                <div class="col-6"></div>
+                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row" id="q_boxes">
+        ###QUARANTAENEN###
+    </div>  
+    <hr />    
+    <div class="row" id="tv_box">
+        <div class="col-12 alert alert-warning" role="alert" id="tfreigabe_alert">
+            Das Tätigkeitsverbot wird erst nach einer endgültigen Freigabe vom System verarbeitet
+        </div>
+        <div class="col-4">
+            <b>Tätigkeitsverbot anordnen</b><br />
+            <div class="row">
+                <div class="col">Veranlassen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_TATVERBOT" name="B_TATVERBOT" ###B_TATVERBOT_checked### onclick="setTatverbotDurch()" ###B_TATVERBOT_checked###/> 
+                </div>         
+            </div> 
+            <div class="row">
+                <div class="col-4">Anmerkung:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="TXT_TATVERBOTNOTIZ" id="TXT_TATVERBOTNOTIZ" value="###TXT_TATVERBOTNOTIZ###"/> 
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-6">Mündl. angeordnet am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_TATVERBOTVON" id="DT_TATVERBOTVON" value="###DT_TATVERBOTVON###"/>
+                </div>
+            </div>   
+            <div class="row">
+                <div class="col-6">Bis einschließlich:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_TATVERBOTBIS" id="DT_TATVERBOTBIS" value="###DT_TATVERBOTBIS###"/>
+                </div>
+            </div>     
+        </div>
+        <div class="col-4">
+            <br />
+            <div class="row">
+                <div class="col-6">Veranlassung durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" id="STR_TATVERBOTDURCH" name="STR_TATVERBOTDURCH" value="###STR_TATVERBOTDURCH###" readonly="true"/>
+                    <input type="hidden" id="L_TATVERBOTDURCH" name="L_TATVERBOTDURCH" value="###UID###" />
+                </div>                                
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-3">Freigegeben:</div>    
+                <div class="col-3">###B_QFREIGABE###</div>
+                <div class="col-3">Durch:</div>
+                <div class="col-3">###STR_QFREIGABEDURCH###</div>
+            </div>
+        </div>
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row" id="tv_boxes">
+        ###TATVERBOTE###
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 info_box2">
+            <b>Verlauf</b><br />
+            <div class="row">
+                <div class="col">Als gesund befunden:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_VERLAUFGESUND" name="B_VERLAUFGESUND" data-preval="###B_VERLAUFGESUND###" ###B_VERLAUFGESUND_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">Am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_VERLAUFGESUNDAM" value="###DT_VERLAUFGESUNDAM###"/>
+                </div>
+            </div>
+            <div class="row">                                
+            </div>
+            <div class="row">
+                <div class="col">Verstorben:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_VERLAUFVERSTORBEN" name="B_VERLAUFVERSTORBEN" data-preval="###B_VERLAUFVERSTORBEN###" ###B_VERLAUFVERSTORBEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">Verstorben am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_VERLAUFVERSTORBENAM" value="###DT_VERLAUFVERSTORBENAM###"/>
+                </div>
+            </div>
+        </div> 
+        ###SURVNET###
+    </div>
+</div>

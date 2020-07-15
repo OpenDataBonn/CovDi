@@ -1,0 +1,41 @@
+<form method="post" id="add_new">
+    <input type="hidden" id="L_LASTEDIT" name="L_LASTEDIT" value="###UID###" />
+<div class="row">
+    <div class="col"><h3>Neuerfassung Fall</h3></div>
+    <div class="col2"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+</div>
+<div class="row single_header_row">    
+    <div class="col-sm">
+        <div class="row">
+            <div class="col-sm">Nachname *</div>
+            <div class="col-sm">
+                <input type="text" class="form-control" id="STR_BNACHNAME" name="STR_BNACHNAME" value="###STR_BNACHNAME###"> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">Vorname *</div>
+            <div class="col-sm">
+                <input type="text" class="form-control" id="STR_BVORNAME" name="STR_BVORNAME" value="###STR_BVORNAME###"> 
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="row">
+            <div class="col-sm">Geburtsdatum</div>
+            <div class="col-sm">
+                <input type="text" class="form-control" id="DT_BGEBURTSDATUM" name="DT_BGEBURTSDATUM" value="###DT_BGEBURTSDATUM###">                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">Geschlecht</div>
+            <div class="col-sm">
+                <select class="form-control preval_select" id="STR_BGESCHLECHT" name="STR_BGESCHLECHT" data-preval="###STR_BGESCHLECHT###">
+                    <option></option>
+                    <option value="m">m</option>
+                    <option value="w">w</option>
+                    <option value="d">d</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

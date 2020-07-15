@@ -1,0 +1,300 @@
+<div class="col">
+    <div class="row">
+        <div class="alert alert-warning" role="alert">
+            Es handelt sich hier um einen Datensatz aus dem Sharepoint, es stehen nicht alle Funktionen zur Verfügung!
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="row">                                
+                <div class="col-8">Falltyp/Kategorie:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_STATUSFALLTYP" name="STR_STATUSFALLTYP" data-preval="###STR_STATUSFALLTYP###">
+                        <option></option>
+                        <option value="BF">BF</option>
+                        <option value="KP">KP</option>
+                        <option value="VF">VF</option>
+                        <option value="VF m. neg. Abstrich">VF m. neg. Abstrich</option>
+                    </select>
+                </div>                                
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col">Aufklärung über Hygienemaßnahmen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_HYGIENEAUFKL" name="B_HYGIENEAUFKL" data-preval="###B_HYGIENEAUFKL###" ###B_HYGIENEAUFKL_checked###/>   
+                </div>                                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <b>Notizen:</b><br />
+            <textarea class="form-control" name="TXT_NOTIZEN" rows="3">###TXT_NOTIZEN###</textarea>            
+        </div>
+    </div>
+    <hr />    
+    <div class="row">
+        <div class="col-6 info_box">
+            <b>Abstrich 1</b><br />
+            <div class="row">
+                <div class="col">erfolgt:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICH1" name="B_ABSTRICH1" data-preval="###B_ABSTRICH1###" ###B_ABSTRICH1_checked###/> 
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-8">Datum:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_ABSTRICH1DATUM" value="###DT_ABSTRICH1DATUM###"/>
+                </div>                                                            
+            </div>
+            <div class="row">
+                <div class="col-4">veranlasst durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_ABSTRICH1ANORDNDURCH" value="###STR_ABSTRICH1ANORDNDURCH###"/>
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-8">Abstrich Typ:</div>
+                <div class="col">
+                    <select class="form-control" id="STR_ABSTRICH1TYP" name="STR_ABSTRICH1TYP" data-preval="###STR_ABSTRICH1TYP###">
+                        <option></option>                        
+                    </select>
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col">erfolgt durch Diagnostikzentrum:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICH1DZ" name="B_ABSTRICH1DZ" data-preval="###B_ABSTRICH1DZ###" ###B_ABSTRICH1DZ_checked###/> 
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-4">Rückmeldung:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_ABSTRICH1RUECK" value="###STR_ABSTRICH1RUECK###"/>
+                </div>                               
+            </div>
+            <div class="row">
+                <div class="col-8">Rückmeldung am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_ABSTRICH1RUECKDATUM" value="###DT_ABSTRICH1RUECKDATUM###"/>
+                </div>                                                             
+            </div>
+        </div>
+        <div class="col-6 info_box2">
+            <b>Abstrich 2</b><br />
+            <div class="row">
+                <div class="col">erfolgt:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICH2" name="B_ABSTRICH2" data-preval="###B_ABSTRICH2###" ###B_ABSTRICH2_checked###/> 
+                </div>                           
+            </div>
+            <div class="row">
+                <div class="col-8">Datum:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_ABSTRICH2DATUM" value="###DT_ABSTRICH2DATUM###"/>
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-4">veranlasst durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_ABSTRICH2ANORDNDURCH" value="###STR_ABSTRICH2ANORDNDURCH###"/>
+                </div>                                                               
+            </div>
+            <div class="row">
+                <div class="col-8">Abstrich Typ:</div>
+                <div class="col">
+                    <select class="form-control" id="STR_ABSTRICH2TYP" name="STR_ABSTRICH2TYP" data-preval="###STR_ABSTRICH2TYP###">
+                        <option></option>                        
+                    </select>
+                </div>   
+            </div>
+            <div class="row">
+                <div class="col">erfolgt durch Diagnostikzentrum:</div>
+                <div class="col-1">                    
+                    <input class="form-check-input" type="checkbox" id="B_ABSTRICH2DZ" name="B_ABSTRICH2DZ" data-preval="###B_ABSTRICH2DZ###" ###B_ABSTRICH2DZ_checked###/>
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-4">Rückmeldung:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_ABSTRICH2RUECK" value="###STR_ABSTRICH2RUECK###"/>
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-8">Rückmeldung am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_ABSTRICH2RUECKDATUM" value="###DT_ABSTRICH2RUECKDATUM###"/>
+                </div>                                
+            </div>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-6 info_box2">
+            <b>Quarantäneinformationen</b><br />
+            <div class="row">
+                <div class="col">Quarantäne erforderlich:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_QUARANTAENEALT" name="B_QUARANTAENEALT" data-preval="###B_QUARANTAENEALT###" ###B_QUARANTAENEALT_checked### />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">ausgesprochen am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEAAM" value="###DT_QUARANTAENEAAM###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Angeordnet durch:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_QUARANTAENEADURCH" value="###STR_QUARANTAENEADURCH###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">Angeordnet von:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEVON" value="###DT_QUARANTAENEVON###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">Angeordnet bis:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEBIS" value="###DT_QUARANTAENEBIS###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Notizen zur Quarantäne:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="TXT_QUARANTAENEINFO" value="###TXT_QUARANTAENEINFO###"/>
+                </div>
+            </div>
+        </div>     
+        <div class="col-6 info_box">
+            <b>mündliche Quarantäneverlängerung</b><br />
+            <div class="row">
+                <div class="col-8">1. am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEMVERL1" value="###DT_QUARANTAENEMVERL1###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Begründung:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_QUARANTAENEMVERL1INFO" value="###STR_QUARANTAENEMVERL1INFO###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">verlängert bis:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEMVERL1BIS" value="###DT_QUARANTAENEMVERL1BIS###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">2. am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEMVERL2" value="###DT_QUARANTAENEMVERL2###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Begründung:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_QUARANTAENEMVERL2INFO" value="###STR_QUARANTAENEMVERL2INFO###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">verlängert bis:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_QUARANTAENEMVERL2BIS" value="###DT_QUARANTAENEMVERL2BIS###"/>
+                </div>
+            </div>
+        </div>   
+        <div class="col-6  info_box">
+            <b>OV Anordnung</b><br />
+            <div class="row">
+                <div class="col-8">Abgabe OV Verordnung an 53-0:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_OVABGABE" name="STR_OVABGABE" data-preval="###STR_OVABGABE###">
+                        <option></option>
+                        <option value="entfällt">entfällt</option>
+                        <option value="erfolgt">erfolgt</option>
+                        <option value="erledigt">erledigt</option>
+                        <option value="offen">offen</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">am:</div>
+                <div class="col">
+                     <input type="text" class="form-control datepicker" name="DT_OVABGABEAM" value="###DT_OVABGABEAM###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Name:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_OVABGABENAME" value="###STR_OVABGABENAME###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">Abgabe Verlängerung OV Verordnung an 53-0:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_OVABGABEVERL" name="STR_OVABGABEVERL" data-preval="###STR_OVABGABEVERL###">
+                        <option></option>
+                        <option value="entfällt">entfällt</option>
+                        <option value="erfolgt">erfolgt</option>
+                        <option value="erledigt">erledigt</option>
+                        <option value="offen">offen</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_OVABGABEVERLAM" value="###DT_OVABGABEVERLAM###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Name:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_OVABGABEVERLNAME" value="###STR_OVABGABEVERLNAME###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Eingabe in Survnet:</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_SURVNETEINGABE" value="###STR_SURVNETEINGABE###"/>
+                </div>
+            </div>
+        </div>   
+        <div class="col-6 info_box2">
+            <b>Verlauf</b><br />
+            <div class="row">
+                <div class="col">als Gesund befunden:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_VERLAUFGESUND" name="B_VERLAUFGESUND" data-preval="###B_VERLAUFGESUND###" ###B_VERLAUFGESUND_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_VERLAUFGESUNDAM" value="###DT_VERLAUFGESUNDAM###"/>
+                </div>
+            </div>
+            <div class="row">                                
+            </div>
+            <div class="row">
+                <div class="col">verstorben:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_VERLAUFVERSTORBEN" name="B_VERLAUFVERSTORBEN" data-preval="###B_VERLAUFVERSTORBEN###" ###B_VERLAUFVERSTORBEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">verstorben am:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_VERLAUFVERSTORBENAM" value="###DT_VERLAUFVERSTORBENAM###"/>
+                </div>
+            </div>
+        </div>                            
+    </div>
+</div>

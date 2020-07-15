@@ -1,0 +1,22 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      ###items###
+    <!--<li class="page-item"><a class="page-link" href="#">Vorherige</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Nächste</a></li>-->
+      <li class="page-item page_search">
+          <div class="input-group mb-3 page_jump">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Zu Seite </span>
+              </div>
+              <input type="text" id="goToPage" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" width="10">
+              <div class="input-group-append">
+                  <button type="button" class="btn btn-secondary" onclick="jumpToPage()">Springen</button>
+                  <span class="input-group-text" id="basic-addon2">(###pagecount### Seiten)</span>
+              </div>
+          </div>
+      </li>
+  </ul>
+</nav>

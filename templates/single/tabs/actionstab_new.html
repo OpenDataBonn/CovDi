@@ -1,0 +1,50 @@
+<div class="col">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">                                
+                <div class="col-8">Falltyp/Kategorie:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_STATUSFALLTYP" name="STR_STATUSFALLTYP" data-preval="###STR_STATUSFALLTYP###">
+                        <option></option>
+                        <option value="BF">BF</option>
+                        <option value="KP">KP 1</option>
+                        <option value="KP2">KP 2</option>
+                        <option value="KP3">KP 3</option>
+                        <option value="VF">VF</option>
+                        <option value="VF m. neg. Abstrich">VF m. neg. Abstrich</option>
+                        <option value="Rück- und Einreisende">Rück- und Einreisende</option>
+                    </select>
+                    <input type="hidden" id="STR_STATUSFALLTYPPREV" name="STR_STATUSFALLTYPPREV" value="###STR_STATUSFALLTYPPREV###" />
+                </div>                                
+            </div>
+            <div class="row">
+                <div class="col-6">Status als Kontaktperson:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_KONTAKTPENDPUNKT" name="STR_KONTAKTPENDPUNKT" data-preval="###STR_KONTAKTPENDPUNKT###">
+                        <option></option>
+                        <option value="noch in Beobachtung">noch in Beobachtung</option>
+                        <option value="Beobachtungsende (kein Fall)">Beobachtungsende (kein Fall)</option>
+                        <option value="KP wurde BF">KP wurde BF</option>
+                        <option value="KP wurde VF">KP wurde VF</option>
+                        <option value="nicht zutreffend (Fall)">nicht zutreffend (Fall)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col">Aufklärung über Hygienemaßnahmen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_HYGIENEAUFKL" name="B_HYGIENEAUFKL" data-preval="###B_HYGIENEAUFKL###" />   
+                </div>                                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <b>Notizen:</b><br />
+            <textarea class="form-control" name="TXT_NOTIZEN" rows="3">###TXT_NOTIZEN###</textarea>            
+        </div>
+    </div>
+    <hr />
+</div>

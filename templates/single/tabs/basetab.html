@@ -1,0 +1,235 @@
+<div class="col">
+    <div class="row">
+        <div class="col-6">
+            <b>Meldeadresse</b>
+            <div class="row">
+                <div class="col">
+                    Straße<br />
+                    ###STR_BSTRASSE###
+                </div>
+                <div class="col-3">
+                    Nr.<br />
+                    ###STR_BHAUSNUMMER###
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    PLZ<br />
+                    ###STR_BPLZ###
+                </div>
+                <div class="col">
+                    Ort<br />
+                    ###STR_BORT###
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+                    Adresse über das Portal VOIS/MESO kontrolliert: 
+                </div>
+                <div class="col-1">
+                    ###B_BADRESSEKONTROLLIERT###                                  
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <b>Kontaktdaten</b><br />
+            <div class="row">
+                <div class="col-3">
+                    E-Mail:
+                </div>
+                <div class="col">                    
+                    <a href="mailto:###STR_BEMAIL###">###STR_BEMAIL###</a>
+                </div>
+            </div>   
+            <div class="row">
+                <div class="col-3">
+                    Telefon:
+                </div>
+                <div class="col">
+                    ###STR_BTELEFON###<br />
+                    ###STR_BTELEFON2###
+                </div>
+            </div>
+        </div>
+    </div>    
+    <div class="row">
+        <div class="col-6" id="show_eb">
+            <div class="row">
+                <div class="col"><b>Erziehungsberechtigte</b></div>
+            </div>
+            <div class="row">                
+                <div class="col-6">
+                    Vorname<br />
+                    ###STR_BEB1VORNAME###
+                </div> 
+                <div class="col-6">
+                    Nachname<br />
+                    ###STR_BEB1NACHNAME###
+                </div> 
+            </div>
+            <div class="row">                
+                <div class="col-6">
+                    Vorname<br />
+                    ###STR_BEB2VORNAME###
+                </div> 
+                <div class="col-6">
+                    Nachname<br />
+                    ###STR_BEB2NACHNAME###
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col">
+                    Erziehungsberechtigte mit anderer Meldeadresse: 
+                </div>
+                <div class="col-1">
+                    ###B_BEBANDEREMELDEADRESSE###
+                </div>
+            </div> 
+            <div class="row" id="show_ebmeldeadresse">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                           Straße<br />
+                           ###STR_BEBSTRASSE###
+                        </div>
+                        <div class="col-3">
+                            Nr.<br />
+                            ###STR_BEBHAUSNUMMER###
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            PLZ<br />
+                            ###STR_BEBPLZ###
+                        </div>
+                        <div class="col">
+                            Ort<br />
+                            ###STR_BEBORT###
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    Vom Meldeort abweichender Aufenthaltsort: 
+                </div>
+                <div class="col-1">
+                    ###B_BANDERERAUFENTHALT###
+                </div>
+            </div> 
+            <div class="row" id="show_aufenthalt">
+                <div class="col melde_info">
+                    <b>Aufenthaltsort</b><br />
+                    <div class="row">
+                        <div class="col">
+                            Abweichender Name auf dem Türschild<br />
+                            ###STR_BAABWNAME###
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            Straße<br />
+                            ###STR_BASTRASSE###
+                        </div>
+                        <div class="col-3">
+                            Nr.<br />
+                            ###STR_BAHAUSNUMMER###
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            PLZ<br />
+                            ###STR_BAPLZ###
+                        </div>
+                        <div class="col">
+                            Ort<br />
+                            ###STR_BAORT###
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>        
+    </div>    
+    <div class="row">
+        <div class="col-6 info_box2">
+            <b>Angaben zum Beruf</b><br />
+            <div class="row">
+                <div class="col">Tätigkeit in kritischer Infrastruktur:</div>
+                <div class="col-1">
+                    ###B_CRITINFRA###
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Art der kritischen Infrastruktur</div>
+                <div class="col">
+                    ###STR_CRITINFRATYP###
+                </div>
+            </div>
+            <div class="row" id="critinfra_unv">
+                <div class="col">Unverzichtbarkeit vom Arbeitgeber angezeigt:</div>
+                <div class="col-1">
+                    ###B_CRITINFRAUNV###
+                </div>
+            </div>
+            <div class="row" id="critinfra_ausn">
+                <div class="col-11">Ausnahmegenehmigung erteilt:</div>
+                <div class="col-1">
+                    ###B_AUSNAHMEGENEMIGUNG###
+                </div>
+                <div class="col-6">ab:</div>
+                <div class="col-6">
+                    ###DT_AUSNAHMEGENEMIGUNG###
+                </div>
+                <div class="col-11">Legitimationsbescheinigung liegt vor:</div>
+                <div class="col-1">
+                    ###B_LEGITIMATIONSBESCHEINIGUNG###
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col">Anders Berufstätig:</div>
+                <div class="col-1">
+                    ###B_BERUF###
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Ausgeübter Beruf:</div>
+                <div class="col">
+                    ###STR_BERUFBEZEICHNUNG### 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Arbeitgeber:</div>                
+                <div class="col">
+                    ###STR_BERUFARBEITGEBER###
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Adresse des Arbeitsplatzes:</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Straße<br />
+                    ###STR_BERUFSTRASSE###
+                </div>
+                <div class="col-3">
+                    Nr.<br />
+                    ###STR_BERUFHAUSNUMMER###
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    PLZ<br />
+                    ###STR_BERUFPLZ###
+                </div>
+                <div class="col">
+                    Ort<br />
+                    ###STR_BERUFORT###
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>

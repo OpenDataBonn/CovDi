@@ -1,0 +1,94 @@
+.header_row {
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+}
+
+.nav_row {
+    border-bottom: 1px solid grey;
+    padding-bottom: 5px;
+    margin-bottom: 10px;    
+}
+
+.main_nav {
+    
+}
+
+.main_nav a.active {
+    color: white;
+}
+
+.main_column .table td, .main_column .table th {
+    cursor: pointer;
+}
+
+.single_header_row {
+    padding-bottom: 5px;
+}
+
+.tab-pane {
+    border: 1px solid #eee;
+    padding: 5px;
+}
+
+.tab-pane .row {
+    padding-top: 5px;
+}
+
+.melde_info {
+    background-color: beige;
+    padding-bottom: 5px;
+}
+
+.with_margin_tb {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.footer_row {
+    margin-top: 5px;
+}
+
+.page_jump {
+    margin-left: 15px;
+    width: 350px;
+}
+
+.set_pin {
+    width: 250px;
+}
+
+.info_box {
+    border: 1px solid #ddd;
+    background-color: #eee;
+}
+
+.info_box .row {
+    border-bottom: 1px solid #ddd;
+}
+
+.info_box2 {
+    border: 1px solid #eee;
+    background-color: #fff;
+}
+
+.info_box2 .row {
+    border-bottom: 1px solid #eee;
+}
+
+#modalError .modal-content {
+    border-color: #f5c6cb;
+    border-width: 2px;
+}
+
+#modalError .modal-header {
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+#base_report_button {
+    float: right;
+}
+
+#login_col {
+    padding-top: 7px;
+}

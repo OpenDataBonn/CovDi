@@ -1,0 +1,189 @@
+<div class="col">
+    <div class="row">            
+        <div class="col-6 info_box2">
+            <b>Angaben als Kontaktperson</b><br />            
+            <div class="row">
+                <div class="col-4">Beobachtungszustand:</div>
+                <div class="col">
+                    <select class="form-control preval_select" id="STR_KONTAKTPERHBEOB" name="STR_KONTAKTPERHBEOB" data-preval="###STR_KONTAKTPERHBEOB###">
+                        <option></option>
+                        <option value="erkrankt">erkrankt</option>
+                        <option value="nicht erkrankt">nicht erkrankt</option>
+                        <option value="nicht ermittelbar">nicht ermittelbar</option>                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 info_box">
+            <b>Angaben zur Erkrankung</b><br />
+            <div class="row">
+                <div class="col">Covid-19-Symptome:</div>
+                <div class="col-1"> 
+                    <input class="form-check-input" type="checkbox" id="B_SYMVORHANDEN" name="B_SYMVORHANDEN" data-preval="###B_SYMVORHANDEN###" ###B_SYMVORHANDEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">Beginn der Symptome:</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_SYMSTART" value="###DT_SYMSTART###"/>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col">Zugehörigkeit zu einer Risikogruppe:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_RISIKOGRUPPE" name="B_RISIKOGRUPPE" data-preval="###B_RISIKOGRUPPE###" ###B_RISIKOGRUPPE_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">Risikogruppe</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_RISIKOGRUPPEART" value="###STR_RISIKOGRUPPEART###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Diagnose Viruslungenentzündung und Arbeit in Kontakt mit Covid-19:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_VIRUSL" name="B_VIRUSL" data-preval="###B_VIRUSL###" ###B_VIRUSL_checked###/> 
+                </div>
+            </div>                            
+        </div>
+        <div class="col-6 info_box">
+            <b>Allgemeine Angaben zur Gesundheit</b><br />
+            <div class="row">
+                <div class="col">Grunderkrankung vorhanden:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_GRUNDERKRANKUNG" name="B_GRUNDERKRANKUNG" data-preval="###B_GRUNDERKRANKUNG###" ###B_GRUNDERKRANKUNG_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">Art der Erkrankung</div>
+                <div class="col">
+                    <textarea class="form-control" name="TXT_GRUNDERKRANKUNGINFO" rows="3">###TXT_GRUNDERKRANKUNGINFO###</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Besondere Komplikationen aufgetreten:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_KOMPLIKATIONEN" name="B_KOMPLIKATIONEN" data-preval="###B_KOMPLIKATIONEN###" ###B_KOMPLIKATIONEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">Komplikationen:</div>
+                <div class="col">
+                    <textarea class="form-control" name="TXT_KOMPLIKATIONENINFO" rows="3">###TXT_KOMPLIKATIONENINFO###</textarea>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col">Schwangerschaft:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SCHWANGERSCHAFT" name="B_SCHWANGERSCHAFT" data-preval="###B_SCHWANGERSCHAFT###" ###B_SCHWANGERSCHAFT_checked###/> 
+                </div>
+            </div>                                      
+        </div>
+        <div class="col-6 info_box2">
+            <b>Symptome</b><br />
+            <div class="row">
+                <div class="col">Husten:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMHUSTEN" name="B_SYMHUSTEN" data-preval="###B_SYMHUSTEN###" ###B_SYMHUSTEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Schnupfen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMSCHNUPFEN" name="B_SYMSCHNUPFEN" data-preval="###B_SYMSCHNUPFEN###" ###B_SYMSCHNUPFEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Halsschmerzen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMHALSSCHMERZEN" name="B_SYMHALSSCHMERZEN" data-preval="###B_SYMHALSSCHMERZEN###" ###B_SYMHALSSCHMERZEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Abgeschlagenheit:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMABGESCHLAGEN" name="B_SYMABGESCHLAGEN" data-preval="###B_SYMABGESCHLAGEN###" ###B_SYMABGESCHLAGEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Fieber:</div>
+                <div class="col-7">
+                    <input type="text" class="form-control" name="STR_SYMFIEBERWERT" value="###STR_SYMFIEBERWERT###"/>
+                </div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMFIEBER" name="B_SYMFIEBER" data-preval="###B_SYMFIEBER###" ###B_SYMFIEBER_checked###/> 
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col">Durchfall:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMDURCHFALL" name="B_SYMDURCHFALL" data-preval="###B_SYMDURCHFALL###" ###B_SYMDURCHFALL_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Luftnot:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMLUFTNOT" name="B_SYMLUFTNOT" data-preval="###B_SYMLUFTNOT###" ###B_SYMLUFTNOT_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Abnehmender Geruchs-/Geschmackssinn:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMGERUCH" name="B_SYMGERUCH" data-preval="###B_SYMGERUCH###" ###B_SYMGERUCH_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Kopfschmerzen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMKOPFSCHMERZEN" name="B_SYMKOPFSCHMERZEN" data-preval="###B_SYMKOPFSCHMERZEN###" ###B_SYMKOPFSCHMERZEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">Gliederschmerzen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_SYMGLIEDERSCHMERZEN" name="B_SYMGLIEDERSCHMERZEN" data-preval="###B_SYMGLIEDERSCHMERZEN###" ###B_SYMGLIEDERSCHMERZEN_checked###/> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">Sonstige Symptome:</div>
+                <div class="col">
+                    <textarea class="form-control" name="TXT_SYMINFO" rows="3">###TXT_SYMINFO###</textarea>
+                </div>
+            </div>
+        </div>   
+        <div class="col-6 info_box2">
+            <b>Stationäre Aufnahme</b><br />
+            <div class="row">
+                <div class="col">Stationär aufgenommen:</div>
+                <div class="col-1">
+                    <input class="form-check-input" type="checkbox" id="B_STATIONAER" name="B_STATIONAER" data-preval="###B_STATIONAER###" ###B_STATIONAER_checked###/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">Am</div>
+                <div class="col">
+                    <input type="text" class="form-control datepicker" name="DT_STATIONAERSTART" value="###DT_STATIONAERSTART###"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">Krankenhaus</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="STR_STATIONAERKRANKENHAUS" value="###STR_STATIONAERKRANKENHAUS###"/>                
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-3">Infos</div>
+                <div class="col">
+                    <input type="text" class="form-control" name="TXT_STATIONAERINFO" value="###TXT_STATIONAERINFO###"/>
+                </div>
+            </div>                       
+        </div>
+    </div>
+</div>
