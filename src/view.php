@@ -44,43 +44,60 @@ class View {
     //Basisfunktion der Klasse
     function getMain(){
         $main = "";
+        //Überprüfung der Basis-Rechte der eingeloggten Person
+        //read => Nur lesender Zugriff von Fällen
+        //edit => Bearbeitung von Grunddaten der Fälle
+        //doc => Anweisung von Maßnahmen in Fällen erlaubt
+        //erweiterte Rechte wie das Freigeben von Quarantänen oder die Anzeige von Auswertungen werden über zusätzliche 
+        //Berechtigungen vergeben
+        
         switch($this->getMainRight()){
             case 'doc':                        
             case 'edit':
                     if (($this->type == "add")) $main = $this->getAdd();
             case 'read':
                     switch ($this->type){
+                        //Listenansicht, alle oder neu erfasste Meldungen
                         case "all":
                         case "new":
                             if (isset($_GET["tpage"])) $page = $_GET["tpage"];
                             else $page = 1;
                             $main = $this->getTablePage($page, $this->search, $this->type);
                             break;
+                        //Endenden Quarantänen
                         case "qend":
                             $main = $this->getEndingQs();
                             break;
+                        //Abstriche ohne Rückmeldung
                         case "anor":
                             $main = $this->getAOhneRueck();
                             break;
+                        //Einzelansicht des Falls
                         case "single":   
                             $main = $this->getSingle($_GET["id"]);
                             break;
+                        //Basisseite mit Login
                         case "main":
                             $main = file_get_contents("templates/start_loggedin.html");
                             break;
+                        //Auswertungen
                         case "auswertungen":
                             $main = $this->getAuswertungen();
                             break;
+                        //Freigaben von Quarantänen
                         case "freigabeq":
                             $main = $this->getFreigabeQ();
                             break;
+                        //Freigaben von Tätigkeitsverboten
                         case "freigabet":
                             $main = $this->getFreigabeT();
                             break;
+                        //Druckansicht
                         case "print":
                             $main = $this->getPrint($_GET["printType"], $_GET["id"]);
                     }
                 break;
+            //Standard-Startseite oder Hinweis, das ein Login benötigt wird
             default:
                 if ($this->type != "main") $main = file_get_contents("templates/need_login.html");
                 else {
@@ -92,24 +109,28 @@ class View {
         return $main;
     }
     
+    //Aufbau der zentralen Navigation
     function getNav(){
-        //var_dump($this->user);
         $nav_add = '';
         $nav_add_qfreigabe = '';
         $nav_add_tfreigabe = '';
         $nav_add_new = '';
+        //Die Navigationsleite wird erst angezeigt, wenn ein Nutzer sich eingeloggt hat
         if ($this->loggedIn){
+            //Anzeige Logout-Button
             $login = file_get_contents("templates/logout.html");
             $login = str_replace('###NACHNAME###',$this->user['nachname'],$login);
             $login = str_replace('###VORNAME###',$this->user['vorname'],$login);   
+            //Auswertungen
             if (in_array('aZahlen', $this->rights)){
-                $nav_add .= '<a class="dropdown-item" href="?type=auswertungen">Auswertungen</a>';
-                //$nav_add .= '<li class="nav-item"><a class="nav-link ###AUSWERTUNGEN###" href="?type=auswertungen">Auswertungen</a></li>';
+                $nav_add .= '<a class="dropdown-item" href="?type=auswertungen">Auswertungen</a>';                
             }
+            //Freigaben von Quarantänen oder Tätigkeitsverboten
             if (in_array('freig', $this->rights)){
                 $nav_add_qfreigabe = '<a class="dropdown-item" href="?type=freigabeq">Freigabe Quarantänen</a>';
                 $nav_add_tfreigabe = '<a class="dropdown-item" href="?type=freigabet">Freigabe Tätigkeitsverbote</a>';
             }
+            //Erfassung neuer Fälle mit CovDi
             if (in_array('edit', $this->rights) || in_array('doc', $this->rights)){
                 $nav_add_new = '<a class="dropdown-item" href="?type=add">Neue Meldung erfassen</a>';
             }
@@ -129,11 +150,13 @@ class View {
         return $nav; 
     }
     
+    //Duckansicht anzeigen, das Rahmentemplate wird hier nicht geladen
     function getPrint($printType, $id){
         $template = "";
         $oData = new\base\OData;
         
         switch($printType){
+            //Deckblatt für Papiertakte
             case "frontpage":
                 $template = file_get_contents("templates/print/front_page.html");
                 $template = $oData->getSingleFrontPage($id, $template);
@@ -143,6 +166,7 @@ class View {
         return $template;
     }
     
+    //Anzeige von Auswertungen
     function getAuswertungen(){
         $template = file_get_contents("templates/auswertungen/main.html");
         $oData = new\base\OData;
@@ -158,6 +182,7 @@ class View {
         return $template;
     }
     
+    //Anzeige Freigaben von Quarantänen
     function getFreigabeQ(){
         $template = file_get_contents("templates/freigaben/quarantaene_freigaben.html");
         $row_template = file_get_contents("templates/freigaben/q_freigabe_row.html");
@@ -174,6 +199,7 @@ class View {
         return $template;
     }
     
+    //Anzeige Freigaben von Tätigkeitsverboten
     function getFreigabeT(){
         $template = file_get_contents("templates/freigaben/tatverbote_freigaben.html");
         $row_template = file_get_contents("templates/freigaben/t_freigabe_row.html");
@@ -190,6 +216,7 @@ class View {
         return $template;
     }
     
+    //Anzeige Formuar zu Erfassung von Fällen über die Oberfläche von CovDi
     function getAdd(){
         global $basics;
         $template = file_get_contents("templates/single/new.html");  
@@ -219,6 +246,7 @@ class View {
         return $add;
     }
     
+    //Anzeige Einzelansicht Fall
     function getSingle($id){
         $template = file_get_contents("templates/single/single.html");  
         $oData = new \base\OData;
@@ -238,6 +266,10 @@ class View {
             $foot_add = '';
             if ($oData->isLocked($id)) $this->rights[] = 'locked';
 
+            //Rechteabhängige Anzeige von Bearbeitungsoberflächen
+            //Der Aufbau der Template bezeichnungen:
+            //Read-Only: Templatename
+            //Edit: Templatename_edit
             switch($this->getMainRight()){
                 case 'doc':
                     $actionstab_add .= '_edit';
@@ -291,6 +323,7 @@ class View {
         }            
     }
     
+    //Mit Sonderrechten wird die Anzeige und die Bearbeitbarkeit von Unterlementen gesteuert
     function getSpecialParts($template, $part){
         switch ($part){
             case 'single_main':
@@ -306,6 +339,7 @@ class View {
                 $template = str_replace('###SURVNET_KENNUNG###', $survnet_kennung, $template);
                 break;
             case 'single_quar':
+                //Bearbeitung der Notizen zur OV-Benachrichtigung
                 if ($this->getMainRight() != 'read' && in_array('ovEdit', $this->rights)){
                     $ovEdit = file_get_contents("templates/blocks/quarantaene_ov_edit.html");
                 } else {
@@ -318,6 +352,7 @@ class View {
         return $template;
     }
 
+    //Steuerung der Tabellen-Anzeige
     function getTablePage($page, $search, $type = "all"){
         $template = file_get_contents("templates/".$type.".html");
         $pageSize = 15;
@@ -336,6 +371,7 @@ class View {
         return $template;
     }
 
+    //Tabellen-Navigation
     function getTablePagination($page, $pageSize, $totalCount, $search, $type = "all"){
         $pageCount = ceil($totalCount / $pageSize);
         $adder = "";
@@ -367,6 +403,7 @@ class View {
         return $pagination;
     }
 
+    //Anzeige auslaufende Quarantänen
     function getEndingQs(){
         $oData = new \base\OData;    
         $template = file_get_contents("templates/tables/qus_ending.html");
@@ -378,6 +415,7 @@ class View {
         return $template;
     }    
     
+    //Anzeige Abstriche ohne Rückmeldung
     function getAOhneRueck(){
         $oData = new \base\OData;    
         $template = file_get_contents("templates/tables/as_orueck.html");
@@ -387,6 +425,7 @@ class View {
         return $template;
     }    
 
+    //Einbinden der Javascripte nach Anzeigetyp
     function getScript(){
         $script = "";
         
@@ -418,8 +457,10 @@ class View {
         return $script;
     }
     
+    //Basisrechte ermitteln
     function getMainRight(){
         if (is_array($this->rights)){
+            //wenn der Fall abgeschlossen ist, wird immer nur lese-Rechte zurück gegeben
             if (in_array('locked', $this->rights)) return 'read';
             foreach ($this->rights as $right){
                 switch ($right){
@@ -435,6 +476,7 @@ class View {
         
     }
     
+    //Marker aus einem Template entfernen (Marker: ###___###)
     function eraseMarkers($template){
         // preg_replace('/CROPSTART[\s\S]+?CROPEND/', '', $string);
         $template = preg_replace('/###[\s\S]+?###/','',$template);

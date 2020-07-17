@@ -534,3 +534,11 @@ function deleteItem(){
     modal.modal('toggle');
 }
 
+function askCloseFall(id){
+    var modal = $('#modalClose');
+    modal.find('.modal-title').text('Fall schliessen');
+    modal.find('.modal-body').text('Möchten Sie den Fall wirklich abschließen?');
+    modal.find('#itemTo').text(id);
+    modal.find('#typeTo').text('close');
+    modal.modal();
+}

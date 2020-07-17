@@ -364,6 +364,7 @@ class OData {
             $vars['###REFS###'] = $this->getRefs($id);
             //var_dump($abs);   
             $deleteFallButton = true;
+            $admms = '';
             foreach ($vars as $key => $value){
                 if (!is_array($value)) $template = str_replace($key, $value, $template);
                 else {
@@ -479,17 +480,21 @@ class OData {
                             break;
                     }
                 }
+            }            
+            if (in_array('openMs',$this->rights) && $vars['###B_ABGESCHLOSSEN###'] == 'ja'){
+                $admms .= '<div class="col-2"><button class="btn btn-info" type="button" onclick="askOpenFall('.$vars['###LID###'].')">Fall Öffnen</button></div>';
+            }
+            if (in_array('closeMs',$this->rights) && $vars['###B_ABGESCHLOSSEN###'] != 'ja'){
+                $admms .= '<div class="col-2"><button class="btn btn-info" type="button" onclick="askCloseFall('.$vars['###LID###'].')">Fall Abschliessen</button></div>';
             }
             if ($deleteFallButton){
                 if (in_array('admMs',$this->rights)){
-                    $template = str_replace('###ADMMS###', '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteFall('.$vars['###LID###'].')">Löschen</button>', $template);
-                } else {
-                    $template = str_replace('###ADMMS###', '', $template);
+                   $admms .= '<div class="col-1"><button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteFall('.$vars['###LID###'].')">Löschen</button></div>';
                 }
-            } else {
-                $template = str_replace('###ADMMS###', '', $template);
             }
+            
             //var_dump($abs);
+            $template = str_replace('###ADMMS###', $admms, $template);
             $template = str_replace('###ABSTRICHE###',$abs,$template);
             $template = str_replace('###QUARANTAENEN###',$qus,$template);
             $template = str_replace('###TATVERBOTE###',$tvs,$template);
@@ -1125,6 +1130,33 @@ class OData {
         }
         
         return $delete;
+    }
+    
+    function openCloseMeldung($type, $id){        
+        $values = false;
+        switch ($type){
+            case 'open':
+                if (in_array('openMs',$this->rights)){
+                    $values = array();
+                    $values['LID'] = $id;
+                    $values['B_ABGESCHLOSSEN'] = false;
+                }
+                break;
+            case 'close':
+                if (in_array('closeMs',$this->rights)){
+                    $values = array();
+                    $values['LID'] = $id;
+                    $values['B_ABGESCHLOSSEN'] = true;
+                }
+                break;
+        }
+        if(is_array($values)){
+            $update = \Httpful\Request::put($this->serviceRoot.'/Meldungen('.$id.')')
+                        ->body(json_encode($values))
+                        ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                        ->sendsJson()
+                        ->send();   
+        }
     }
 }
 

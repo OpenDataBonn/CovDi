@@ -79,3 +79,32 @@ function isValidDate(dateString) {
   return true;
 }
 
+function askOpenFall(id){
+    var modal = $('#modalClose');
+    modal.find('.modal-title').text('Fall öffnen');
+    modal.find('.modal-body').text('Möchten Sie den Fall wirklich wieder öffnen? Bitte prüfen Sie, dass sie damit keinen Doppelten Fall für die gleiche Person öffnen!');
+    modal.find('#itemTo').text(id);
+    modal.find('#typeTo').text('open');
+    modal.modal();
+}
+
+function openCloseItem(){
+    var id = $('#itemTo').text();
+    var type = $('#typeTo').text();
+    //alert(id);
+    var url = "src/data/openclose.php";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {type: type,id: id}, 
+        success: function(deleted)
+        {           
+           window.location.reload();
+        }        
+    });
+    
+    var modal = $('#modalClose');
+    modal.find('#itemTo').text(-1);    
+    modal.find('#typeTo').text("");    
+    modal.modal('toggle');
+}

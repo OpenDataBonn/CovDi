@@ -26,7 +26,7 @@
         </div>
         <hr />
         <div class="row footer_row">
-            <div class="col-10 footer_info">Version 1.2.2</div>
+            <div class="col-10 footer_info">Version 1.2.3</div>
             <div class="col"><a href="changelog.html" target="_blank">Changelog</a></div>
         </div>
     </div>
@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-      <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalErrorLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalErrorLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -85,6 +85,27 @@
             <button type="button" class="btn btn-danger" onclick="deleteItem()">Löschen</button>
               <div id="itemToDelete" style="display:none"></div>
               <div id="typeToDelete" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="modalClose" tabindex="-1" role="dialog" aria-labelledby="modalInfoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalInfoLabel">Achtung!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Schliessen">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
+            <button type="button" class="btn btn-danger" onclick="openCloseItem()">Ok</button>
+              <div id="itemTo" style="display:none"></div>
+              <div id="typeTo" style="display:none"></div>
           </div>
         </div>
       </div>
