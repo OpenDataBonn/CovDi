@@ -1,9 +1,4 @@
 $(document).ready(function(){
-    $(".preval_select").each(function() { 
-        //console.log($(this).data('preval'));
-        $(this).val($.trim($(this).data('preval'))); 
-    });
-    
     $('.datepicker').datepicker({
         dateFormat: 'dd.mm.yy',
         numberOfMonths: 2
@@ -413,16 +408,6 @@ function checkTatverbot(){
     } else { 
         $("#tfreigabe_alert").hide();
     } 
-}
-
-function setOVdurch(nr){
-    if ($("#B_OVERLASSEN"+nr).prop('checked')){
-        $("#DT_OVERLASSEN"+nr).val($.datepicker.formatDate('dd.mm.yy', new Date()));
-        $("#STR_OVERLASSEN"+nr).val($("#logged_in_name").html());
-    } else {
-        $("#STR_OVERLASSEN"+nr).val("");
-        $("#DT_OVERLASSEN"+nr).val("");
-    }
 }
 
 function setBInfdurch(nr){

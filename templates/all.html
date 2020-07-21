@@ -2,19 +2,39 @@
     <div class="col">
         <form method="get">
             <input type="hidden" name="type" value="all" />
-            <div class="form-row">                
-                <div class="input-group col-md-6">
-                    <input type="text" name="search" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" width="10" value="###search###">
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-secondary">Suchen</button>
-                    </div>
+            <div class="form-row">   
+                <div class="col-md-2">
+                    Sortierung:
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <select name="sorting" class="form-control preval_select" data-preval="###sorting###">
+                        <option value="LID">Fallnummer</option>
+                        <option value="STR_BNACHNAME">Nachname</option>
+                        <option value="STR_STATUSFALLTYP">Falltyp</option>
+                        <option value="DT_BGEBURTSDATUM">Geburtsdatum</option>
+                        <option value="STR_BPLZ">PLZ</option>
+                        <option value="STR_BORT">Wohnort</option>
+                        <option value="DTINSERT">Erfassungsdatum</option>
+                    </select>
+                </div>
+            </div>   
+            <hr style="margin: 5px;" />
+            <div class="form-row">   
+                <div class="col-md-2">
+                    Suche:
+                </div>
+                <div class="input-group col-md-5">
+                    <input type="text" name="search" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" width="10" value="###search###">                    
+                </div>  
+                <div class="col-md-1">&nbsp;</div>
                 <div class="form-check col-md-3">
                     <input type="checkbox" class="form-check-input" id="closed" name="closed" ###closed###>
                     <label class="form-check-label" for="closed">abgeschlossene anzeigen</label>
-                </div>  
-            </div>            
+                </div>                                
+                <div class="input-group col-md-1">
+                    <button type="submit" class="btn btn-secondary">Suchen</button>
+                </div>
+            </div>
         </form>
     </div>
     <div class="col-3">
@@ -29,6 +49,7 @@
         </div>
     </div>
 </div>
+<hr style="margin: 5px;" />
 <div class="row">
     ###table###
 </div>

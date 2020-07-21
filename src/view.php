@@ -39,6 +39,11 @@ class View {
         //Suchparameter einlesen / im öffentlichen Einsatz sollte hier noch eine CrossSiteScripting vorsorge eingebaut werden
         if (isset($_GET["search"])) $this->search["search"] = $_GET["search"];
         else $this->search["search"] = "";
+        
+        //Sortierung für die Listenansicht einlesen
+        if (isset($_GET["sorting"])) $this->search["sorting"] = $_GET["sorting"];
+        else $this->search["sorting"] = "LID";
+        
     }
     
     //Basisfunktion der Klasse
@@ -340,7 +345,7 @@ class View {
                 break;
             case 'single_quar':
                 //Bearbeitung der Notizen zur OV-Benachrichtigung
-                if ($this->getMainRight() != 'read' && in_array('ovEdit', $this->rights)){
+                if (/*$this->getMainRight() != 'read' && */in_array('ovEdit', $this->rights)){
                     $ovEdit = file_get_contents("templates/blocks/quarantaene_ov_edit.html");
                 } else {
                     $ovEdit = file_get_contents("templates/blocks/quarantaene_ov.html");
@@ -367,6 +372,7 @@ class View {
 
         $template = str_replace("###table###",$table,$template);
         $template = str_replace("###search###",$search['search'],$template);
+        $template = str_replace("###sorting###",$search['sorting'],$template);
         if ($search['closed']) $template = str_replace("###closed###",'checked="checked"',$template);
         return $template;
     }
@@ -377,6 +383,7 @@ class View {
         $adder = "";
         if ($search['closed']) $adder = "&closed=1";
         if ($search['search']) $adder .= "&search=".$search['search'];
+        if ($search['sorting']) $adder .= "&sorting=".$search['sorting'];
         if ($pageCount == 1) return "";
         $pagination = file_get_contents("templates/tables/table_pagination.html");
         $items = "";
@@ -462,15 +469,9 @@ class View {
         if (is_array($this->rights)){
             //wenn der Fall abgeschlossen ist, wird immer nur lese-Rechte zurück gegeben
             if (in_array('locked', $this->rights)) return 'read';
-            foreach ($this->rights as $right){
-                switch ($right){
-                    case 'doc':                        
-                    case 'edit':
-                    case 'read':
-                        return $right;
-                        break;
-                }
-            }
+            //Falls Basis-Rechte mehrfach vergeben wurden, sollte immer nur das höchste Recht zurück gegeben werden
+            if (in_array('doc', $this->rights)) return 'doc';
+            if (in_array('edit', $this->rights)) return 'edit';
             return 'read';    
         }
         

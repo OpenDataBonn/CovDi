@@ -569,6 +569,19 @@ class OData {
             ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
             ->sendsJson()
             ->send();    
+        return $update;
+    }
+    
+    function setOvAnordnung($data){
+        $values = $this->processSaveData($data);
+        //var_dump($values);
+        $update = \Httpful\Request::put($this->serviceRoot.'/Quarantaenen('.$data['LID'].')')
+            //->body('{"STR_TITEL_6A585D30":"wutt?","L_ZAHL":5}')
+            ->body(json_encode($values))
+            ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+            ->sendsJson()
+            ->send();  
+        return $update;
     }
     
     function saveBluttests($tests){
@@ -867,9 +880,12 @@ class OData {
         }
         
         if ($filter != '$filter=') {
-            if ($searchString != "") $searchString .= "&";
+            if ($searchString != "?") $searchString .= "&";
             $searchString .= $filter;
-            
+        }
+        if ($search['sorting'] != "LID"){
+            if ($searchString != "?") $searchString .= "&";
+            $searchString .= '$orderby='.$search['sorting'];
         }
         
         if ($page > 1 && $pageSize > 0){

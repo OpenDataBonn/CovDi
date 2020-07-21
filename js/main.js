@@ -1,3 +1,10 @@
+$(document).ready(function(){
+    $(".preval_select").each(function() { 
+        //console.log($(this).data('preval'));
+        $(this).val($.trim($(this).data('preval'))); 
+    });
+});
+
 $('.table > tbody > tr > td.clickable').click(function() {
     if ($(this).parent().data("id")) location.href = '?type=single&id='+$(this).parent().data("id");
 });
@@ -107,4 +114,40 @@ function openCloseItem(){
     modal.find('#itemTo').text(-1);    
     modal.find('#typeTo').text("");    
     modal.modal('toggle');
+}
+
+function setOVdurch(nr){
+    if ($("#B_OVERLASSEN"+nr).prop('checked')){
+        $("#DT_OVERLASSEN"+nr).val($.datepicker.formatDate('dd.mm.yy', new Date()));
+        $("#STR_OVERLASSEN"+nr).val($("#logged_in_name").html());
+    } else {
+        $("#STR_OVERLASSEN"+nr).val("");
+        $("#DT_OVERLASSEN"+nr).val("");
+    }
+}
+
+function ovanordnung_eintrag(qLid){
+    var url = "src/functions/ovanordnung.php";
+    
+    var data = {LID:qLid,B_OVERLASSEN:$('#B_OVERLASSEN'+qLid).val(),DT_OVERLASSEN:$('#DT_OVERLASSEN'+qLid).val(),STR_OVERLASSEN:$('#STR_OVERLASSEN'+qLid).val()};
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data, 
+        success: function(saved)
+        {
+           if (saved){
+               var modal = $('#modalInfo');
+               //modal.find('.modal-title').text('Speichern');
+               modal.find('.modal-body').text('Die Daten wurden erfolgreich gespeichert');
+               modal.modal();
+           } else {
+               var modal = $('#modalError');
+               //modal.find('.modal-title').text('Speichern');
+               modal.find('.modal-body').text('Fehler beim speichern!');
+               modal.modal();
+           }
+        }
+    });
 }
