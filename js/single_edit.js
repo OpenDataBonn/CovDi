@@ -523,7 +523,47 @@ function askCloseFall(id){
     var modal = $('#modalClose');
     modal.find('.modal-title').text('Fall schliessen');
     modal.find('.modal-body').text('Möchten Sie den Fall wirklich abschließen?');
-    modal.find('#itemTo').text(id);
-    modal.find('#typeTo').text('close');
+    modal.find('#itemToClose').text(id);
+    modal.find('#typeToClose').text('close');
     modal.modal();
+}
+
+function askAbortQuarantaene(id){
+    var modal = $('#modalAbortQ');
+    
+    $("#Q_ABBR_AM").val($.datepicker.formatDate('dd.mm.yy', new Date()));
+    $("#Q_ABBR_DURCH").val($("#logged_in_name").html());
+    
+    modal.find('#qToAbort').text(id);
+    modal.modal();
+}
+
+function abortQ(){
+    var id = $('#qToAbort').text();
+    var date = $('#Q_ABBR_AM').val();
+    var durch = $('#Q_ABBR_DURCH').val();
+    //alert(id);
+    var url = "src/data/abortQ.php";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {id: id, date: date, durch: durch}, 
+        success: function(aborted)
+        {
+           if (deleted){
+               var modal = $('#modalInfo');
+               modal.find('.modal-body').text('Die Quarantäne wurde abgebrochen');
+               modal.modal();   
+               location.reload();
+           } else {
+               var modal = $('#modalError');
+               modal.find('.modal-body').text('Fehler beim Bearbeiten des Eintrags!');
+               modal.modal();
+           }
+        }        
+    });
+    
+    var modal = $('#modalAbortQ');
+    modal.find('#qToAbort').text(-1);    
+    modal.modal('toggle');
 }

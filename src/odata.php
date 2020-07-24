@@ -404,7 +404,10 @@ class OData {
                                 else $quar["###L_QAUSLFALL_link###"] = '';
                                 
                                 if (in_array('admMs',$this->rights)){
-                                    $quar['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteQuarantaene('.$quar['###LID###'].')">Löschen</button>';
+                                    $quar['###ADMMS###'] .= '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteQuarantaene('.$quar['###LID###'].')">Löschen</button>';
+                                }
+                                if (in_array('abortQs', $this->rights)){
+                                    $quar['###ADMMS###'] .= '&nbsp;<button class="btn btn-outline-info btn-sm" type="button" onclick="askAbortQuarantaene('.$quar['###LID###'].')">Abbrechen</button>';
                                 }
                                 
                                 foreach ($quar as $akey => $avalue){
@@ -682,7 +685,7 @@ class OData {
         foreach ($qs as $id => $data){
             $values = $this->processSaveData($data);
             //var_dump($values);
-            if (in_array('doc',$this->rights) || in_array('edit',$this->rights)){
+            if (in_array('ovEdit', $this->rights)){//in_array('doc',$this->rights) || in_array('edit',$this->rights)){
                 if (!isset($values['B_OVERLASSEN'])) $values['B_OVERLASSEN'] = false;
             }
             $update = \Httpful\Request::put($this->serviceRoot.'/Quarantaenen('.$data['LID'].')')
@@ -798,7 +801,10 @@ class OData {
                       'B_SYMVORHANDEN','B_RISIKOGRUPPE','B_VIRUSL','B_SYMHUSTEN','B_SYMSCHNUPFEN',
                       'B_SYMHALSSCHMERZEN','B_SYMABGESCHLAGEN','B_SYMFIEBER','B_SYMDURCHFALL','B_SYMLUFTNOT',
                       'B_SYMGERUCH','B_SYMKOPFSCHMERZEN','B_SYMGLIEDERSCHMERZEN','B_KOMPLIKATIONEN','B_GRUNDERKRANKUNG',
-                      'B_SCHWANGERSCHAFT','B_STATIONAER','B_STATIONAER','B_BERUF','B_LEGITIMATIONSBESCHEINIGUNG');
+                      'B_SCHWANGERSCHAFT','B_STATIONAER','B_STATIONAER','B_BERUF','B_LEGITIMATIONSBESCHEINIGUNG',
+                      'B_SYMPNEUMONIE','B_SYMARDS','B_SYMBEATMERKRANKUNG','B_SYMDYSPNOE','B_SYMGERUCHD','B_SYMGESCHMACKD',
+                      'B_SYMTACHYKARDIE','B_SYMTACHYPNOE','B_SYMALLGEMEIN','B_RISHERZKREISLAUF','B_RISDIABETES','B_RISLEBER',
+                      'B_RISNEURO','B_RISIMMUN','B_RISNIERE','B_RISLUNGE','B_RISKREBS','B_RISSCHWANGER','B_RISPOSTPARTUM');
         foreach($keys as $key){
             if (!isset($values[$key])) $values[$key] = false;  
         }
@@ -830,7 +836,7 @@ class OData {
                 $date = new \DateTime($search["search"]);
                 $datestring = $date->format('Y-m-d H:i:s');
                 $datestring = str_replace(' ','T',$datestring);
-                echo $datestring.'<br >';
+                //echo $datestring.'<br >';
                 $gbfilter .= '%20or%20DT_BGEBURTSDATUM%20eq%20datetime%27'.$datestring.'%27';
             }
             //echo $gbfilter.'<br />t: '.$timestamp.'<br />';
@@ -968,6 +974,7 @@ class OData {
         /*$value = str_replace("00+0000)/","",$value);
         $value = str_replace("0+0000)/","",$value);*/
         $value = str_replace("+0000)/","",$value);        
+        $value = str_replace(")/","",$value);
         //$value = $value / 1000;
         //$value = (float)$value;
         $date = "";
@@ -976,11 +983,15 @@ class OData {
             $value = substr($value,0,10);
         }
         if ($value != 0) {
-            $dt = new \DateTime("@$value", $local);
-            if ($type == 'utc') $dt->setTimeZone($utc);
-            else $dt->setTimeZone($local);
-            //$dt->add(new \DateInterval('PT1H'));
-            $date = $dt->format($format);
+            try {
+                $dt = new \DateTime("@$value", $local);
+                if ($type == 'utc') $dt->setTimeZone($utc);
+                else $dt->setTimeZone($local);
+                //$dt->add(new \DateInterval('PT1H'));
+                $date = $dt->format($format);
+            } catch (Exception $e) {
+                echo "Datumsfehler: ".$e->getMessage()."\n";
+            }
         }
         return $date;
     }
@@ -1038,6 +1049,7 @@ class OData {
                             foreach ($value['results'] as $counter => $quar){
                                 $quar = $this->processSingle($quar);
                                 //var_dump($abstrich);
+                                if ($quar['###STR_OVERLASSEN###'] != '') $quar['###B_OVERLASSEN###'] = 'ja';
                                 $processed['quarantaenen'][] =  $quar;
                             }
                         }
@@ -1172,6 +1184,26 @@ class OData {
                         ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
                         ->sendsJson()
                         ->send();   
+            return $update;
+        }
+    }
+    
+    function abortQuarantaene($id, $date, $durch){
+        $values = false;
+        if (in_array('abortQs', $this->rights)){
+            $values = array();
+            $values['LID'] = $id;
+            $values['DT_ABGEBROCHENAM'] = $date;
+            $values['STR_ABGEBROCHENDURCH'] = $durch;
+            $values = $this->processSaveData($values);
+            //var_dump($values);
+            
+            $update = \Httpful\Request::put($this->serviceRoot.'/Quarantaenen('.$id.')')
+                        ->body(json_encode($values))
+                        ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                        ->sendsJson()
+                        ->send();   
+            return $update;
         }
     }
 }
