@@ -61,8 +61,7 @@ $(document).ready(function(){
                    if (saved){
                        reload_notes();
                        reload_abstriche();
-                       reload_bluttests();
-                       reload_quars();
+                       reload_bluttests();                       
                        var modal = $('#modalInfo');
                        //modal.find('.modal-title').text('Speichern');
                        modal.find('.modal-body').text('Die Daten wurden erfolgreich gespeichert');
@@ -93,9 +92,27 @@ $(document).ready(function(){
           
         if (hasDouble($(this))){
             return false;
-        }
-        
+        }        
     });
+    
+    $("#kontaktNeuNachname").autocomplete({
+        source: "src/functions/searchKontaktperson.php",
+        minLength: 2,
+        select: function( event, ui ) {
+            //console.log( ui.item.vorname );
+            $("#kontaktNeuLid").val(ui.item.lid);
+            $("#kontaktNeuVorname").val(ui.item.vorname);
+            $("#kontaktNeuGeburtsdatum").val(ui.item.geburtsdatum);
+            $("#kontaktNeuStrasse").val(ui.item.strasse);
+            $("#kontaktNeuHausnummer").val(ui.item.hausnummer);
+            $("#kontaktNeuPLZ").val(ui.item.plz);
+            $("#kontaktNeuOrt").val(ui.item.ort);
+            $("#kontaktNeuTelefon").val(ui.item.telefon);
+            $("#kontaktNeuEmail").val(ui.item.email);
+            $("#kontaktNeuFallNr").val(ui.item.mid);
+        }
+    });
+    $('#kontaktNeuNachname').attr('autocomplete','on');
     
     checkEB();
     checkEBMeldeadresse();
@@ -176,6 +193,9 @@ function reload_quars(){
             //leere Felder
             new_abstrich = new_abstrich.replace('###DT_VERARBEITETAM###',"");
             new_abstrich = new_abstrich.replace('###OV_INFOS###',"");
+            new_abstrich = new_abstrich.replace('###ADMMS###',"");
+            new_abstrich = new_abstrich.replace('###STR_ABGEBROCHENDURCH###',"");
+            new_abstrich = new_abstrich.replace('###DT_ABGEBROCHENAM###',"");
             
             new_abstrich = new_abstrich.replace('###counter###',"");
             new_abstrich = new_abstrich.replace('###counter###',"Vorschau (Fall neu laden für normale Ansicht)");
@@ -475,6 +495,15 @@ function askDeleteNote(id){
     modal.modal();
 }
 
+function askDeleteKontakt(id){
+    var modal = $('#modalDelete');
+    modal.find('.modal-title').text('Kontakt löschen');
+    modal.find('.modal-body').text('Möchten Sie den Kontakt wirklich löschen?');
+    modal.find('#itemToDelete').text(id);
+    modal.find('#typeToDelete').text('kontakt');
+    modal.modal();
+}
+
 function askDeleteFall(id){
     var modal = $('#modalDelete');
     modal.find('.modal-title').text('Fall löschen');
@@ -519,15 +548,6 @@ function deleteItem(){
     modal.modal('toggle');
 }
 
-function askCloseFall(id){
-    var modal = $('#modalClose');
-    modal.find('.modal-title').text('Fall schliessen');
-    modal.find('.modal-body').text('Möchten Sie den Fall wirklich abschließen?');
-    modal.find('#itemToClose').text(id);
-    modal.find('#typeToClose').text('close');
-    modal.modal();
-}
-
 function askAbortQuarantaene(id){
     var modal = $('#modalAbortQ');
     
@@ -550,7 +570,7 @@ function abortQ(){
         data: {id: id, date: date, durch: durch}, 
         success: function(aborted)
         {
-           if (deleted){
+           if (aborted){
                var modal = $('#modalInfo');
                modal.find('.modal-body').text('Die Quarantäne wurde abgebrochen');
                modal.modal();   
@@ -565,5 +585,73 @@ function abortQ(){
     
     var modal = $('#modalAbortQ');
     modal.find('#qToAbort').text(-1);    
+    modal.modal('toggle');
+}
+
+function showKontaktNeu(){
+    var modal = $('#modalKontaktNeu');
+    modal.modal();
+}
+
+function addKontaktperson(id, type){
+    //alert(id);
+    var kontaktId = $('#kontaktNeuLid').val();
+    //alert(kontaktId);
+    //wenn die kontaktperson noch nicht exisitert, anlegen und id zurück bekommen
+    //if (kontaktId < 0 || type == 'new'){
+        var url = "src/data/addKontaktperson.php";
+        $.ajax({
+            type: "POST",
+            url: url,            
+            data: {type: type,LID: kontaktId,STR_NACHNAME: $('#kontaktNeuNachname').val(), STR_VORNAME: $('#kontaktNeuVorname').val(), STR_STRASSE: $('#kontaktNeuStrasse').val(),STR_HAUSNUMMER: $('#kontaktNeuHausnummer').val(), STR_PLZ: $('#kontaktNeuPLZ').val(), STR_ORT: $('#kontaktNeuOrt').val(), STR_TELEFON: $('#kontaktNeuTelefon').val(), STR_EMAIL: $('#kontaktNeuEmail').val(), DT_GEBURTSDATUM: $('#kontaktNeuGeburtsdatum').val(), fallNr: $('#kontaktNeuFallNr').val()}, 
+            success: function(newId)
+            {
+                var data = JSON.parse(newId);
+                var kp = 0;
+                var f = 0;
+                if (data[0] == 'kp') {                    
+                    kp = data[1];
+                } else {
+                    f = data[1];
+                }
+                $('#kontaktNeuLid').val(kp);
+                var url = "src/functions/connectKontaktperson.php";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {meldung: id, kontaktperson: kp, fallnr: f}, 
+                    success: function(connected)
+                    {                        
+                        location.reload();
+                    }        
+                });
+            }        
+        });
+    /*} else {
+        var url = "src/functions/connectKontaktperson.php";
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {meldung: id, kontaktperson: kontaktId}, 
+            success: function(connected)
+            {
+                var current_index = $("#myTab").tabs("option","active");
+                $("#myTab").tabs('load',current_index);
+            }        
+        });
+    }*/
+    //Modal schliessen und leeren
+    var modal = $('#modalKontaktNeu');
+    modal.find('#kontaktNeuId').text(-1);
+    modal.find('#kontaktNeuNachname').text('');
+    modal.find('#kontaktNeuVorname').text('');
+    modal.find('#kontaktNeuGeburtsdatum').text('');
+    modal.find('#kontaktNeuStrasse').text('');
+    modal.find('#kontaktNeuHausnummer').text('');
+    modal.find('#kontaktNeuPLZ').text('');
+    modal.find('#kontaktNeuOrt').text('');
+    modal.find('#kontaktNeuTelefon').text('');
+    modal.find('#kontaktNeuEmail').text('');
+    modal.find('#kontaktNeuFallNr').text('');
     modal.modal('toggle');
 }

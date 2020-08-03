@@ -138,4 +138,120 @@
             ###REFS###
         </div>
     </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h5>weitere Kontakte</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4"><button class="btn btn-dark" type="button" onclick="showKontaktNeu()">Kontakt hinzufügen</button></div>
+                <div class="col">
+                    <div class="modal fade" id="modalKontaktNeu" tabindex="-1" role="dialog" aria-labelledby="modalKontaktNeuLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="modalKontaktNeuLabel">neuen Kontakt erfassen</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Schliessen">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                              <input type="hidden" id="kontaktNeuLid" value="-1" />
+                              <div class="row">
+                                  <div class="col-3">
+                                      Nachname: *
+                                  </div>
+                                  <div class="col">
+                                      <input type="text" class="form-control" id="kontaktNeuNachname" />
+                                  </div>
+                              </div>  
+                              <div class="row">
+                                  <div class="col-3">
+                                      Vorname:
+                                  </div>
+                                  <div class="col">
+                                      <input type="text" class="form-control" id="kontaktNeuVorname" />
+                                  </div>
+                              </div> 
+                              <div class="row">
+                                  <div class="col-3">
+                                      Geburtsdatum:
+                                  </div>
+                                  <div class="col">
+                                      <input type="text" class="form-control" id="kontaktNeuGeburtsdatum">  
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-3">
+                                      Strasse / Hausnummer:
+                                  </div>
+                                  <div class="col-6">
+                                      <input type="text" class="form-control" id="kontaktNeuStrasse" />
+                                  </div>
+                                  <div class="col-3">
+                                      <input type="text" class="form-control" id="kontaktNeuHausnummer" />
+                                  </div>
+                              </div> 
+                              <div class="row">
+                                  <div class="col-3">
+                                      PLZ / Ort:
+                                  </div>
+                                  <div class="col-3">
+                                      <input type="text" class="form-control" id="kontaktNeuPLZ" />
+                                  </div>
+                                  <div class="col-6">
+                                      <input type="text" class="form-control" id="kontaktNeuOrt" />
+                                  </div>
+                              </div> 
+                              <div class="row">
+                                  <div class="col-3">
+                                      Telefonnummer:
+                                  </div>
+                                  <div class="col">
+                                      <input type="text" class="form-control" id="kontaktNeuTelefon" />
+                                  </div>
+                              </div> 
+                              <div class="row">
+                                  <div class="col-3">
+                                      Email:
+                                  </div>
+                                  <div class="col">
+                                      <input type="text" class="form-control" id="kontaktNeuEmail" />
+                                  </div>
+                              </div>                               
+                              <div class="row">
+                                  <div class="col-3">
+                                      FallNr:
+                                  </div>
+                                  <div class="col">
+                                      <input type="text" class="form-control" id="kontaktNeuFallNr" readonly="readonly" />
+                                  </div>
+                              </div> 
+                          </div>
+                          <div class="modal-footer">
+                              <div class="row">
+                                  <div class="col">* Es wird in bereits erfassten Kontaktpersonen gesucht, bitte prüfen Sie ob die Kontaktperson bereits exisitert.</div>
+                              </div>
+                              <div class="row">
+                                  <div class="col">                                    
+                                      <button type="button" class="btn btn-warning" onclick="addKontaktperson(###LID###, '')">übernehmen</button>
+                                      <button type="button" class="btn btn-danger" onclick="addKontaktperson(###LID###, 'new')">neuen erstellen</button>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Schliessen</button>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div class="row" id="k_boxes">
+        ###KONTAKTE###
+    </div>
+    <hr />
 </div>

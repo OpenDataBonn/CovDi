@@ -268,6 +268,7 @@ class View {
             $actionstab_quarantaenen_add = '';
             $actionstab_tatverbote_add = '';            
             $actionstab_bluttests_add = '';
+            $contacttab_contact_add = '';
             $foot_add = '';
             if ($oData->isLocked($id)) $this->rights[] = 'locked';
 
@@ -289,6 +290,7 @@ class View {
                     $healthtab_add .= '_edit';
                     $foot_add .= '_edit';                    
                     $notestab_add .= '_edit';
+                    $contacttab_contact_add = '_edit';
                     break;
                 default:
                     break;                
@@ -296,6 +298,7 @@ class View {
             $head = file_get_contents("templates/single/head".$head_add.".html");
             $base_tab = file_get_contents("templates/single/tabs/basetab".$basetab_add.".html");
             $contact_tab = file_get_contents("templates/single/tabs/contacttab".$contacttab_add.".html");
+            $contact_tab_kontakte = file_get_contents("templates/blocks/contact".$contacttab_contact_add.".html");
             $health_tab = file_get_contents("templates/single/tabs/healthtab".$healthtab_add.".html");    
             $actions_tab = file_get_contents("templates/single/tabs/actionstab".$actionstab_add.".html");    
             $actions_tab_abstriche = file_get_contents("templates/blocks/abstrich".$actionstab_abstriche_add.".html");
@@ -320,7 +323,7 @@ class View {
             
             $template = $this->getSpecialParts($template, 'single_main');
 
-            $single = $oData->getSingle($id, $template, $actions_tab_abstriche, $actions_tab_quarantaenen, $actions_tab_tatverbote, $actions_tab_bluttests);
+            $single = $oData->getSingle($id, $template, $actions_tab_abstriche, $actions_tab_quarantaenen, $actions_tab_tatverbote, $actions_tab_bluttests, $contact_tab_kontakte);
 
             return $single;
         } else {
@@ -435,10 +438,9 @@ class View {
     //Einbinden der Javascripte nach Anzeigetyp
     function getScript(){
         $script = "";
-        
         switch ($this->type){
             case "single":   
-            case "add";
+            case "add":
                 if ($this->loggedIn){
                     switch($this->getMainRight()){
                         case 'doc':
@@ -456,8 +458,12 @@ class View {
             case "freigabeq":
                 $script.= "<script src=\"js/qfreigaben.js\"></script>";
                 break;
-             case "freigabet":
+            case "freigabet":
                 $script.= "<script src=\"js/tfreigaben.js\"></script>";
+                break;
+            case "all":
+            case "new":
+                $script.= "<script src=\"js/lists.js\"></script>";
                 break;
         }
 

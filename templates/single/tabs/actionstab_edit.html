@@ -347,17 +347,17 @@
     <div class="row">
         <div class="col-4">            
             <b>Quarantäne nachträglich erfassen</b><br />     
-            <input type="hidden" name="quarantaenen[new][FKLID]" value="###LID###" />
+            <input type="hidden" id="new_quar_fklid" value="###LID###" />
             <div class="row">
                 <div class="col-6">Mündl. angeordnet am:</div>
                 <div class="col">
-                    <input type="text" class="form-control datepicker" name="quarantaenen[new][DT_ANGEORDNETAM]" id="new_quar_am" />
+                    <input type="text" class="form-control datepicker" id="new_quar_am" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-6">Bis einschließlich:</div>
                 <div class="col">
-                    <input type="text" class="form-control datepicker" name="quarantaenen[new][DT_ANGEORDNETBIS]" id="new_quar_bis"/>
+                    <input type="text" class="form-control datepicker" id="new_quar_bis"/>
                 </div>
             </div>
         </div>
@@ -366,7 +366,7 @@
             <div class="row">                                
                 <div class="col-6">Quarantänetyp:</div>
                 <div class="col">
-                    <select class="form-control preval_select" name="quarantaenen[new][STR_TYP]" id="new_quar_typ">
+                    <select class="form-control preval_select" id="new_quar_typ">
                         <option value=""></option>
                         <option value="Neu (über Nacherfassung)">Neu (über Nacherfassung)</option>
                         <option value="Verlängerung (über Nacherfassung)">Verlängerung (über Nacherfassung)</option>        
@@ -377,7 +377,7 @@
             <div class="row">
                 <div class="col-6">Bemerkungen:</div>
                 <div class="col">
-                    <textarea class="form-control" name="quarantaenen[new][TXT_NOTIZEN]" rows="2" id="new_quar_notizen"></textarea>
+                    <textarea class="form-control" rows="2" id="new_quar_notizen"></textarea>
                 </div>
             </div>
         </div>
@@ -386,13 +386,13 @@
             <div class="row">
                 <div class="col-6">Veranlasst durch:</div>
                 <div class="col">
-                    <input type="text" class="form-control" id="new_quar_durch" name="quarantaenen[new][STR_VERANLASSTDURCH]"/>                    
+                    <input type="text" class="form-control" id="new_quar_durch" />                    
                 </div>                                
             </div>
             <div class="row">
                 Hinweis: Es muss auf jeden Fall "Bis einschließlich" und "Typ" erfasst werden, sonst wird ddie Quarantäne nicht gespeichert.
                 <div class="col-6"></div>
-                <div class="col"><button class="btn btn-secondary" type="submit">Speichern</button></div>
+                <div class="col"><button class="btn btn-secondary" type="button" onclick="addNewQuar()">Speichern</button></div>
             </div>
         </div>
     </div>

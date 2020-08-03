@@ -12,6 +12,7 @@ class OData {
     private $serviceRootDienste = '';
     
     private $rights = '';
+    private $user = '';
     
     function __construct() {
         //basics müssen als Global definiert werden
@@ -22,8 +23,10 @@ class OData {
         $this->serviceRootDienste = $basics['serviceRootDienste'];
         
         if (isset($_SESSION[$basics['session']]['user'])){
-            $this->rights = $_SESSION[$basics['session']]['user']['rechte'];            
-        }        
+            $this->rights = $_SESSION[$basics['session']]['user']['rechte'];          
+            $this->user = $_SESSION[$basics['session']]['user'];          
+        } 
+        //var_dump($this->user);
     }
     
     /*
@@ -324,9 +327,9 @@ class OData {
         return $template;
     }
     
-    function getSingle($id, $template, $atemplate, $qtemplate, $ttemplate, $bttemplate = ""){
+    function getSingle($id, $template, $atemplate, $qtemplate, $ttemplate, $bttemplate = "", $ktemplate = ""){
         
-        $url = $this->serviceRoot.'/Meldungen('.$id.')?$expand=Abstriche,Quarantaenen,Tatverbote,Notizen,Bluttests';
+        $url = $this->serviceRoot.'/Meldungen('.$id.')?$expand=Abstriche,Quarantaenen,Tatverbote,Notizen,Bluttests,Kontakte,Kontakte/Kontaktperson';
         $result = $this->fetchWithUri($url); 
         //var_dump($result);
         
@@ -336,6 +339,7 @@ class OData {
             $tvs = "";
             $ons = "";
             $bts = "";
+            $kts = "";
             $vars = $this->processSingle($result);
             $today =  new \DateTime();
             $vars['###ACT_DATUM###'] = $today->format('d.m.Y');
@@ -481,6 +485,26 @@ class OData {
                                 $deleteFallButton = false;
                             }
                             break;
+                        case 'kontakte':
+                            $i = 0;
+                            //var_dump($value);
+                            foreach ($value as $count => $kte){
+                                $kt = $ktemplate;
+                                $i = $i+1;
+                                $kt = str_replace("###counter###",$i, $kt);
+                                
+                                $kte['###ADMMS###'] = '';
+                                if (in_array('admMs',$this->rights)){
+                                    $kte['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteKontakt('.$kte['###LID###'].')">Löschen</button>';
+                                }
+                                
+                                foreach ($kte as $kkey => $kvalue){
+                                    $kt = str_replace($kkey, $kvalue, $kt);
+                                }
+                                if ($kt != "") $kts = $kts .$kt;
+                                $deleteFallButton = false;
+                            }
+                            break;
                     }
                 }
             }            
@@ -503,6 +527,7 @@ class OData {
             $template = str_replace('###TATVERBOTE###',$tvs,$template);
             $template = str_replace('###OLDNOTES###',$ons,$template);
             $template = str_replace('###BLUTTESTS###',$bts,$template);
+            $template = str_replace('###KONTAKTE###',$kts,$template);
             
             return $template;
         } else {
@@ -557,6 +582,9 @@ class OData {
                     case "bluttests":
                         $this->saveBluttests($val);
                         break;
+                    case "kontakte":
+                        $this->saveKontakte($val);
+                        break;
                 }
             }
         }
@@ -588,7 +616,7 @@ class OData {
     }
     
     function saveBluttests($tests){
-        var_dump($tests);
+        //var_dump($tests);
         if (isset($tests['new'])){
             $new = $tests['new'];
             $values = $this->processSaveData($new);
@@ -608,6 +636,18 @@ class OData {
             //var_dump($values);
             $update = \Httpful\Request::put($this->serviceRoot.'/Bluttests('.$data['LID'].')')
                 //->body('{"STR_TITEL_6A585D30":"wutt?","L_ZAHL":5}')
+                ->body(json_encode($values))
+                ->authenticateWith('dmzbonnde', 'seriu3094')
+                ->sendsJson()
+                ->send();    
+        }
+    }
+    
+    function saveKontakte($kons){
+        foreach ($kons as $id => $data){
+            $values = $this->processSaveData($data);
+            //var_dump($values);
+            $update = \Httpful\Request::put($this->serviceRoot.'/Kontakte('.$data['LID'].')')
                 ->body(json_encode($values))
                 ->authenticateWith('dmzbonnde', 'seriu3094')
                 ->sendsJson()
@@ -669,17 +709,16 @@ class OData {
     
     function saveQuarantaenen($qs){      
         if (isset($qs['new'])){
-            $new = $qs['new'];
+            /*$new = $qs['new'];
             $values = $this->processSaveData($new);
             if($values['DT_ANGEORDNETBIS'] != "" && $values['STR_TYP'] != ""){
-                //var_dump($values);
                 $insert = \Httpful\Request::post($this->serviceRoot.'/Quarantaenen')
                     //->body('{"STR_TITEL_6A585D30":"wutt?","L_ZAHL":5}')
                     ->body(json_encode($values))
                     ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
                     ->sendsJson()
                     ->send();   
-            }
+            }*/
             unset($qs['new']);
         }
         foreach ($qs as $id => $data){
@@ -1080,6 +1119,25 @@ class OData {
                             }
                         }
                         break;
+                    case "Kontakte":
+                        //var_dump($value);
+                        if (array_key_exists('results', $value) && count($value['results']) > 0){                        
+                            foreach ($value['results'] as $counter => $quar){
+                                //var_dump($quar['Kontaktperson']);
+                                if ($quar['L_FALLNR']){
+                                    $url = $this->serviceRoot.'/Meldungen('.$quar['L_FALLNR'].')';
+                                    $zusatz = $this->processSingle($this->fetchWithUri($url));
+                                } else if ($quar['Kontaktperson']) $zusatz = $this->processSingle($quar['Kontaktperson']);
+                                unset($zusatz['###LID###']);
+                                
+                                $quar = $this->processSingle($quar);      
+                                $quar['###FALL_LINK###'] = '';
+                                if ($quar['###L_FALLNR###']) $quar['###FALL_LINK###'] = '<a class="btn btn-info btn-sm" target="_blank" href="?type=single&id='.$quar["###L_FALLNR###"].'" >Zum Fall</a>';
+                                // TODO: Link für die generierung von neuem Fall ... else $quar['###FALL_LINK###'] = '';
+                                $processed['kontakte'][] =  array_merge($quar,$zusatz);
+                            }
+                        }
+                        break;
                 }                
             }
         }
@@ -1148,6 +1206,12 @@ class OData {
                         ->sendsJson()
                         ->send(); 
                     break;
+                case 'kontakt':
+                    $delete = \Httpful\Request::delete($this->serviceRoot.'/Kontakte('.$id.')')
+                        ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                        ->sendsJson()
+                        ->send(); 
+                    break;
                 case 'fall':
                     $delete = \Httpful\Request::delete($this->serviceRoot.'/Meldungen('.$id.')')
                         ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
@@ -1178,6 +1242,7 @@ class OData {
                 }
                 break;
         }
+        var_dump($type);
         if(is_array($values)){
             $update = \Httpful\Request::put($this->serviceRoot.'/Meldungen('.$id.')')
                         ->body(json_encode($values))
@@ -1205,6 +1270,132 @@ class OData {
                         ->send();   
             return $update;
         }
+    }
+    
+    function searchKontaktperson($term){
+        $searchString = "?";
+        $filter = '$filter=';
+        if ($term != '') {
+            $umlaute = array("/ä/","/ö/","/ü/","/Ä/","/Ö/","/Ü/","/-/","/ß/");
+            $replace = array("&auml;","&ouml;","&uuml;","&Auml;","&Ouml;","&Uuml;","&minus;","&szlig;");
+            $s = $term;
+            $s2 = preg_replace($umlaute, $replace, $s);  
+            $s2 = urlencode($s2);
+            $s2 = str_replace(' ','%20',$s2);
+            $s2 = str_replace('-','%2D',$s2);
+            $term = urlencode($term);
+            $term = str_replace(' ','%20',$term);
+            $term = str_replace('-','%2D',$term);
+            $filter .= '(';
+            $filter .= '(substringof(%27'.$term.'%27,STR_BNACHNAME))';
+            $filter .= '%20or%20(substringof(%27'.$s2.'%27,STR_BNACHNAME))';
+            $filter .= ')';            
+            //echo $filter;
+        }
+        
+        if ($filter != '$filter=') {
+            if ($searchString != "?") $searchString .= "&";
+            $searchString .= $filter;
+        }
+        if ($searchString != "?") $searchString .= "&";
+        $searchString .= '$orderby=STR_BNACHNAME';
+        
+        $url = $this->serviceRoot.'/Kontaktpersonen'.$searchString;
+        $response = $this->fetchWithUri($url);  
+        $result = array();
+        foreach ($response->results as $person){
+            $item = array();
+            $item['lid'] = $person->LID;
+            $item['value'] = $person->STR_BNACHNAME;
+            $item['label'] = $person->STR_BNACHNAME.', '.$person->STR_BVORNAME.' ('.$this->formatDate($person->DT_BGEBURTSDATUM).')';
+            $item['vorname'] = $person->STR_BVORNAME;
+            $item['strasse'] = $person->STR_BSTRASSE;
+            $item['hausnummer'] = $person->STR_BHAUSNUMMER;
+            $item['plz'] = $person->STR_BPLZ;
+            $item['ort'] = $person->STR_BORT;
+            $item['telefon'] = $person->STR_BTELEFON;
+            $item['email'] = $person->STR_BEMAIL;
+            $item['geburtsdatum'] = $this->formatDate($person->DT_BGEBURTSDATUM);
+            $item['mid'] = $person->REF_B860BC9E;
+            $result[] = $item;
+        }
+        $murl = $this->serviceRoot.'/Meldungen'.$searchString;
+        $mresponse = $this->fetchWithUri($murl);
+        //var_dump($mresponse);
+        foreach ($mresponse->results as $meldung){
+            $item = array();
+            $item['lid'] = null;
+            $item['value'] = $meldung->STR_BNACHNAME;
+            $item['label'] = $meldung->STR_BNACHNAME.', '.$meldung->STR_BVORNAME.' ('.$this->formatDate($meldung->DT_BGEBURTSDATUM).') Fall: '.$meldung->LID;
+            $item['vorname'] = $meldung->STR_BVORNAME;
+            $item['strasse'] = $meldung->STR_BSTRASSE;
+            $item['hausnummer'] = $meldung->STR_BHAUSNUMMER;
+            $item['plz'] = $meldung->STR_BPLZ;
+            $item['ort'] = $meldung->STR_BORT;
+            $item['telefon'] = $meldung->STR_BTELEFON;
+            $item['email'] = $meldung->STR_BEMAIL;
+            $item['geburtsdatum'] = $this->formatDate($meldung->DT_BGEBURTSDATUM);
+            $item['mid'] = $meldung->LID;
+            $result[] = $item;
+        }
+        
+        return $result;
+    }
+    
+    function addKontaktperson($data){
+        //var_dump($data);
+        $values = array();
+        $type = $data['type'];
+        unset($data['type']);
+        $fallNr = $data['fallNr'];
+        unset($data['fallNr']);
+        $values = $this->processSaveData($data); 
+        if ($data['LID'] > 0 && $type == '') {
+            $update = \Httpful\Request::put($this->serviceRoot.'/Kontaktpersonen('.$data['LID'].')')
+                ->body(json_encode($values))
+                ->authenticateWith('dmzbonnde', 'seriu3094')
+                ->sendsJson()
+                ->send();  
+            return array('kp',$data['LID']);
+        } elseif ($fallNr > 0) {
+            return array('f', $fallNr);
+        } else {
+            unset($data['LID']);            
+            $update = \Httpful\Request::post($this->serviceRoot.'/Kontaktpersonen')
+                ->body(json_encode($values))
+                ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                ->sendsJson()
+                ->send();   
+            return $update;
+        }
+    }
+    
+    function connectKontaktperson($data){
+        $values = array();
+        if ($data['kontaktperson']) $values['REF_6755A00B'] = $data['kontaktperson'];
+        $values['FKLID'] = $data['meldung'];
+        if ($data['fallnr']) $values['L_FALLNR'] = $data['fallnr'];
+        //var_dump($values);
+        $update = \Httpful\Request::post($this->serviceRoot.'/Kontakte')
+            ->body(json_encode($values))
+            ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+            ->sendsJson()
+            ->send();    
+        return $update;
+    }
+    
+    function addNewQ($data){
+        $values = array();
+        $values = $this->processSaveData($data); 
+        if ($values['STR_VERANLASSTDURCH'] == '') $values['STR_VERANLASSTDURCH'] = $this->user['nachname'].', '.$this->user['vorname'];
+        //var_dump($data);
+        
+        $update = \Httpful\Request::post($this->serviceRoot.'/Quarantaenen')
+            ->body(json_encode($values))
+            ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+            ->sendsJson()
+            ->send();   
+        return $update;
     }
 }
 

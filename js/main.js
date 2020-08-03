@@ -3,6 +3,14 @@ $(document).ready(function(){
         //console.log($(this).data('preval'));
         $(this).val($.trim($(this).data('preval'))); 
     });
+    
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
 });
 
 $('.table > tbody > tr > td.clickable').click(function() {
@@ -90,14 +98,23 @@ function askOpenFall(id){
     var modal = $('#modalClose');
     modal.find('.modal-title').text('Fall öffnen');
     modal.find('.modal-body').text('Möchten Sie den Fall wirklich wieder öffnen? Bitte prüfen Sie, dass sie damit keinen Doppelten Fall für die gleiche Person öffnen!');
-    modal.find('#itemTo').text(id);
-    modal.find('#typeTo').text('open');
+    modal.find('#itemToClose').text(id);
+    modal.find('#typeToClose').text('open');
+    modal.modal();
+}
+
+function askCloseFall(id){
+    var modal = $('#modalClose');
+    modal.find('.modal-title').text('Fall schliessen');
+    modal.find('.modal-body').text('Möchten Sie den Fall wirklich abschließen?');
+    modal.find('#itemToClose').text(id);
+    modal.find('#typeToClose').text('close');
     modal.modal();
 }
 
 function openCloseItem(){
-    var id = $('#itemTo').text();
-    var type = $('#typeTo').text();
+    var id = $('#itemToClose').text();
+    var type = $('#typeToClose').text();
     //alert(id);
     var url = "src/data/openclose.php";
     $.ajax({

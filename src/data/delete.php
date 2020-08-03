@@ -8,7 +8,7 @@ include "../../includes.php";
 $oData = new \base\OData;        
 
 $response = $oData->delete($_POST['type'],$_POST['id']);
-//var_dump($response);
+var_dump($response);
 if ($response){
     echo true;
 } else {
