@@ -524,20 +524,20 @@ function deleteItem(){
         data: {type: type,id: id}, 
         success: function(deleted)
         {
-           if (deleted){
-               var modal = $('#modalInfo');
-               modal.find('.modal-body').text('Der Eintrag wurde gelöscht');
-               modal.modal();               
-           } else {
-               var modal = $('#modalError');
-               modal.find('.modal-body').text('Fehler beim Löschen des Eintrags!');
-               modal.modal();
-           }
-            if (type == 'fall'){
+           if (type == 'fall'){
                 window.location.href = "?type=all";
-            } else {
-                $('#'+type+id+'_box').hide();
-            }
+           } else {
+               if (deleted){
+                   var modal = $('#modalInfo');
+                   modal.find('.modal-body').text('Der Eintrag wurde gelöscht');
+                   modal.modal();               
+               } else {
+                   var modal = $('#modalError');
+                   modal.find('.modal-body').text('Fehler beim Löschen des Eintrags!');
+                   modal.modal();
+               }
+               $('#'+type+id+'_box').hide();
+           }
             
         }        
     });
@@ -594,52 +594,36 @@ function showKontaktNeu(){
 }
 
 function addKontaktperson(id, type){
-    //alert(id);
     var kontaktId = $('#kontaktNeuLid').val();
-    //alert(kontaktId);
-    //wenn die kontaktperson noch nicht exisitert, anlegen und id zurück bekommen
-    //if (kontaktId < 0 || type == 'new'){
-        var url = "src/data/addKontaktperson.php";
-        $.ajax({
-            type: "POST",
-            url: url,            
-            data: {type: type,LID: kontaktId,STR_NACHNAME: $('#kontaktNeuNachname').val(), STR_VORNAME: $('#kontaktNeuVorname').val(), STR_STRASSE: $('#kontaktNeuStrasse').val(),STR_HAUSNUMMER: $('#kontaktNeuHausnummer').val(), STR_PLZ: $('#kontaktNeuPLZ').val(), STR_ORT: $('#kontaktNeuOrt').val(), STR_TELEFON: $('#kontaktNeuTelefon').val(), STR_EMAIL: $('#kontaktNeuEmail').val(), DT_GEBURTSDATUM: $('#kontaktNeuGeburtsdatum').val(), fallNr: $('#kontaktNeuFallNr').val()}, 
-            success: function(newId)
-            {
-                var data = JSON.parse(newId);
-                var kp = 0;
-                var f = 0;
-                if (data[0] == 'kp') {                    
-                    kp = data[1];
-                } else {
-                    f = data[1];
-                }
-                $('#kontaktNeuLid').val(kp);
-                var url = "src/functions/connectKontaktperson.php";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {meldung: id, kontaktperson: kp, fallnr: f}, 
-                    success: function(connected)
-                    {                        
-                        location.reload();
-                    }        
-                });
-            }        
-        });
-    /*} else {
-        var url = "src/functions/connectKontaktperson.php";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {meldung: id, kontaktperson: kontaktId}, 
-            success: function(connected)
-            {
-                var current_index = $("#myTab").tabs("option","active");
-                $("#myTab").tabs('load',current_index);
-            }        
-        });
-    }*/
+    var url = "src/data/addKontaktperson.php";
+    $.ajax({
+        type: "POST",
+        url: url,            
+        data: {type: type,LID: kontaktId,STR_NACHNAME: $('#kontaktNeuNachname').val(), STR_VORNAME: $('#kontaktNeuVorname').val(), STR_STRASSE: $('#kontaktNeuStrasse').val(),STR_HAUSNUMMER: $('#kontaktNeuHausnummer').val(), STR_PLZ: $('#kontaktNeuPLZ').val(), STR_ORT: $('#kontaktNeuOrt').val(), STR_TELEFON: $('#kontaktNeuTelefon').val(), STR_EMAIL: $('#kontaktNeuEmail').val(), DT_GEBURTSDATUM: $('#kontaktNeuGeburtsdatum').val(), fallNr: $('#kontaktNeuFallNr').val()}, 
+        success: function(newId)
+        {
+            var data = JSON.parse(newId);
+            var kp = 0;
+            var f = 0;
+            if (data[0] == 'kp') {                    
+                kp = data[1];
+            } else {
+                f = data[1];
+            }
+            $('#kontaktNeuLid').val(kp);
+            var url = "src/functions/connectKontaktperson.php";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {meldung: id, kontaktperson: kp, fallnr: f}, 
+                success: function(connected)
+                {                        
+                    location.reload();
+                }        
+            });
+        }        
+    });
+    
     //Modal schliessen und leeren
     var modal = $('#modalKontaktNeu');
     modal.find('#kontaktNeuId').text(-1);
@@ -654,4 +638,27 @@ function addKontaktperson(id, type){
     modal.find('#kontaktNeuEmail').text('');
     modal.find('#kontaktNeuFallNr').text('');
     modal.modal('toggle');
+}
+
+function createNewFall(kontakt){
+    var url = "src/data/addFromKontakt.php";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {kontakt: kontakt}, 
+        success: function(created)
+        {
+           if (created){
+               var activeTab = localStorage.getItem('activeTab');
+               if(activeTab){
+                    localStorage.removeItem('activeTab');
+               }
+               window.location.href = "?type=single&id="+created;
+           } else {
+               var modal = $('#modalError');
+               modal.find('.modal-body').text('Fehler beim Erstellen des Eintrags!');
+               modal.modal();
+           }
+        }        
+    });
 }

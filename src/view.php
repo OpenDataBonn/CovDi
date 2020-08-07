@@ -48,17 +48,21 @@ class View {
     
     //Basisfunktion der Klasse
     function getMain(){
-        $main = "";
+        $main = "";        
         //Überprüfung der Basis-Rechte der eingeloggten Person
         //read => Nur lesender Zugriff von Fällen
         //edit => Bearbeitung von Grunddaten der Fälle
         //doc => Anweisung von Maßnahmen in Fällen erlaubt
         //erweiterte Rechte wie das Freigeben von Quarantänen oder die Anzeige von Auswertungen werden über zusätzliche 
-        //Berechtigungen vergeben
+        //Berechtigungen vergeben   
         
         switch($this->getMainRight()){
             case 'doc':                        
             case 'edit':
+                    //Datensätze sperren: Sperren aufheben, wenn eine Tätigkeit stattgefunden hat.
+                    //sollte eine Meldung aufgerufen werden, wird diese sofort wieder gesetzt
+                    $oData = new\base\OData;
+                    $oData->removeSperre();
                     if (($this->type == "add")) $main = $this->getAdd();
             case 'read':
                     switch ($this->type){
@@ -270,8 +274,11 @@ class View {
             $actionstab_bluttests_add = '';
             $contacttab_contact_add = '';
             $foot_add = '';
-            if ($oData->isLocked($id)) $this->rights[] = 'locked';
-
+            if ($oData->checkSperre($id, $this->user['uid']) || $oData->isLocked($id)){
+                $this->rights[] = 'locked';
+                $oData->rights = $this->rights;
+            }
+            
             //Rechteabhängige Anzeige von Bearbeitungsoberflächen
             //Der Aufbau der Template bezeichnungen:
             //Read-Only: Templatename
@@ -348,7 +355,7 @@ class View {
                 break;
             case 'single_quar':
                 //Bearbeitung der Notizen zur OV-Benachrichtigung
-                if (/*$this->getMainRight() != 'read' && */in_array('ovEdit', $this->rights)){
+                if (/*$this->getMainRight() != 'read' && */in_array('ovEdit', $this->rights) && !in_array('locked',$this->rights)){
                     $ovEdit = file_get_contents("templates/blocks/quarantaene_ov_edit.html");
                 } else {
                     $ovEdit = file_get_contents("templates/blocks/quarantaene_ov.html");

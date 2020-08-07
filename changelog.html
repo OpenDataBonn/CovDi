@@ -19,6 +19,18 @@
         </div>
         <div class="row main_row">
             <div class="col main_column">
+                <h3>1.2.7</h3>
+                <b>Oberfläche</b><br />
+                <ul>
+                    <li>Read-Only Anzeige von Datensätzen, die zur Bearbeitung gesperrt sind. Der Nutzer, durch den die Sperre ausgelöst wurde, wird in einem Hinweis angezeigt.</li>
+                </ul>
+                <b>Funktionalität</b><br />
+                <ul>
+                    <li>Fälle werden durch Nutzer mit den Berechtigungen "Bearbeiter" oder "Arzt" gesperrt, sobald sie geöffnet werden.</li>
+                    <li>Die Sperre des Datensatzes wird aufgehoben,sobald eine andere Oberfläche wie ein anderer Fall oder die Listenansicht durch den sperrenden Nutzer aufgerufen wird.</li>
+                    <li>Die Sperre des Datensatzes wird bei Untätigkeit (Speichern des Datensatzes erneuert den Timer) ebenfalls automatisch nach einem Ablauf von zwei Stunden aufgehoben.</li>
+                    <li>Aus Kontakten innerhalb eines Falls können nun neue Fälle erstellt werden. Hierbei werden die Daten der Kontaktperson/des Falls übernommen. Im Fall der Verknüpfung eines alten Falles kann nur dann ein neuer Fall erstellt werden, wenn der alte Fall abgeschlossen ist.</li>
+                </ul>
                 <h3>1.2.6</h3>
                 <b>Oberfläche</b><br />
                 <ul>
@@ -32,7 +44,6 @@
                 </ul>
                 <b>Fehlende Funktionalität (wird später nachgereicht):</b><br />
                 <ul>
-                    <li>Generierung neuer Fälle aus Kontaktpersonen.</li>
                     <li>Bearbeitung von Kontaktpersonen.</li>
                 </ul>
                 <h3>1.2.5</h3>

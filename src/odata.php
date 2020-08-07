@@ -11,7 +11,7 @@ class OData {
     private $serviceRoot = '';
     private $serviceRootDienste = '';
     
-    private $rights = '';
+    public $rights = '';
     private $user = '';
     
     function __construct() {
@@ -192,12 +192,16 @@ class OData {
     }
     
     function isLocked($id){
-        $url = $this->serviceRoot.'/Meldungen('.$id.')';
-        $result = $this->fetchWithUri($url);
-        
-        if ($result->B_ABGESCHLOSSEN == true) return true;
-        else return false;
-        //    var_dump($result->B_ABGESCHLOSSEN);
+        if ($id > 0){
+            $url = $this->serviceRoot.'/Meldungen('.$id.')';
+            $result = $this->fetchWithUri($url);
+            //var_dump($result->LID);
+
+            if ($result->B_ABGESCHLOSSEN == true) return true;
+            else return false;
+        }
+        return false;
+        //var_dump($result->B_ABGESCHLOSSEN);
     }
     
     function checkDouble($data){
@@ -212,17 +216,18 @@ class OData {
     }
     
     function checkPin($pin){
-        $url = $this->serviceRoot.'/Nutzer?$filter=STR_PIN%20eq%20'.$pin;
+        //$url = $this->serviceRoot.'/Nutzer?$filter=STR_PIN%20eq%20'.$pin;
+        $url = $this->serviceRootDienste."/login?pin='".$pin."'";
         $result = $this->fetchWithUri($url);
         
-        if (count($result->results) >0){
-            $rights = explode('||',$result->results[0]->TXT_RECHTE);
+        //var_dump($result);
+        if ($result){
+            $rights = explode('||',$result->TXT_RECHTE);
             $login = array(
-                'uid'       => $result->results[0]->LID,
-                'vorname'   => $result->results[0]->STR_VORNAME,
-                'nachname'  => $result->results[0]->STR_NACHNAME,
-                'rechte'    => $rights,
-                'rechte_alt' => $result->results[0]->STR_ZUGRIFFSART
+                'uid'       => $result->LID,
+                'vorname'   => $result->STR_VORNAME,
+                'nachname'  => $result->STR_NACHNAME,
+                'rechte'    => $rights
             );            
             return $login;
         } else {
@@ -328,10 +333,9 @@ class OData {
     }
     
     function getSingle($id, $template, $atemplate, $qtemplate, $ttemplate, $bttemplate = "", $ktemplate = ""){
-        
-        $url = $this->serviceRoot.'/Meldungen('.$id.')?$expand=Abstriche,Quarantaenen,Tatverbote,Notizen,Bluttests,Kontakte,Kontakte/Kontaktperson';
+        $url = $this->serviceRoot.'/Meldungen('.$id.')?$expand=Abstriche,Quarantaenen,Tatverbote,Notizen,Bluttests,Kontakte,Kontakte/Kontaktperson,Sperre,Sperre/Nutzer';
         $result = $this->fetchWithUri($url); 
-        //var_dump($result);
+        //var_dump($this->rights);
         
         if ($result){   
             $abs = "";
@@ -385,7 +389,7 @@ class OData {
                                 elseif ($abstrich["###STR_TYP###"] == "spezial1") $abstrich["###STR_TYP_TEXT###"] = "Spezialabstrich (Zwei zeitgleich abgenommene tiefe Rachenabstriche mit getrennten Tupfern)";
                                 else $abstrich["###STR_TYP_TEXT###"] = $abstrich["###STR_TYP###"];
                                 
-                                if (in_array('admMs',$this->rights)){
+                                if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
                                     $abstrich['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteAbstrich('.$abstrich['###LID###'].')">Löschen</button>';
                                 }
                                 
@@ -407,10 +411,10 @@ class OData {
                                 if ($quar["###L_QAUSLFALL###"] != 'null' && $quar["###L_QAUSLFALL###"] != '') $quar["###L_QAUSLFALL_link###"] = '<a class="btn btn-info btn-sm" target="_blank" href="?type=single&id='.$quar["###L_QAUSLFALL###"].'" role="button" >zum Fall</a>';
                                 else $quar["###L_QAUSLFALL_link###"] = '';
                                 
-                                if (in_array('admMs',$this->rights)){
+                                if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
                                     $quar['###ADMMS###'] .= '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteQuarantaene('.$quar['###LID###'].')">Löschen</button>';
                                 }
-                                if (in_array('abortQs', $this->rights)){
+                                if (in_array('abortQs', $this->rights) && !in_array('locked',$this->rights)){
                                     $quar['###ADMMS###'] .= '&nbsp;<button class="btn btn-outline-info btn-sm" type="button" onclick="askAbortQuarantaene('.$quar['###LID###'].')">Abbrechen</button>';
                                 }
                                 
@@ -431,7 +435,7 @@ class OData {
                                 $tv = str_replace("###counter###", $i, $tv);
                                 
                                 $tatv['###ADMMS###'] = ''; 
-                                if (in_array('admMs',$this->rights)){
+                                if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
                                     $tatv['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteTatverbot('.$tatv['###LID###'].')">Löschen</button>';
                                 }
                                 
@@ -452,7 +456,7 @@ class OData {
                                     $no = str_replace("###counter###", $i, $no);
                                     
                                     $note['###ADMMS###'] = ''; 
-                                    if (in_array('admMs',$this->rights)){
+                                    if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
                                         $note['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteNote('.$note['###LID###'].')">Löschen</button>';
                                     }
                                     
@@ -473,7 +477,7 @@ class OData {
                                 $bt = str_replace("###counter###", $i, $bt);
                                 
                                 $bte['###ADMMS###'] = ''; 
-                                if (in_array('admMs',$this->rights)){
+                                if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
                                     $bte['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteBluttest('.$bte['###LID###'].')">Löschen</button>';
                                 }
                                                                 
@@ -494,10 +498,13 @@ class OData {
                                 $kt = str_replace("###counter###",$i, $kt);
                                 
                                 $kte['###ADMMS###'] = '';
-                                if (in_array('admMs',$this->rights)){
-                                    $kte['###ADMMS###'] = '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteKontakt('.$kte['###LID###'].')">Löschen</button>';
+                                if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
+                                    $kte['###ADMMS###'] .= '<button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteKontakt('.$kte['###LID###'].')">Löschen</button>';
                                 }
-                                
+                                if ($this->isLocked($kte['###L_FALLNR###']) OR ($this->isLocked($kte['###L_FALLNR###'] == '' && $kte['###REF_6755A00B###'] != ''))){
+                                    $kte['###ADMMS###'] .= '&nbsp;<button class="btn btn-outline-info btn-sm" type="button" onclick="createNewFall('.$kte['###LID###'].')">neuer Fall</button>';
+                                }
+                                                                
                                 foreach ($kte as $kkey => $kvalue){
                                     $kt = str_replace($kkey, $kvalue, $kt);
                                 }
@@ -508,14 +515,14 @@ class OData {
                     }
                 }
             }            
-            if (in_array('openMs',$this->rights) && $vars['###B_ABGESCHLOSSEN###'] == 'ja'){
+            if (in_array('openMs',$this->rights) && $vars['###B_ABGESCHLOSSEN###'] == 'ja' && !$this->checkSperre($id, $this->user['uid'])){
                 $admms .= '<div class="col-2"><button class="btn btn-info" type="button" onclick="askOpenFall('.$vars['###LID###'].')">Fall Öffnen</button></div>';
             }
-            if (in_array('closeMs',$this->rights) && $vars['###B_ABGESCHLOSSEN###'] != 'ja'){
+            if (in_array('closeMs',$this->rights) && $vars['###B_ABGESCHLOSSEN###'] != 'ja' && !$this->checkSperre($id, $this->user['uid'])){
                 $admms .= '<div class="col-2"><button class="btn btn-info" type="button" onclick="askCloseFall('.$vars['###LID###'].')">Fall Abschliessen</button></div>';
             }
             if ($deleteFallButton){
-                if (in_array('admMs',$this->rights)){
+                if (in_array('admMs',$this->rights) && !in_array('locked',$this->rights)){
                    $admms .= '<div class="col-1"><button class="btn btn-outline-danger btn-sm" type="button" onclick="askDeleteFall('.$vars['###LID###'].')">Löschen</button></div>';
                 }
             }
@@ -820,7 +827,41 @@ class OData {
         return $update;
     }
     
+    function addSingleFromKontakt($data){
+        $url = $this->serviceRoot.'/Kontakte('.$data['kontakt'].')?$expand=Kontaktperson';
+        $kontakt = $this->fetchWithUri($url);        
+        $alterFall = false;
+        $kontaktperson = false;
+        $neuerFall = array();
+        $neuerFall['B_ABGESCHLOSSEN'] = false;
+        $fields = array('STR_BNACHNAME','STR_BVORNAME','DT_BGEBURTSDATUM','STR_BSTRASSE','STR_BHAUSNUMMER','STR_BPLZ','STR_BORT','STR_BTELEFON','STR_BEMAIL');
+        if ($kontakt->L_FALLNR){
+            $alterFall = $this->fetchwithUri($this->serviceRoot.'/Meldungen('.$kontakt->L_FALLNR.')');
+            $alterFall = json_decode(json_encode($alterFall),true);
+            foreach ($fields as $field){
+                $neuerFall[$field] = $alterFall[$field];
+            }
+        } elseif ($kontakt->Kontaktperson){
+            $kontaktperson = json_decode(json_encode($kontakt->Kontaktperson), true);
+            foreach ($fields as $field){
+                $neuerFall[$field] = $kontaktperson[$field];
+            }
+            //var_dump($kontakt->Kontaktperson);
+        }
+        //var_dump($neuerFall);
+        if ($neuerFall || $kontaktperson){
+            $update = \Httpful\Request::post($this->serviceRoot.'/Meldungen')
+                ->body(json_encode($neuerFall))
+                ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                ->sendsJson()
+                ->send();   
+            return $update;
+        }
+        return false;
+    }
+    
     function saveSingle($data){
+        $this->setSperre($data['LID']);
         $values = array();
         $values = $this->processSaveData($data);        
         $values = $this->setSingleBooleans($values);
@@ -1138,6 +1179,18 @@ class OData {
                             }
                         }
                         break;
+                    case "Sperre":
+                        if (array_key_exists('results', $value) && count($value['results']) > 0){
+                            $sperre = $value['results'][0];
+                            //var_dump($sperre['Nutzer']);
+                            if ($sperre['Nutzer']['LID'] == $this->user['uid']) $processed['###SPERRE_INFO###'] = '';
+                            else {
+                                $processed['###SPERRE_INFO###'] = file_get_contents('templates/blocks/sperre_info.html');
+                                $processed['###SPERRE_INFO###'] = str_replace('###STR_NACHNAME###',$sperre['Nutzer']['STR_NACHNAME'],$processed['###SPERRE_INFO###']);
+                                $processed['###SPERRE_INFO###'] = str_replace('###STR_VORNAME###',$sperre['Nutzer']['STR_VORNAME'],$processed['###SPERRE_INFO###']);
+                            }
+                        }
+                        break;
                 }                
             }
         }
@@ -1173,7 +1226,7 @@ class OData {
     }
     
     function delete($type, $id){
-        $delete = false;
+        $delete = false;        
         if (in_array('admMs',$this->rights)){
             switch($type){
                 case 'abstrich':                
@@ -1213,6 +1266,7 @@ class OData {
                         ->send(); 
                     break;
                 case 'fall':
+                    $this->removeSperre();
                     $delete = \Httpful\Request::delete($this->serviceRoot.'/Meldungen('.$id.')')
                         ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
                         ->sendsJson()
@@ -1242,7 +1296,7 @@ class OData {
                 }
                 break;
         }
-        var_dump($type);
+        //var_dump($type);
         if(is_array($values)){
             $update = \Httpful\Request::put($this->serviceRoot.'/Meldungen('.$id.')')
                         ->body(json_encode($values))
@@ -1396,6 +1450,47 @@ class OData {
             ->sendsJson()
             ->send();   
         return $update;
+    }
+    
+    function setSperre($meldung){        
+        $this->removeSperre();
+        $values = array('FKLID'=>$this->user['uid'],'REF_9BDBF206'=>$meldung);
+        //var_dump($values);
+        $update = \Httpful\Request::post($this->serviceRoot.'/Sperre')
+            ->body(json_encode($values))
+            ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+            ->sendsJson()
+            ->send();    
+        return $update;
+    }
+    
+    function checkSperre($meldung){        
+        $filter = '?$expand=Sperre/Meldung&$filter=(REF_9BDBF206%20eq%20'.$meldung.')';   
+        //echo($filter);
+        $url = $this->serviceRoot.'/Sperre'.$filter;
+        $response = $this->fetchWithUri($url);
+        
+        foreach($response->results as $sperre){
+            if ($sperre->FKLID != $this->user['uid']) {
+                return true;            
+            }
+        }
+        
+        $this->setSperre($meldung);
+        return false;
+    }
+    
+    function removeSperre(){
+        $filter = '?$filter=(FKLID%20eq%20'.$this->user['uid'].')';   
+        $url = $this->serviceRoot.'/Sperre'.$filter;
+        $response = $this->fetchWithUri($url);
+        
+        foreach($response->results as $sperre){
+            $delete = \Httpful\Request::delete($this->serviceRoot.'/Sperre('.$sperre->LID.')')
+                ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                ->sendsJson()
+                ->send();   
+        }
     }
 }
 
