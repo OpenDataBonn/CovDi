@@ -1322,6 +1322,12 @@ class OData {
                         ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
                         ->sendsJson()
                         ->send();   
+            
+            if (!$update->hasErrors()){
+                $url = $this->serviceRootDienste."/sendMail?type='abortQ'&id='".$id."'";
+                $result = $this->fetchWithUri($url);
+            }
+            
             return $update;
         }
     }
@@ -1491,6 +1497,100 @@ class OData {
                 ->sendsJson()
                 ->send();   
         }
+    }
+    
+    function getSvNetO($template){
+        $filter = '?$filter=(B_SURVNETEINGABE%20eq%20null)&$orderby=DTINSERT%20desc&$top=200';
+        //echo $filter;
+        $url = $this->serviceRoot.'/Meldungen'.$filter;
+        $rows = '';
+        
+        $response = $this->fetchWithUri($url);
+        foreach ($response->results as $meldung){
+            $row = $template;
+            $row = str_replace('###LID###',$meldung->LID,$row);
+            $row = str_replace('###STR_STATUSFALLTYP###',$meldung->STR_STATUSFALLTYP,$row);
+            $row = str_replace('###STR_BNACHNAME###',$meldung->STR_BNACHNAME,$row);
+            $row = str_replace('###STR_BVORNAME###',$meldung->STR_BVORNAME,$row);
+            
+            $rows .= $row;
+        }
+        return $rows;
+    }
+    
+    function getUserList($template){
+        $filter = '?$orderby=STR_NACHNAME';
+        //echo $filter;
+        $url = $this->serviceRoot.'/Nutzer'.$filter;
+        $rows = '';
+        
+        $response = $this->fetchWithUri($url);
+        foreach ($response->results as $nutzer){
+            $row = $template;
+            $row = str_replace('###STR_NACHNAME###',$nutzer->STR_NACHNAME,$row);
+            $row = str_replace('###STR_VORNAME###',$nutzer->STR_VORNAME,$row);
+            $row = str_replace('###STR_EMAIL###',$nutzer->STR_EMAIL,$row);
+            
+            $row = str_replace('###BASIS###',$this->translateMainRights($nutzer->TXT_RECHTE),$row);
+            $row = str_replace('###ZUSATZ###',$this->translateExtraRights($nutzer->TXT_RECHTE),$row);
+            
+            $rows .= $row;
+        }
+        return $rows;
+    }
+    
+    //Basisrechte ermitteln
+    function translateMainRights($rights){
+        $rights = explode('||',$rights);
+        //var_dump($rights);
+        if (is_array($rights)){
+            //wenn der Fall abgeschlossen ist, wird immer nur lese-Rechte zurück gegeben
+            if (in_array('locked', $rights)) return 'Nur Lesen';
+            //Falls Basis-Rechte mehrfach vergeben wurden, sollte immer nur das höchste Recht zurück gegeben werden
+            if (in_array('doc', $rights)) return 'Maßnahmen anordnen';
+            if (in_array('edit', $rights)) return 'Basisdaten bearbeiten';
+            return 'Nur Lesen';    
+        }        
+    }
+    
+    function translateExtraRights($rights){
+        $rights = explode('||',$rights);
+        $returner = array();
+        
+        foreach ($rights as $r){
+            switch ($r) {
+                case 'aZahlen':
+                    $returner[] = 'Auswertungen anzeigen';
+                    break;
+                case 'freig':
+                    $returner[] = 'Freigaben erteilen';
+                    break;
+                case 'ovEdit':
+                    $returner[] = 'OV Informationen erfassen';
+                    break;
+                case 'abortQs':
+                    $returner[] = 'Quarantänen abbrechen';
+                    break;
+                case 'admMs':
+                    $returner[] = 'Maßnahmen administrieren (Löschen von Einträgen und Subeinträgen)';
+                    break;
+                case 'closeMs':
+                    $returner[] = 'Maßnahmen abschließen';
+                    break;
+                case 'openMs':
+                    $returner[] = 'abgeschlossene Maßnahmen wieder zur Bearbeitung öffnen';
+                    break;
+                case 'survnet':
+                    $returner[] = 'Suvent Eintrag vermerken';
+                    break;                
+                case 'admUser':
+                    $returner[] = 'Nutzerliste anzeigen';
+                    break;                
+            }            
+        }
+        
+        
+        return implode(', ',$returner);
     }
 }
 

@@ -37,7 +37,17 @@
                         <div class="col-6">                        
                             <b>Melder</b><br />
                             <input type="text" class="form-control" name="STR_MNACHNAME" value="###STR_MNACHNAME###"/><br />
-                            Meldegrund: <br />
+                            Meldegrund:
+                            <select class="form-control preval_select" id="STR_MGRUND" name="STR_MGRUND" data-preval="###STR_MGRUND###">
+                                <option></option>
+                                <option value="KP-Liste">KP-Liste</option>
+                                <option value="E-Mail / Post">E-Mail / Post</option>
+                                <option value="Befund-Eingang">Befund-Eingang</option>
+                                <option value="Meldung anderes GA">Meldung anderes GA</option>
+                                <option value="IfSG-Meldung">IfSG-Meldung</option>
+                                <option value="Sonstiges">Sonstiges</option>
+                            </select>
+                            Meldegrund Notiz: <br />
                             <textarea class="form-control" name="TXT_MGRUND" rows="3">###TXT_MGRUND###</textarea>   
                         </div>
                         <div class="col-6">

@@ -51,7 +51,18 @@
                             ###STR_MVORNAME### ###STR_MNACHNAME###<br />
                             Email: <a href="mailto:###STR_MEMAIL###">###STR_MEMAIL###</a><br />
                             Telefon: ###STR_MTELEFON###<br />
-                            Meldegrund: ###TXT_MGRUND###<br />
+                            Meldegrund:
+                            <select class="form-control preval_select" id="STR_MGRUND" name="STR_MGRUND" data-preval="###STR_MGRUND###">
+                                <option></option>
+                                <option value="KP-Liste">KP-Liste</option>
+                                <option value="E-Mail / Post">E-Mail / Post</option>
+                                <option value="Befund-Eingang">Befund-Eingang</option>
+                                <option value="Meldung anderes GA">Meldung anderes GA</option>
+                                <option value="IfSG-Meldung">IfSG-Meldung</option>
+                                <option value="Sonstiges">Sonstiges</option>
+                            </select>
+                            Meldegrund Notiz: <br />
+                            <textarea class="form-control" name="TXT_MGRUND" rows="3">###TXT_MGRUND###</textarea>   
                             <br />
                             Meldung aufgrund Corona App: ###B_COVIDAPP###
                         </div>

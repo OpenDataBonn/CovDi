@@ -94,16 +94,25 @@ class View {
                             $main = $this->getAuswertungen();
                             break;
                         //Freigaben von Quarantänen
-                        case "freigabeq":
+                        case "freigabeQ":
                             $main = $this->getFreigabeQ();
                             break;
                         //Freigaben von Tätigkeitsverboten
-                        case "freigabet":
+                        case "freigabeT":
                             $main = $this->getFreigabeT();
                             break;
                         //Druckansicht
                         case "print":
                             $main = $this->getPrint($_GET["printType"], $_GET["id"]);
+                            break;
+                        //ohne Survnet Einträge
+                        case "svNetO":
+                            $main = $this->getSvNetO();
+                            break;
+                        //Nutzerliste
+                        case 'listUser':
+                            $main = $this->getUserList();
+                            break;
                     }
                 break;
             //Standard-Startseite oder Hinweis, das ein Login benötigt wird
@@ -124,6 +133,8 @@ class View {
         $nav_add_qfreigabe = '';
         $nav_add_tfreigabe = '';
         $nav_add_new = '';
+        $nav_add_survnet = '';
+        $nav_add_user = '';
         //Die Navigationsleite wird erst angezeigt, wenn ein Nutzer sich eingeloggt hat
         if ($this->loggedIn){
             //Anzeige Logout-Button
@@ -136,12 +147,24 @@ class View {
             }
             //Freigaben von Quarantänen oder Tätigkeitsverboten
             if (in_array('freig', $this->rights)){
-                $nav_add_qfreigabe = '<a class="dropdown-item" href="?type=freigabeq">Freigabe Quarantänen</a>';
-                $nav_add_tfreigabe = '<a class="dropdown-item" href="?type=freigabet">Freigabe Tätigkeitsverbote</a>';
+                $nav_add_qfreigabe = '<div class="dropdown-divider"></div>';
+                $nav_add_qfreigabe .= '<a class="dropdown-item" href="?type=freigabeQ">Freigabe Quarantänen</a>';
+                $nav_add_tfreigabe = '<a class="dropdown-item" href="?type=freigabeT">Freigabe Tätigkeitsverbote</a>';
             }
             //Erfassung neuer Fälle mit CovDi
             if (in_array('edit', $this->rights) || in_array('doc', $this->rights)){
-                $nav_add_new = '<a class="dropdown-item" href="?type=add">Neue Meldung erfassen</a>';
+                $nav_add_new = '<div class="dropdown-divider"></div>';
+                $nav_add_new .= '<a class="dropdown-item" href="?type=add">Neue Meldung erfassen</a>';
+            }
+            //Liste zur Survnet-Eintragung
+            if (in_array('survnet', $this->rights)){
+                $nav_add_survnet = '<div class="dropdown-divider"></div>';
+                $nav_add_survnet .= '<a class="dropdown-item" href="?type=svNetO">SurvNet ohne Eintragung</a>';                
+            }
+            //Liste der Nutzer
+            if (in_array('admUser', $this->rights)){
+                $nav_add_user = '<div class="dropdown-divider"></div>';
+                $nav_add_user .= '<a class="dropdown-item" href="?type=listUser">Nutzerliste</a>';                
             }
             $nav = file_get_contents("templates/nav.html");
         } else {
@@ -155,8 +178,45 @@ class View {
         $nav = str_replace("###NAV_ADD_QFREIGABE###", $nav_add_qfreigabe, $nav);
         $nav = str_replace("###NAV_ADD_TFREIGABE###", $nav_add_tfreigabe, $nav);
         $nav = str_replace("###NAV_ADD_NEWM###", $nav_add_new, $nav);
+        $nav = str_replace("###NAV_ADD_SURVNET###", $nav_add_survnet, $nav);
+        $nav = str_replace("###NAV_ADD_USER###", $nav_add_user, $nav);
 
         return $nav; 
+    }
+    
+    //Liste der Nutzer mit Rechten
+    function getUserList(){
+        $template = "";
+        $oData = new \base\oData;
+        
+        if (in_array('admUser', $this->rights)){
+            $template = file_get_contents("templates/tables/user.html");
+            $row_template = file_get_contents("templates/tables/user_row.html");
+            $rows = $oData->getUserList($row_template);
+            
+            $template = str_replace("###ROWS###",$rows,$template);
+        } else {
+            $template = file_get_contents("templates/need_login.html");
+        }
+        
+        return $template;
+    }
+    
+    //Liste der Einträge Ohne Survnet Eintragung
+    function getSvNetO(){
+        $template = "";
+        $oData = new\base\OData;
+        if (in_array('survnet',$this->rights)){
+            $template = file_get_contents("templates/tables/survnet.html");
+            $row_template = file_get_contents("templates/tables/survnet_row.html");
+            $rows = $oData->getSvNetO($row_template);
+            
+            $template = str_replace("###ROWS###",$rows,$template);
+        } else {
+            $template = file_get_contents("templates/need_login.html");
+        }
+        
+        return $template;
     }
     
     //Duckansicht anzeigen, das Rahmentemplate wird hier nicht geladen
@@ -462,10 +522,10 @@ class View {
                 $script.= "<script src=\"js/html2canvas.min.js\"></script>";
                 $script.= "<script src=\"js/auswertungen.js\"></script>";
                 break;
-            case "freigabeq":
+            case "freigabeQ":
                 $script.= "<script src=\"js/qfreigaben.js\"></script>";
                 break;
-            case "freigabet":
+            case "freigabeT":
                 $script.= "<script src=\"js/tfreigaben.js\"></script>";
                 break;
             case "all":
