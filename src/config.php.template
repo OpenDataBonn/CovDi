@@ -8,8 +8,13 @@ $basics['page_title_color'] = "black";
 
 //Es werden zwei OData Dienste benötigt, einmal für den Datenzugriff
 $basics['serviceRoot'] = "";
+$basics['serviceRootEp'] = "";
 //und einmal für Funktionen, die aufbereitete Daten liefern
 $basics['serviceRootDienste'] = "";
+$basics['serviceRootEpDienste'] = "";
+
+//ist die EP installiert?
+$basics['einsatzplanung'] = false;
 
 //Login-Daten für OData
 $basics['odata']['user'] = '';

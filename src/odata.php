@@ -10,6 +10,8 @@ class OData {
     
     private $serviceRoot = '';
     private $serviceRootDienste = '';
+    private $serviceRootEp = '';
+    private $serviceRootEpDienste = '';
     
     public $rights = '';
     private $user = '';
@@ -21,6 +23,10 @@ class OData {
         
         $this->serviceRoot = $basics['serviceRoot'];
         $this->serviceRootDienste = $basics['serviceRootDienste'];
+        if ($basics['ep']){
+            $this->serviceRootEp = $basics['serviceRootEp'];
+            $this->serviceRootEpDienste = $basics['serviceRootEpDienste'];
+        }
         
         if (isset($_SESSION[$basics['session']]['user'])){
             $this->rights = $_SESSION[$basics['session']]['user']['rechte'];          
@@ -100,19 +106,58 @@ class OData {
     */
     function getWeblog($fall){
         $url = $this->serviceRootDienste."/getWeblog?fall='".$fall."'";
-        //echo $url;
         $result = $this->fetchWithUri($url);
         
         $single = file_get_contents("templates/blocks/weblog.html"); 
+        $row = file_get_contents("templates/blocks/weblog_row.html"); 
         $log = "";
         
         if ($result){
             foreach ($result->results as $rkey => $rvals){
                 $data = $this->processSingle($rvals); 
+                $nurl = $this->serviceRoot."/Weblog(".$data['###LID###'].')?$expand=Aenderung';
+                $sdata = $this->fetchWithUri($nurl);
+                $data = $this->processSingle($sdata);
+                //var_dump($data);
                 $slog = $single;
+                if (!array_key_exists('###STR_NUTZER###', $data) || $data['###STR_NUTZER###'] == ""){
+                    $uurl = $this->serviceRoot.'/Nutzer('.$data['###L_NUTZERID###'].')';
+                    $udata = $this->fetchWithUri($uurl);
+                    $data['###STR_NUTZER###'] = $udata->STR_NACHNAME.', '.$udata->STR_VORNAME;
+                }
                 foreach ($data as $key => $value){
-                    $slog = str_replace($key,$value,$slog);
+                    if ($key != 'aenderung'){
+                        $slog = str_replace($key,$value,$slog);
+                    } else {
+                        $alogs = "";
+                        //hier muss jetzt noch der eintrag was geändert wurde hin
+                        //var_dump($value);
+                        if (is_array($value)){
+                            foreach ($value as $aenderung){
+                                $alog = $row;
+                                if ((       $aenderung['###STR_DATENFELD###'] != 'L_LASTEDIT' && $aenderung['###STR_DATENFELD###'] != 'L_TATVERBOTDURCH' && $aenderung['###STR_DATENFELD###'] != 'L_ABSTRICHDURCH' && $aenderung['###STR_DATENFELD###'] != 'L_QUARANTAENEADURCH')
+                                        &&  !($aenderung['###TXT_ALTERWERT###'] == "null" && $aenderung['###TXT_NEUERWERT###'] == "false")
+                                        &&  !($aenderung['###TXT_NEUERWERT###'] == '1970-01-01 01:00:00.0' && $aenderung['###TXT_ALTERWERT###'] == "null")
+                                        &&  !($aenderung['###TXT_ALTERWERT###'] == '1970-01-01 01:00:00.0' && $aenderung['###TXT_NEUERWERT###'] == "null")) 
+                                {
+                                    foreach($aenderung as $ekey => $evalue){                                    
+                                        if ($ekey == "###STR_DATENFELD###"){
+                                            $evalue = $this->translateFeldnamen($evalue);
+                                        }
+                                        if ($evalue == "null") $evalue = "";
+                                        if ($evalue == "true") $evalue = "ja";
+                                        if ($evalue == "false") $evalue = "nein"; 
+                                        $alog = str_replace($ekey, $evalue, $alog);
+                                    }    
+                                    $alogs = $alogs.$alog;    
+                                }                                
+                            }                            
+                            //echo $alogs;
+                        }
+                        $slog = str_replace('###AENDERUNGEN###',$alogs,$slog);
+                    }
                 }   
+                $slog = str_replace('###AENDERUNGEN###',"",$slog);
                 $log = $slog.$log;
             }             
             return $log;
@@ -206,10 +251,21 @@ class OData {
     
     function checkDouble($data){
         //var_dump($data);
+        foreach ($data as $id => $val){            
+            $val = str_replace(" ","%20",$val);
+            
+            $umlaute = array("/ä/","/ö/","/ü/","/Ä/","/Ö/","/Ü/","/-/","/ß/");
+            $replace = array("&auml;","&ouml;","&uuml;","&Auml;","&Ouml;","&Uuml;","&minus;","&szlig;");
+            $val = preg_replace($umlaute, $replace, $val);
+            
+            $val = urlencode($val);
+            $data[$id] = $val;
+        }
         $data['gebDatum'] = str_replace('.','%2E',$data['gebDatum']);
         $url = $this->serviceRootDienste."/checkDouble?nachname='".$data['nachname']."'&vorname='".$data['vorname']."'&gebDatum='".$data['gebDatum']."'";
-        //echo $url;
+        //echo $url.'<br />';
         $result = $this->fetchWithUri($url);
+        //echo $result->checkDouble;
         
         if ($result) return $result->checkDouble;
         else return false;
@@ -349,6 +405,8 @@ class OData {
             $vars['###ACT_DATUM###'] = $today->format('d.m.Y');
             $vars['###ACT_USER###'] = '';
             $vars['###ACT_USER_ID###'] = '';
+            $vars['###QFREIGABE###'] = '';
+            
             if (isset($_SESSION[$this->basics['session']]['user'])) {
                 $vars['###ACT_USER###'] = $_SESSION[$this->basics['session']]['user']['nachname'].', '.$_SESSION[$this->basics['session']]['user']['vorname'];
                 $vars['###ACT_USER_ID###'] = $_SESSION[$this->basics['session']]['user']['uid'];
@@ -370,6 +428,11 @@ class OData {
             $vars['###WEBLOG###'] = $this->getWeblog($id);
             //Referenzierte Fälle
             $vars['###REFS###'] = $this->getRefs($id);
+            //Freigabe von Qs im Fall
+            if (in_array('freig', $this->rights) && $vars['###B_QUARANTAENE###'] == "ja" && $vars['###B_QFREIGABE###'] != 'ja'){
+                $vars['###QFREIGABE###'] = '<button type="button" class="btn btn-info btn-sm" onclick="quarantaene_freigeben('.$vars['###ACT_USER_ID###'].',\''. $vars['###ACT_USER###'].'\','.$vars['###LID###'].')">Quarantäne Freigeben</button>';
+            }
+            
             //var_dump($abs);   
             $deleteFallButton = true;
             $admms = '';
@@ -866,12 +929,18 @@ class OData {
         $values = $this->processSaveData($data);        
         $values = $this->setSingleBooleans($values);
         
+        $checkVals = $values;
+        $checkVals['LID'] = $data['LID'];
+        $url = $this->serviceRootDienste."/saveChanges?data='".urlencode(json_encode($checkVals))."'";
+        $checked = $this->fetchWithUri($url);
+        
+        //wenn der check erfolgt ist dann den Datensatz speichern
         $update = \Httpful\Request::put($this->serviceRoot.'/Meldungen('.$data['LID'].')')
             //->body('{"STR_TITEL_6A585D30":"wutt?","L_ZAHL":5}')
             ->body(json_encode($values))
             ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
             ->sendsJson()
-            ->send();   
+            ->send();  
         return $update;
     }
     
@@ -961,7 +1030,10 @@ class OData {
                 break;
             case "new":
                 if ($filter != '$filter=') $filter .= '%20and%20';;
+                $filter .= '(';
                 $filter .= '(L_LASTEDIT%20eq%20null)%20and%20(STR_TRANSID%20ne%20null)'; 
+                //$filter .= '%20or%20(DTEDIT%20eq%20DTINSERT%20and%20STR_TRANSID%20eq%20null)';
+                $filter .= ')';
                 break;
         }
         
@@ -999,7 +1071,7 @@ class OData {
     }
     
     function getMeldungen($search, $type, $page = 0, $pageSize = 0){
-        $url = $this->serviceRoot.'/Meldungen'.$this->getMeldungenSearchString($search, $type, $page, $pageSize);
+        $url = $this->serviceRoot.'/Meldungen'.$this->getMeldungenSearchString($search, $type, $page, $pageSize).'&$expand=Sperre';
         $result = $this->fetchWithUri($url);  
         
         return $result;
@@ -1035,6 +1107,9 @@ class OData {
                 '###crit_infra###'      => $result->STR_CRITINFRATYP,
                 '###str_falltyp###'     => $result->STR_STATUSFALLTYP,
             );
+            if (count($result->Sperre->results) > 0) $vars['###gesperrt###'] = "gesperrt";
+            else $vars['###gesperrt###'] = "";
+            
             $row = $single_row;
             //echo $result->DTEDIT."<br />";
             foreach ($vars as $tag => $value){
@@ -1188,6 +1263,15 @@ class OData {
                                 $processed['###SPERRE_INFO###'] = file_get_contents('templates/blocks/sperre_info.html');
                                 $processed['###SPERRE_INFO###'] = str_replace('###STR_NACHNAME###',$sperre['Nutzer']['STR_NACHNAME'],$processed['###SPERRE_INFO###']);
                                 $processed['###SPERRE_INFO###'] = str_replace('###STR_VORNAME###',$sperre['Nutzer']['STR_VORNAME'],$processed['###SPERRE_INFO###']);
+                            }
+                        }
+                        break;
+                    case "Aenderung":
+                        if (array_key_exists('results', $value) && count($value['results']) > 0){                        
+                            foreach ($value['results'] as $counter => $quar){
+                                $quar = $this->processSingle($quar);
+                                //var_dump($abstrich);
+                                $processed['aenderung'][] =  $quar;
                             }
                         }
                         break;
@@ -1591,6 +1675,197 @@ class OData {
         
         
         return implode(', ',$returner);
+    }
+    
+    function translateFeldnamen($feldname){
+        switch($feldname){
+            case 'STR_BNACHNAME':$feldname = "Nachname, Betroffener";break;
+            case 'STR_BVORNAME': $feldname = "Vorname, Betroffener";break;
+            case 'DT_BGEBURTSDATUM': $feldname = "Geburtsdatum, Betroffener";break;
+            case "STR_BGESCHLECHT": $feldname = "Geschlecht, Betroffener";break;
+            case "STR_BSTRASSE": $feldname = "Strasse, Betroffener";break;
+            case "STR_BHAUSNUMMER": $feldname = "Hausnummer, Betroffener";break;
+            case "STR_BPLZ": $feldname = "PLZ, Betroffener";break;
+            case "STR_BORT": $feldname = "Ort, Betroffener";break;
+            case "STR_BEMAIL": $feldname = "Email, Betroffener";break;
+            case "STR_BTELEFON":  $feldname = "Telefon, Betroffener";break;
+            case "STR_BTELEFON2": $feldname = "Telefon 2, Betroffener";break;
+            case "STR_BAABWNAME": $feldname = "Abweichende Adresse, Name";break;
+            case "STR_BASTRASSE": $feldname = "Abweichende Adresse, Strasse";break;
+            case "STR_BAHAUSNUMMER": $feldname = "Abweichende Adresse, Hausnummer";break;
+            case "STR_BAPLZ": $feldname = "Abweichende Adresse, PLZ";break;
+            case "STR_BAORT": $feldname = "Abweichende Adresse, Ort";break;
+            case "B_CRITINFRA": $feldname = "Kritische Infrastruktur";break;
+            case "STR_CRITINFRATYP": $feldname = "Kritische Infrastruktur, Typ";break;
+            case "DT_AUSNAHMEGENEMIGUNG": $feldname = "Datum Ausnahmegenehmigung";break;
+            case "STR_BERUFBEZEICHNUNG": $feldname = "Berufsbezeichnung";break;
+            case "STR_BERUFARBEITGEBER": $feldname = "Arbeitgeber";break;
+            case "STR_BERUFSTRASSE": $feldname = "Arbeit, Strasse";break;
+            case "STR_BERUFHAUSNUMMER": $feldname = "Arbeit, Hausnummer";break;
+            case "STR_BERUFPLZ": $feldname = "Arbeit, PLZ";break;
+            case "STR_BERUFORT": $feldname = "Arbeit, Ort";break;
+            case "STR_BEB1VORNAME": $feldname = "Erziehungsberechtigte/r 1, Vorname";break;
+            case "STR_BEB1NACHNAME": $feldname = "Erziehungsberechtigte/r 1, Nachname";break;
+            case "STR_BEB2VORNAME": $feldname = "Erziehungsberechtigte/r 2, Vorname";break;
+            case "STR_BEB2NACHNAME": $feldname = "Erziehungsberechtigte/r 2, Nachname";break;
+            case "STR_BEBSTRASSE": $feldname = "Erziehungsberechtigte, Strasse";break;
+            case "STR_BEBHAUSNUMMER": $feldname = "Erzierungsberechtigte, Hausnummer";break;
+            case "STR_BEBPLZ": $feldname = "Erzierungsberechtigte, PLZ";break;
+            case "STR_BEBORT": $feldname = "Erzierungsberechtigte, Ort";break;
+            case "STR_INDEXFALL": $feldname = "Indexfall";break;
+            case "STR_KONTAKTNAME": $feldname = "Kontakt, Name";break;
+            case "DT_KONTAKTLETZTER": $feldname = "letzter Kontakt";break;
+            case "STR_KONTAKTORT": $feldname = "Kontakt, Ort";break;
+            case "STR_KONTAKTORTINFO": $feldname = "Kontakt, Ort Info";break;
+            case "STR_KONTAKTART": $feldname = "Kontaktart";break;
+            case "TXT_KONTAKTINFO": $feldname = "Kontaktinfo";break;
+            case "STR_KSTRASSE": $feldname = "Kontakt, Straße";break;
+            case "STR_KHAUSNUMMER": $feldname = "Kontakt, Hausnummer";break;
+            case "STR_KPLZ": $feldname = "Kontakt, PLZ";break;
+            case "STR_KORT": $feldname = "Kontakt, Ort";break;
+            case "STR_KONTAKTKATEGORIE": $feldname = "Kontaktkategorie";break;
+            case "L_KONTAKTFALL": $feldname = "Kontaktfall Nr.";break;
+            case "STR_KONTAKTRISIKOGEBIET": $feldname = "Kontakt im Risikogebiet";break;
+            case "DT_KONTAKTRISIKOGEBIETVON": $feldname = "Kontakt im Risikogebiet, von";break;
+            case "DT_KONTAKTRISIKOGEBIETBIS": $feldname = "Kontakt im Risikogebiet, bis";break;
+            case "TXT_KONTAKTPERSONEN": $feldname = "Kontaktpersonen";break;
+            case "STR_KONTAKTPERHBEOB": $feldname = "Angaben als Kontaktperson, Beobachtungszustand";break;
+            case "DT_SYMSTART": $feldname = "Symptome, Start";break;
+            case "STR_RISIKOGRUPPEART": $feldname = "Risikogruppe, Art";break;
+            case "TXT_GRUNDERKRANKUNGINFO": $feldname = "Grunderkrankung";break;
+            case "TXT_KOMPLIKATIONENINFO": $feldname = "Komplikationen";break;
+            case "STR_SYMFIEBERWERT": $feldname = "Symptom, Fieber";break;
+            case "TXT_SYMINFO": $feldname = "Symptome, Info";break;
+            case "DT_STATIONAERSTART": $feldname = "Stationäre Aufnahme, Start";break;
+            case "STR_STATIONAERKRANKENHAUS": $feldname = "Stationäre Aufnahme, Krankenhaus";break;
+            case "TXT_STATIONAERINFO": $feldname = "Stationäre Aufnahme, Info"; break;
+            case "STR_RISSCHWANGERTRIMESTER": $feldname = "Risiko, Schwangeschaftsrimester";break;
+            case "STR_STATUSFALLTYP": $feldname = "Status/Falltyp";break; 
+            case "STR_STATUSFALLTYPPREV": $feldname = "Status/Falltyp, vorheriger Wert";break;
+            case "TXT_NOTIZEN": $feldname = "Notizen";break;
+            case "TXT_ABSTRICHNOTIZ": $feldname = "Abstrich, Notiz";break;
+            case "STR_ABSTRICHTYP": $feldname = "Abstrich, Typ";break;
+            case "DT_ABSTRICHZEITPUNKT": $feldname = "Abstrich, Zeitpunkt";break;
+            case "STR_ABSTRICHDURCH": $feldname = "Abstrich, Durch";break;
+            case "L_ABSTRICHDURCH": $feldname = "Abstrich, Durch, Nutzer-ID";break;
+            case "DT_QUARANTAENEVON": $feldname = "Quarantäne, Von";break;
+            case "DT_QUARANTAENEBIS": $feldname = "Quarantäne, Bis";break;
+            case "STR_QUARANTAENETYP": $feldname = "Quarantäne, Typ";break;
+            case "TXT_QUARANTAENEINFO": $feldname = "Quarantäne, Info";break;
+            case "STR_QUARANTAENEADURCH": $feldname = "Quarantäne, Durch";break;
+            case "L_QUARANTAENEADURCH": $feldname = "Quarantäne, Durch, Nutzer-ID";break;
+            case "TXT_TATVERBOTNOTIZ": $feldname = "Tatverbot, Notiz";break;
+            case "DT_TATVERBOTVON": $feldname = "Tatverbot, von";break;
+            case "DT_TATVERBOTBIS": $feldname = "Tatverbot, bis";break;
+            case "STR_TATVERBOTDURCH": $feldname = "Tatverbot, Durch";break;
+            case "L_TATVERBOTDURCH": $feldname = "Tatverbot, Durch, Nutzer-ID";break;
+            case "DT_VERLAUFGESUNDAM": $feldname = "Verlauf, gesund, am";break;
+            case "DT_VERLAUFVERSTORBENAM": $feldname = "Verlauf, verstorben, am";break;
+            case "STR_MGRUND": $feldname = "Meldegrund";break;
+            case "TXT_MGRUND": $feldname = "Meldegrund";break;
+            case "B_BADRESSEKONTROLLIERT": $feldname = "Adresse kontrolliert";break;
+            case "B_KONTAKTERKRANKT": $feldname = "Kontakt erkrankt";break;
+            case "B_BEBANDEREMELDEADRESSE": $feldname = "Abweichende Meldeadresse";break;
+            case "B_SYMVORHANDEN": $feldname = "Symptome vorhanden";break;
+            case "B_RISIKOGRUPPE": $feldname = "Mitglied Risikogruppe";break;
+            case "B_VIRUSL": $feldname = "Lungenenzündung, Virus";break;
+            case "B_SYMHUSTEN": $feldname = "Symptom, Husten";break;
+            case "B_SYMSCHNUPFEN": $feldname = "Symptom, Schnupfen";break;
+            case "B_SYMHALSSCHMERZEN": $feldname = "Symptom, Halsschmerzen";break;
+            case "B_SYMABGESCHLAGEN": $feldname = "Symptom, Abgeschlagen";break;
+            case "B_SYMFIEBER": $feldname = "Symptom, Fieber";break;
+            case "B_SYMDURCHFALL": $feldname = "Symptom, Durchfall";break;
+            case "B_SYMLUFTNOT": $feldname = "Symptom, Luftnot";break;
+            case "B_SYMGERUCH": $feldname = "Symptom, Geruchsverlust";break;
+            case "B_SYMKOPFSCHMERZEN": $feldname = "Symptom, Kopfschmerzen";break;
+            case "B_SYMGLIEDERSCHMERZEN": $feldname = "Symptom, Gliederschmerzen";break;
+            case "B_KOMPLIKATIONEN": $feldname = "Komplikationen";break;
+            case "B_GRUNDERKRANKUNG": $feldname = "Grunderkrankung";break;
+            case "B_SCHWANGERSCHAFT": $feldname = "Schwangerschaft";break;
+            case "B_STATIONAER": $feldname = "Stationäre Aufnahme";break;
+            case "B_BERUF": $feldname = "Berufstätig";break;
+            case "B_LEGITIMATIONSBESCHEINIGUNG": $feldname = "Legitimationsbescheinigung";break;
+            case "B_SYMPNEUMONIE": $feldname = "Symptom, Pneumonie";break;
+            case "B_SYMARDS": $feldname = "Symptom, ARDS";break;
+            case "B_SYMBEATMERKRANKUNG": $feldname = "Symptom, Beatmung";break;
+            case "B_SYMDYSPNOE": $feldname = "Symptom, Dyspnoe";break;
+            case "B_SYMGERUCHD": $feldname = "Symptom, Geruch";break;
+            case "B_SYMGESCHMACKD": $feldname = "Symptom, Geschmack";break;
+            case "B_SYMTACHYKARDIE": $feldname = "Symptom, Tachykardie";break;
+            case "B_SYMTACHYPNOE": $feldname = "Symptom, Tachypnoe";break;
+            case "B_SYMALLGEMEIN": $feldname = "Symptom, Allgemein";break;
+            case "B_RISHERZKREISLAUF": $feldname = "Risiko, Herzkreislauf";break;
+            case "B_RISDIABETES": $feldname = "Risiko, Diabetes";break;
+            case "B_RISLEBER": $feldname = "Risiko, Leber";break;
+            case "B_RISNEURO": $feldname = "Risiko, Neurologisch";break;
+            case "B_RISIMMUN": $feldname = "Risiko, Immunität";break;
+            case "B_RISNIERE": $feldname = "Risiko, Niere";break;
+            case "B_RISLUNGE": $feldname = "Risiko, Lunge";break;
+            case "B_RISKREBS": $feldname = "Risiko, Krebs";break;
+            case "B_RISSCHWANGER": $feldname = "Risiko, Schwanger";break;
+            case "B_RISPOSTPARTUM": $feldname = "Risiko, Postpartum";break;
+            case "B_HYGIENEAUFKL": $feldname = "Hygieneaufklärung erfolgt";break;
+            case "B_VERLAUFGESUND": $feldname = "Verlauf gesund";break;
+            case "B_VERLAUFVERSTORBEN": $feldname = "Verlauf verstorben";break;
+            case "B_QUARANTAENE": $feldname = "Quarantäne vorbereitet";break;
+            case "B_ABSTRICH": $feldname = "Abstrich vorbereitet";break;
+            case "B_ABSTRICHDRINGEND": $feldname = "Abstrich, dringend";break;
+            case "B_ABSTRICHMOBIL": $feldname = "Abstrich, mobil";break;
+            case "B_KONTAKTRISIKOGEBIET": $feldname = "Kontakt im Risikogebiet";break;
+            case "DT_SURVNETEINGABE": $feldname = "Survneteingabe am";break;
+            case "STR_KONTAKTERKRANKT": $feldname = "Kontakt erkrankt";break;
+            case "B_CRITINFRAUNV": $feldname = "Unverzichtbarkeit vom Arbeitgeber angezeigt";break;
+            case "STR_KONTAKTPENDPUNKT": $feldname = "Status als Kontaktperson";break;
+        }
+        
+        return $feldname;
+    }
+    
+    function getSchichten(){
+        $url = $this->serviceRootEp.'/Schicht?$expand=Besetzung';
+        $response = $this->fetchWithUri($url);
+        
+        return $response->results;
+    }
+    
+    function getPlanForDay($timestamp, $freigabe = false){
+        date_default_timezone_set('UTC');
+        $date = new \DateTime();
+        $date->setTimestamp($timestamp);
+        $datestring = $date->format('Y-m-d H:i:s');
+        $datestring = str_replace(' ','T',$datestring);
+        $filter = 'DT_DATUM%20eq%20datetime%27'.$datestring.'%27';
+        if (!$freigabe){
+            $filter .= '%20and%20DT_FREIGABEAM%20ne%20null';
+        }
+        
+        $url = $this->serviceRootEp.'/Plan?$expand=Nutzer,Schicht,NutzerMeldung&$filter='.$filter;
+        $response = $this->fetchWithUri($url);
+        return $response->results;
+    }
+    
+    function saveRFreigaben($data){
+        //var_dump($data);
+        $timestamp = mktime( 0, 0, 0, 1, 1,  $data['year'] ) + ( ($data['week']-1) * 7 * 24 * 60 * 60 );  
+        $calendar = new Calendar();
+        $days = $calendar->getDaysForWeekView($timestamp);
+        foreach ($days as $day){
+            $plaene = $this->getPlanForDay($day['timestamp'], true);
+            foreach ($plaene as $plan){
+                $values = array();
+                $values['DT_FREIGABEAM'] = date('d.m.Y');
+                $values['L_FREIGABEDURCH'] = $this->user['uid'];
+                $values['STR_FREIGABEDURCH'] = $this->user['nachname'].', '.$this->user['vorname'];
+                $values = $this->processSaveData($values);
+                $update = \Httpful\Request::put($this->serviceRootEp.'/Plan('.$plan->LID.')')
+                    ->body(json_encode($values))
+                    ->authenticateWith($this->basics['odata']['user'], $this->basics['odata']['pass'])
+                    ->sendsJson()
+                    ->send();       
+                var_dump($plan->LID);
+                var_dump($values);
+            }            
+        }
     }
 }
 

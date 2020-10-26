@@ -1,0 +1,98 @@
+<form method="post" id="importMs_form2" class="importMs_form2" enctype="multipart/form-data">
+    <input type="hidden" name="importType" value="meldungen" />
+    <input type="hidden" name="importState" value="import" />
+    <div class="row">
+        <div class="col">
+            <b>Bitte Überprüfen Sie die Daten bevor sie auf "importieren" klicken</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Ausbruchskennung
+        </div>
+        <div class="col-3">
+            <input class="form-control form-control-sm" type="text" value="###KENNUNG###" name="kennung"/>
+        </div>
+        <div class="col-2">
+            Ort des Kontakts
+        </div>
+        <div class="col-3">
+            <select class="form-control" name="kontaktort">
+                <option></option>                        
+                <option value="Arbeitsumfeld" ###Arbeitsumfeld###>Arbeitsumfeld</option>
+                <option value="Einrichtung §33(z.B. KiTa, Schule)" ###Einrichtung §33(z.B. KiTa, Schule)###>Einrichtung § 33(z.B. KiTa, Schule)</option>
+                <option value="Flugzeug" ###Flugzeug###>Flugzeug</option>
+                <option value="Haushalt" ###Haushal###>Haushalt</option>
+                <option value="Medizinische Einrichtung" ###Medizinische Einrichtung###>Medizinische Einrichtung</option>
+                <option value="Sonstiger Ort" ###Sonstiger Ort###>Sonstiger Ort</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">Falltyp/Kategorie:</div>
+        <div class="col-3">
+            <select class="form-control" name="statusfalltyp">
+                <option></option>
+                <option value="BF" ###BF###>BF</option>
+                <option value="KP" ###KP###>KP 1</option>
+                <option value="KP2" ###KP2###>KP 2</option>
+                <option value="KP3" ###KP3###>KP 3</option>
+                <option value="VF" ###VF###>VF</option>
+                <option value="VF m. neg. Abstrich" ###VF m. neg. Abstrich###>VF m. neg. Abstrich</option>
+                <option value="Rück- und Einreisende" ###Rück- und Einreisende###>Rück- und Einreisende</option>
+                <option value="externer BF" ###externer BF###>externer BF</option>
+                <option value="in Abklärung" ###in Abklärung###>in Abklärung</option>
+            </select>
+        </div>    
+        <div class="col-2">
+            Auslösender Fall
+        </div>
+        <div class="col-3">
+            <input class="form-control" name="aFall" type="text" value="###AFALL###"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            Name des Kontakts:
+        </div>
+        <div class="col-3">
+            <input type="text" class="form-control" name="kontaktname" value="###NAMEKONTAKT###"/>
+        </div>
+        <div class="col-2">
+            Kontakt in den letzten 14 Tagen (bestätigter Fall):
+        </div>
+        <div class="col-3">
+            <select class="form-control preval_select" name="kontakterkrankt">
+                <option value="nicht bekannt" ###nicht bekannt###>nicht bekannt</option>
+                <option value="ja" ###ja###>ja</option>
+                <option value="nein" ###nein###>nein</option>
+            </select>   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm table-striped table-bordered">
+                  <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Geschl.</th>
+                        <th scope="col">Geburtsdatum</th>
+                        <th scope="col">Name Einrichtung</th>                        
+                        <th scope="col" style="width: 175px;">Adresse</th>                        
+                        <th scope="col">Telefon mobil</th>
+                        <th scope="col">letzter Kontakt</th>
+                        <th scope="col">EB 1 Nname, Vorname</th>
+                        <th scope="col">EB 2 Nname, Vorname</th>    
+                        <th scope="col">Kommentar zum Kontakt</th>
+                    </tr>
+                  </thead>
+                  <tbody>            
+                      ###ROWS###
+                  </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"><button class="btn btn-warning" type="submit">Import durchführen</button></div>
+    </div>
+</form>

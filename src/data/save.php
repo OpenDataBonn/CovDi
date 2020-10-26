@@ -9,7 +9,7 @@ $oData = new \base\OData;
 
 if (isset($_POST['LID'])){
     $response = $oData->saveSingle($_POST);
-    //var_dump($response->request);
+    //var_dump($response);
     if ($response->hasErrors()){
         echo false;
     } else {

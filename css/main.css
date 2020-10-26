@@ -100,3 +100,44 @@
 .ui-autocomplete-loading {
     /*background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;*/
 }
+
+.week-day-card {
+    float: left;
+    height: 100%;
+    line-height: 1em;
+    font-size: 0.9em;    
+}
+
+.week-day-card .card-body {
+    padding: 0.5em;
+}
+
+.week-day-card .list-group-item {
+    padding: 0 0 6px 0;
+    background-color: transparent;
+    border: none;
+}
+
+.week-day-card .list-group-item .day-item {
+    border: 1px solid #ddd;
+    margin: 3px 0;
+    padding: 3px;
+    background-color: #fff;
+    min-height: 30px;
+}
+
+.week-day-card .list-group-item.mine .day-item {
+    background-color: burlywood;
+}
+
+.main_column .table tr.gesperrt td {
+    background-color: beige;
+}
+
+.weblog_item {
+    border-bottom: 1px solid #aaa;
+}
+
+.weblog_row {
+    border-bottom: 1px dotted #ddd;
+}

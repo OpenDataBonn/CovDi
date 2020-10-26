@@ -16,6 +16,7 @@ $(document).ready(function(){
 $('.table > tbody > tr > td.clickable').click(function() {
     if ($(this).parent().data("id")) location.href = '?type=single&id='+$(this).parent().data("id");
 });
+
 $('#setPin').keydown( function(e)
 {
     if(e.keyCode == 13) setPin();
@@ -165,6 +166,34 @@ function ovanordnung_eintrag(qLid){
                modal.find('.modal-body').text('Fehler beim speichern!');
                modal.modal();
            }
+        }
+    });
+}
+
+function quarantaene_freigeben(user_id, user_string, qid){
+    var data = {
+        user_id:        user_id,
+        user_string:    user_string,
+        qfreigaben:     {
+                            0:  {
+                                lid:          qid,
+                                freigabe:     'on'
+                            }
+                        }
+    };
+    var url = "src/freigabe/qfreigabe.php";
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(saved)
+        {
+           //location.reload();               
+            var modal = $('#modalInfo');
+           //modal.find('.modal-title').text('Speichern');
+           modal.find('.modal-body').text('Die Freigabe wurde gespeichert, die Anzeige erfolgt erst nach erneutem Laden des Falls.');
+           modal.modal();
         }
     });
 }

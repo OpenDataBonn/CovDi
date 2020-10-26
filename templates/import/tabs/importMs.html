@@ -1,0 +1,120 @@
+<div class="row">
+    <div class="col" id="importMInfo">
+        <i>Anleitung für den Import:</i><br />
+        <ol>
+            <li>Bitte verwenden Sie folgende Musterdatei: <a href="downloads/importMsTemplate.xlsx">Datei herunterladen</a></li>
+            <li>
+                Bitte füllen Sie eine Zeile pro zu erfassender Person<br/>
+                <u>Hinweise:</u>
+                <ul>
+                    <li>Es werden nur die Spalten der Musterdatei importiert, sollten Sie andere Spalten hinzufügen, werden diese nicht berücksichtigt</li>
+                    <li>Die Reihenfolge der Spalten darf nicht geändert werden</li>
+                    <li>Die erste Zeile mit den Spaltenüberschriften bitte in der Datei belassen</li>
+                    <li>Datumsangaben müssen im Format: "tt.mm.jjjj" vorliegen damit sie importiert werden können</li>
+                    <li>Folgende Werte sind für die Geschlechgsangabe zulässig: m,w,d</li>
+                </ul>
+            </li>
+            <li>
+                Die ausgefüllte Datei bitte als CSV abspeichern:
+                <ul>
+                    <li>Datei->Speichern unter</li>
+                    <li>Als Dateityp "<b>CSV (durch Trennzeichen getrennt) (*.csv)</b>" auswählen</li>
+                </ul>
+            </li>
+            <li>Folgende Angaben werden auf alle Einträge in der Datei angewandt und sind optional:</li>
+            <ul>
+                <li>Geben Sie eine gemeinsame Ausbruchskennung für die zu importierenden Meldungen ein</li>
+                <li>Wählen Sie Falltyp/Kategorie für die zu importierenden Meldungen aus</li>
+                <li>Wählen Sie Ort des Kontakts</li>
+                <li>Tragen Sie die Fallnummer des auslösenden Falls ein</li>
+            </ul>
+            <li>Wählen Sie die ausgefüllte Datei aus</li>
+            <li>Klicken Sie auf den Button "Import testen"</li>
+        </ol>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col">
+        <u>Import von Meldungen über CSV-Liste</u>
+        <form method="post" id="importMs_form" enctype="multipart/form-data">
+            <input type="hidden" name="importType" value="meldungen" />
+            <input type="hidden" name="importState" value="simulation" />
+            <div class="row">
+                <div class="col-2">
+                    Ausbruchskennung
+                </div>
+                <div class="col-3">
+                    <input class="form-control" name="kennung" type="text" />
+                </div>
+                <div class="col-2">
+                    Ort des Kontakts
+                </div>
+                <div class="col-3">
+                    <select class="form-control" name="kontaktort">
+                        <option></option>                        
+                        <option value="Arbeitsumfeld">Arbeitsumfeld</option>
+                        <option value="Einrichtung §33(z.B. KiTa, Schule)">Einrichtung § 33(z.B. KiTa, Schule)</option>
+                        <option value="Flugzeug">Flugzeug</option>
+                        <option value="Haushalt">Haushalt</option>
+                        <option value="Medizinische Einrichtung">Medizinische Einrichtung</option>
+                        <option value="Sonstiger Ort">Sonstiger Ort</option>
+                    </select>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-2">Falltyp/Kategorie:</div>
+                <div class="col-3">
+                    <select class="form-control" name="statusfalltyp">
+                        <option></option>
+                        <option value="BF">BF</option>
+                        <option value="KP">KP 1</option>
+                        <option value="KP2">KP 2</option>
+                        <option value="KP3">KP 3</option>
+                        <option value="VF">VF</option>
+                        <option value="VF m. neg. Abstrich">VF m. neg. Abstrich</option>
+                        <option value="Rück- und Einreisende">Rück- und Einreisende</option>
+                        <option value="externer BF">externer BF</option>
+                        <option value="in Abklärung">in Abklärung</option>
+                    </select>
+                </div>   
+                <div class="col-2">
+                    Auslösender Fall
+                </div>
+                <div class="col-3">
+                    <input class="form-control" name="aFall" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    Name des Kontakts:
+                </div>
+                <div class="col-3">
+                    <input type="text" class="form-control" name="kontaktname"/>
+                </div>
+                <div class="col-2">
+                    Kontakt in den letzten 14 Tagen (bestätigter Fall):
+                </div>
+                <div class="col-3">
+                    <select class="form-control preval_select" name="kontakterkrankt">
+                        <option></option>
+                        <option value="nicht bekannt">nicht bekannt</option>
+                        <option value="ja">ja</option>
+                        <option value="nein">nein</option>
+                    </select>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    Wählen Sie ihre Datei
+                </div>
+                <div class="col-3">
+                    <input class="form-control" name="importMs" type="file" accept=".csv"> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"><button class="btn btn-secondary" type="submit">Import testen</button></div>
+            </div>
+        </form>
+    </div>
+</div>

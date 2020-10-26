@@ -11,9 +11,15 @@ $(document).ready(function(){
             data: form.serialize(), // serializes the form's elements.
             success: function(saved)
             {
-               location.reload();               
+                location.reload();               
             }
         });
     });
-
+    
+    
+    $('.table > tbody > tr > td.clickable_blank').click(function() {
+        if ($(this).parent().data("id")) {
+            Object.assign(document.createElement('a'), { target: '_blank', href: '?type=single&id='+$(this).parent().data("id")}).click();            
+        }
+    });
 });
